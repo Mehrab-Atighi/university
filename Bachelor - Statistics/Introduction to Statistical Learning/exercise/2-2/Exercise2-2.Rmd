@@ -1,0 +1,312 @@
+---
+title: "Exercise 2-2"
+author: "Mehrab Atighi"
+date: "4/15/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducing data to R
+
+```{r}
+rm(list =ls())
+#now we want to attach our data to R from notepad or txt.
+Heart <- read.table("F://lessons//regression2//exercise//2-2//New Text Document.txt",sep=",",head=T,row.names=1)
+#now we want to see some of our data 
+head(Heart)
+#the fivth column of our dataset or famhist is not numeric and we get labe ( present = 1 ,Absent = 0)
+Heart[,5]=ifelse(Heart[,5]=="Absent",0,1)
+```
+
+sbp column indicates systolic blood pressure.
+
+tobacco column indicates cumulative tobacco (Kg).
+
+ldl column indicates low densiity lipoprotein cholesterol.
+
+adiposity coulmn it is a concept of body masses that are often in the form of fat.
+
+famhist column indicates family history of heart disease (Present, Absent).
+
+typea column indicates type-A behavior.
+
+obesity column it is a concept of obesity that has different types and according to its coefficient, different information can be obtained.
+
+alcohol column indicates current alcohol consumption.
+
+age column indicates age at onset.
+
+chd column indicates response, coronary heart disease.
+
+
+
+
+## Solve
+
+### chek correlation between the variables:
+
+```{r }
+cor(Heart)
+```
+
+### chek the relation beween response and variables with Boxplots:
+
+```{r}
+#at the first we should attach the data
+attach(Heart)
+
+#now we want to see the Box plot of each variable with our response:
+boxplot(sbp~chd,col=85)
+```
+
+According to this Boxplot we can say that median of sbp for Having and not having coronary heart disease are equal but for more sbp values we have more cornary heart disease.
+
+
+```{r echo=TRUE}
+boxplot(tobacco~chd,col=2)
+```
+
+According to this Boxplot we can say that median of tovacco for Having and not having coronary heart disease  are not equal and for more tobacco values we have more cornary heart disease.
+
+```{r echo=TRUE}
+boxplot(ldl~chd,col=3)
+```
+
+According to this Boxplot we can say that median of ldl for Having and not having coronary heart disease  are not equal and for more ldl values we have more cornary heart disease.
+
+
+```{r echo=TRUE}
+boxplot(adiposity~chd,col=4)
+```
+
+According to this Boxplot we can say that median of adiposity for Having and not having coronary heart disease  are not equal and for adiposity values between (0,25) we can say that we dont have  cornary heart disease and for more adiposity vlaues we have more and more cornary heart disease.
+
+```{r echo=TRUE}
+boxplot(famhist~chd,col=5)
+```
+
+According to this Boxplot we can say that median of famhist for Having and not having coronary heart disease are not equal but for more famhist values we have more cornary heart disease.
+
+```{r echo=TRUE}
+boxplot(typea~chd,col=6)
+```
+
+According to this Boxplot we can say that median of typea for Having and not having coronary heart disease are equal.
+
+```{r echo=TRUE}
+boxplot(obesity~chd,col=7)
+```
+
+According to this Boxplot we can say that median of obesity for Having and not having coronary heart disease are equal.
+
+```{r echo=TRUE}
+boxplot(alcohol~chd,col=8)
+```
+
+According to this Boxplot we can say that median of alcohol for Having and not having coronary heart disease are equal.
+
+```{r echo=TRUE}
+boxplot(age~chd,col=10)
+```
+
+According to this Boxplot we can say that median of age for Having and not having coronary heart disease  are not equal and for age values between (1,40) we can say that we dont have  cornary heart disease and for more adiposity vlaues we have more and more cornary heart disease.
+
+### Logstics Regression with severan variables and univariables
+
+#### Logstics regression for each variable and response:
+
+```{r echo=TRUE}
+fit1<-glm(chd~sbp,family = binomial)
+coef(fit1)
+summary(fit1)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha sbp = 0.019509) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 6.02e-05 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq1<-data.frame(sbp=seq(min(sbp),max(sbp),len=10^4))
+seq1$chd=predict(fit1,newdata= seq1,type="response")
+plot(sbp,chd,col=sbp,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~sbp , seq1 ,col=1,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for sbp large or big values its more and more and we have posetive relationship  for example sbp is equal 220 our  probabilty is equal 0.8.
+
+
+```{r echo=TRUE}
+fit2<-glm(chd~tobacco,family = binomial)
+coef(fit2)
+summary(fit2)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha tobacco = 0.14527) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 4.46e-09 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq2<-data.frame(tobacco=seq(min(tobacco),max(tobacco),len=10^4))
+seq2$chd=predict(fit2,newdata= seq2,type="response")
+plot(tobacco,chd,col=tobacco,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~tobacco , seq2 ,col=2,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for tobacco large or big its more and more values and we have posetive relationship , for example tobacco is more and equal 25 our  probabilty is more than 0.95.
+
+
+```{r echo=TRUE}
+fit3<-glm(chd~ldl,family = binomial)
+coef(fit3)
+summary(fit3)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha tobacco = 0.27466) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 1.04e-07 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq3<-data.frame(ldl=seq(min(ldl),max(ldl),len=10^4))
+seq3$chd=predict(fit3,newdata= seq3,type="response")
+plot(ldl,chd,col=ldl,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~ldl, seq3 ,col=3,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for ldl large or big values its more and more and we have posetive relationship, for example tobacco is more and equal 12 our  probabilty is more than 0.8.
+
+```{r echo=TRUE}
+fit4<-glm(chd~adiposity,family = binomial)
+coef(fit4)
+summary(fit4)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha adiposity = 0.07410) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 1.11e-07 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq4<-data.frame(adiposity=seq(min(adiposity),max(adiposity),len=10^4))
+seq4$chd=predict(fit4,newdata= seq4,type="response")
+plot(adiposity,chd,col=adiposity,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~adiposity, seq4 ,col=4,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for adiposity large or big values its more and more and we have posetive relationship, for example adiposity is more and equal 35 our  probabilty is more than 0.5.
+
+```{r echo=TRUE}
+fit5<-glm(chd~famhist,family = binomial)
+coef(fit5)
+summary(fit5)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha famhist = 1.1690) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 8.85e-09 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq5<-data.frame(famhist=seq(min(famhist),max(famhist),len=10^4))
+seq5$chd=predict(fit5,newdata= seq5,type="response")
+plot(famhist,chd,col=famhist,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~famhist, seq5 ,col=5,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for famhist large or big values its more and more and we have posetive relationship.
+but i think that its not good variable for our multiple logsticks regression.
+
+```{r echo=TRUE}
+fit6<-glm(chd~typea,family = binomial)
+coef(fit6)
+summary(fit6)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha typea = 0.02263) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.0275 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq6<-data.frame(typea=seq(min(typea),max(typea),len=10^4))
+seq6$chd=predict(fit6,newdata= seq6,type="response")
+plot(typea,chd,col=typea,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~typea, seq6 ,col=6,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for typea large or big values its more and more and we have posetive relationship . but i think that its not good variable for our multiple logsticks regression.
+
+```{r echo=TRUE}
+fit7<-glm(chd~obesity,family = binomial)
+coef(fit7)
+summary(fit7)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha obesity = 0.04942) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.03302 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq7<-data.frame(obesity=seq(min(obesity),max(obesity),len=10^4))
+seq7$chd=predict(fit7,newdata= seq7,type="response")
+plot(obesity,chd,col=obesity,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~obesity, seq7 ,col=7,lwd=2)
+```
+
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for obesity large or big values its more and more and we have posetive relationship. but i think that its not good variable for our multiple logsticks regression.
+
+
+```{r echo=TRUE}
+fit8<-glm(chd~alcohol,family = binomial)
+coef(fit8)
+summary(fit8)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha alcohol = 0.005198) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.182 and its more than alpha(0.05) so we say the H0 accept and the regression isnt signifact.
+
+```{r echo=TRUE}
+seq8<-data.frame(alcohol=seq(min(alcohol),max(alcohol),len=10^4))
+seq8$chd=predict(fit8,newdata= seq8,type="response")
+plot(alcohol,chd,col=alcohol,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~alcohol, seq8 ,col=8,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for alcohol large or big values its more and more and we have posetive relationship. but i think that its not good variable for our multiple logsticks regression.
+
+
+```{r echo=TRUE}
+fit9<-glm(chd~age,family = binomial)
+coef(fit9)
+summary(fit9)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha age = 0.064108) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 5.76e-14 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq9<-data.frame(age=seq(min(age),max(age),len=10^4))
+seq9$chd=predict(fit9,newdata= seq9,type="response")
+plot(age,chd,col=age,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~age, seq9 ,col=10,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for age large or big values its more and more and we have posetive relationship  , for example adiposity is more and equal 55 our  probabilty is more than 0.5.
+
+
+#### Logstics regression for all variable and response(Multiple logstic regression)
+```{r echo=TRUE}
+full.fit<-glm(chd~.,data=Heart,family = binomial)
+coef(full.fit)
+summary(full.fit)
+
+```
+
+
+According to this models we can say that  the (sbp,adiposity,obesity,alcohol) variables p-values is more than 0.05 and they are not good for our model and we should remove them, the others variable have positive relationships with response expect obesity.
+
+#### Reduce logstics model
+
+```{r}
+
+Reduce.fit<-glm(chd~tobacco+ldl+famhist+typea+age,data=Heart,family = binomial)
+coef(Reduce.fit)
+summary(Reduce.fit)
+
+```
+
+We can see that the reduce models outputs show that the (sbp,adiposity,obesity,alcohol) variable were not important and dont have effects on response.
+
+the Reduce model is best model without any bad variable and all of them are signifact and we have good predict for our response,
+
+we can see the logstics predicton function here for reduce model:
+
+y = chd , x1 = tobacco , x2 = ldl , x3 = famhist , x4 = typea , x5= age.
+
+
+
+End.

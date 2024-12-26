@@ -1,0 +1,43 @@
+---
+title: "Final exam q1"
+author: "Mehrab Atighi"
+date: "1/12/2022"
+output: word_document
+---
+
+```{r echo=TRUE, warning=FALSE}
+
+
+# multivariate 2 final exam codes: qestion :6
+library(MASS)
+data = read.table("F:/lessons/Multi countios Variate2/data/gandom.txt")
+data = t(data)
+colnames(data) = c("Cambridge" , "Cockle Park" ,"Harpers Adams" , "Headley Hall" ,"Morley","Myerscough" ,"Rosemaund" , "Seale-Hayne" ,"Seale-Hayne" , "Sutton Bonington" ,"Terrington" , "Wye")
+
+
+(Dist1 = dist(data , method = "euclidean",
+             diag = TRUE , upper = TRUE))
+
+model1 = hclust(Dist1 , method = "ward.D")
+model1
+
+
+plot( model1 , hang = -1 )
+
+library(factoextra)
+library(gridExtra)
+
+model2 = kmeans(data , 3 , algorithm = "Hartigan-Wong")
+model3 = kmeans(data , 3 , algorithm = "Lloyd")
+model4 = kmeans(data , 3 , algorithm = "Forgy")
+model5 = kmeans(data , 3 , algorithm = "MacQueen")
+
+
+p1 <- fviz_cluster(model2, geom = "point", data = data) + ggtitle("way = 1")
+p2 <- fviz_cluster(model3, geom = "point", data = data) + ggtitle("way = 2")
+p3 <- fviz_cluster(model4, geom = "point", data = data) + ggtitle("way = 3")
+p4 <- fviz_cluster(model5, geom = "point", data = data) + ggtitle("way = 4")
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+
+
+```

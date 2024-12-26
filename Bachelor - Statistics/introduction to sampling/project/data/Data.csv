@@ -1,0 +1,112 @@
+Gender,Age,Faculty,Field,Last degree,Year of entering the university in the last degree,"In the past week, have you filled your free time with any of the following activities?",exercising time,What sports ?, art time,What artistic activities ?,audio-visual activities time?,what audio-visual activities ?,social and recreational activities time,What social and recreational activities ?,virtual social activities time,What virtual activity?
+Miss,20,Science,statistics,Bachelor,97,"activities  Sports, Extracurricular study, Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",2:00, yoga,0:00, ,7:00,Television,5:00,"Party,Going to the nature",10:00," Instagram, Watsapp Telgram"
+Sir,20,Science,statistics,Bachelor,97," Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",1:45,walking,0:00,,5:00,Television,8:00, Going to the nature,3:00,Instagram
+Miss,18,Science,statistics,Bachelor,99,"Artistic activity,Extracurricular study, Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",5:00,"walking,dancing",6:00,"Teaching,Advise, Cooking",6:00,Television,0:00,,1:00,"Telgram, Watsapp"
+Miss,21,Science,statistics,Bachelor,97, Virtual social activities,3:00,walking,2:00, Knitting,10:00,Television,5:00,Going to the nature,20:00,Instagram
+Miss,21,Engineering,Materials Engineering and Metallurgy,Bachelor,97,"Recreational social activities (travel and excursions, etc.)",2:00,,0:00,,6:00,,7:00,,20:00,"Telgram, Instagram"
+Sir,20,Science,statistics,Bachelor,97,"Recreational social activities (travel and excursions, etc.),Sports activities ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",4:00,walking,0:00,,5:00,Television,6:00,Party,10:00,"Telgram, Instagram"
+Miss,21,Science,pure chemistry,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) ",13:00,walking,5:00,,15:00,Music,0:00,,20:00,Instagram
+Sir,25,Science,Financial mathematics,MA,98,"Audio-visual activities (television, radio, cinema, satellite, etc.) ,Extracurricular study,Sports activities ",1:00,walking,8:00,"Teaching,Advise, Cooking,Calligraphy",6:00,Television,1:00,,7:00,"Telgram, Watsapp"
+Miss,20,Science,statistics,Bachelor,98, Virtual social activities,4:00,walking,0:00,,4:00,Television,5:00, Going to the nature,23:00,"Telgram, Watsapp"
+Miss,21,"Humanities,literature,foreg in language,law and economics",Industrial Management,Bachelor,97,"Artistic activity,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",3:00,walking,5:00,,10:00,,4:00,,14:00,"Telgram, Instagram"
+Miss,23,Engineering,Computer Engineering ,Bachelor,96,Extracurricular study,0:30,Swim,0:00,,1:00,,0:00,,3:00," Instagram, Watsapp Telgram"
+Sir,22,"Humanities,literature,foreg in language,law and economics",English literature,Bachelor,95,"Extracurricular study, Sports activities ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",0:45,warm-up exercises,0:00,,15:00,Television,0:00,,5:00,Telgram
+Sir,19,Science,statistics,Bachelor,98,"Extracurricular study,Audio-visual activities (television, radio, cinema, satellite, etc.) ",2:00, Volleyball,7:30,"Embroidery,Cooking",4:00,Television,1:00,,8:00,Watsapp
+Sir,22,Engineering,electrical engineering,Bachelor,95,"Recreational social activities (travel and excursions, etc.)",2:00,walking,0:00,,10:00,Television,7:00, Going to the nature,16:00,Telgram
+Sir,19,Engineering,electrical engineering,Bachelor,98,"Recreational social activities (travel and excursions, etc.),Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",12:30,walking,12:30,painting,0:30,Television,13:00, Going to the nature,17:00,Gaming
+Sir,21,Sports science,Physical Education,Bachelor,97, Virtual social activities,13:50,Bodybuilding,13:03,,13:02,,5:20,,1:02,"Telgram, Watsapp"
+Miss,22,Engineering,chemical engineering ,Bachelor,95," Sports activities ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",7:00,"walking,Ping pong",0:00,,20:00,Television,0:00,,23:00,Gaming
+Sir,22,Engineering,chemical engineering ,Bachelor,95," Sports activities ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",7:00,"walking,Ping pong",0:00,,20:00,Television,0:00,,23:00,Gaming
+Sir,38,Engineering,Materials Engineering and Metallurgy,MA,99,"Recreational social activities (travel and excursions, etc.)",2:30, Mountaineering,0:00,Agriculture,2:00,Television,22:00, Going to the nature,10:00,Gaming
+Sir,21,Science,Engineering Physics,Associate Degree,97,Sports activities,3:30, Volleyball,0:00,,5:30,,0:00,,0:30,"Telgram, Watsapp"
+Miss,28,Engineering,Materials Engineering and Metallurgy,Bachelor,99,"Audio-visual activities (television, radio, cinema, satellite, etc.) ",19:00,martial art,0:00,,22:00,Computer,0:00,,17:00,Gaming
+Sir,20,"Humanities,literature,foreg in language,law and economics",History,Bachelor,97,"Extracurricular study,
+ Audio-visual activities (television, radio, cinema, satellite, etc.) 
+",0:30,walking,1:00,Learn to play the guitar,10:00,Television,0:00,.,15:00,"Twitter, Telgram"
+Sir,23,Art,Designing,MA,98,"Recreational social activities (travel and excursions, etc.)",13:35,walking,5:35,painting,7:00,Television,22:00,Going to the nature,0:05," Instagram, Watsapp Telgram"
+Miss,24,Science,pure chemistry,Bachelor,95,Virtual social activities,6:00,"walking,warm-up exercises",0:00,,10:00,Television,5:00,,5:00,Instagram
+Miss,21,Science,statistics,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities,Artistic activity",3:45,Bodybuilding,20:00,Manual work,10:00,Television,0:00,,23:00,Instagram
+Miss,21,Science,statistics,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities,Extracurricular study,Sports activities",13:30,physical readiness,12:00,,0:30,,0:00,,5:00,
+Miss,21,"Humanities,literature,foreg in language,law and economics",Persian Language and Literature ,Bachelor,98,"Sports activities, Extracurricular study",3:00,boxing,3:00,"Photography,Writing",3:00,,2:00,,10:00,
+Miss,21,Science,statistics,Bachelor,97,Extracurricular study,16:00, Pilates,1:00,Music,0:00,Television,0:00,,10:00,
+Miss,23,Science, Biology ,Bachelor,95," Audio-visual activities (television, radio, cinema, satellite, etc.) ",1:00,,0:00,,10:00,Television,5:00,Party,20:00,Watsapp
+Miss,20,Engineering,Computer Engineering ,Bachelor,97,"Virtual social activities ,Recreational social activities (travel and excursions, etc.)",1:30,Futsal,0:00,,5:00,,0:00,,10:00,Gaming
+Miss,21,Engineering,Computer Engineering ,Bachelor,97,"Extracurricular study ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",2:00,"physical readiness,walking",5:00,Photo editing,7:00,Computer,1:00,Party,20:00,"Instagram, YouTube"
+Miss,20,Engineering,electrical engineering,Bachelor,98,"Virtual social activities,Sports activities,
+ Audio-visual activities (television, radio, cinema, satellite, etc.) 
+",3:00,Futsal,0:00,,5:00,Television,10:00,,7:00," Instagram, Watsapp Telgram"
+Sir,20,Engineering, industrial engineering,Bachelor,97,Virtual social activities,1:30,Pilates,0:00,,2:45,,0:00,,20:00,"Telgram, Watsapp"
+Sir,22,Engineering,Computer Engineering ,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",2:00,walking,0:00,,23:00,Television,0:00,,20:00," Instagram, Watsapp Telgram"
+Sir,22,Agriculture and Natural Resources  ,Biosystem mechanical engineering,Bachelor,97,"Artistic activity,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",3:00,walking,2:00,"Writing,Photography,painting,Knitting",20:00,Television,0:00,,10:00," Instagram, Watsapp Telgram"
+Miss,19,Engineering,Computer Engineering ,Associate Degree,99," Virtual social activities ,Artistic activity",3:00,walking,17:00,"Music,Design",3:00,Television,0:00,,14:00," Instagram, Watsapp Telgram"
+Sir,22,Engineering,Computer Engineering ,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",1:00," Bodybuilding,Track and Field, Aerobic",0:00,,15:00,Television,0:00,,15:00," Instagram, Watsapp Telgram"
+Sir,20,Engineering,Computer Engineering ,Associate Degree,99," Audio-visual activities (television, radio, cinema, satellite, etc.) ",0:30,walking,0:00,,1:00,Television,0:00,,0:30,"Telgram, Watsapp"
+Miss,22,Engineering,Computer Engineering ,Bachelor,95,Extracurricular study,7:00,walking,15:00,Programming,22:00,Television,0:00,,23:00," Instagram, Watsapp Telgram"
+Sir,19,Engineering,Computer Engineering ,Associate Degree,99,Virtual social activities,8:00, yoga,0:00,.......,10:00,Television,0:00,,4:00,Telgram
+Sir,19,Engineering,Civil Engineering,Bachelor,98," Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",0:00,,0:00,,7:00,Television,0:00,,7:00,YouTube
+Miss,22,Engineering,Computer Engineering ,Bachelor,96," Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",0:10,walking,0:00,Black pen design,20:00,Television,0:00,,20:00,"Instagram, YouTube"
+Sir,20,Art,Handicrafts,Associate Degree,97,"Virtual social activities,Sports activities",19:00,"yoga, Aerobic",20:00,"Design,Mould,painting",17:00,Television,13:00,Party,20:00,Telgram
+Sir,21,Science,statistics,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities,Sports activities,Recreational social activities (travel and excursions, etc.)",1:00,Bodybuilding,0:00,,10:00,Television,14:00,Going to the nature,20:00," Instagram, Watsapp Telgram"
+Sir,38,Engineering,It,Bachelor,97,Sports activities,8:00," physical readiness, Mountaineering",2:00,Photo editing,20:00,Television,6:00,Going to the nature,22:30," Instagram, Watsapp Telgram"
+Miss,21,Science,Applied Chemistry,Bachelor,97,Extracurricular study,5:00,Bodybuilding,2:00, Music,20:00,Television,0:00,,2:00,Instagram
+Sir,25,Science,Mathematics,MA,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) ,Sports activities",5:00,"riding bike,warm-up exercises",5:00,painting,17:00,Music,1:00,,23:00,Instagram
+Miss,22,Science,pure chemistry,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",4:00,walking,1:00,painting,5:00,Television,0:00,,7:00,Instagram
+Miss,20,Engineering, industrial engineering,Bachelor,98,"Virtual social activities ,  Extracurricular study ",13:00,riding bike,0:00,,15:00,Television,0:00,,10:00,"Telgram, Watsapp"
+Sir,19,Engineering,Computer Engineering ,Bachelor,99,"Virtual social activities ,  Extracurricular study ",0:00,,0:00,,23:00,Television,0:00,,15:00,Instagram
+Sir,22,Engineering,mechanical engineering,Bachelor,96,Artistic activity,1:00,riding bike,2:00,Photography,10:00,Television,0:00,,10:00," Instagram, Watsapp Telgram"
+Miss,31,"Humanities,literature,foreg in language,law and economics",English language translation,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities,Sports activities",0:30,warm-up exercises,0:00,,10:00,Television,2:00,Going to the nature,4:00,"Telgram, Watsapp"
+Sir,22,Engineering,mechanical engineering,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",0:00,,0:00,,21:00,Television,0:00,,21:00," Instagram, Watsapp Telgram"
+Miss,24,Sports science,sport pathology,MA,98,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities,Sports activities",14:00,warm-up exercises,0:00,,10:00,Television,0:00,-,11:00,"Telgram, Instagram"
+Sir,19,"Humanities,literature,foreg in language,law and economics",Psychology,Associate Degree,99,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",1:00,warm-up exercises,0:30,Photo editing,5:00,Music,0:30,Party,4:00,"Telgram, Instagram"
+Miss,22,Science, Biology ,Bachelor,98,"Extracurricular study ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",0:00,,0:00,,23:00,Television,0:00,,5:00,"Telgram, Instagram"
+Miss,19,"Humanities,literature,foreg in language,law and economics",Persian Language and Literature ,Bachelor,98," Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",4:00,Aerobic,0:00,,10:00,Television,0:00,,20:00," Instagram, Watsapp Telgram"
+Miss,20,"Humanities,literature,foreg in language,law and economics",Economy,Bachelor,99,"Extracurricular study, 
+ Audio-visual activities (television, radio, cinema, satellite, etc.) 
+
+ Audio-visual activities (television, radio, cinema, satellite, etc.) 
+",16:00,walking,0:00,,22:00,Television,0:00,,22:00," Instagram, Watsapp Telgram"
+Miss,23,Engineering,Computer Engineering ,Bachelor,97,"Artistic activity,Recreational social activities (travel and excursions, etc.)",7:00,martial art,2:00, Music,2:00,Television,23:00,Going to the nature,7:00,"Telgram, Instagram"
+Sir,21,Science,Applied Chemistry,Bachelor,97,Extracurricular study,0:30,walking,0:00,,8:00,Television,0:00,,3:00,"Telgram, Watsapp"
+Miss,23,Engineering,electrical engineering,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) ",13:00, warm-up exercises,0:00,,20:00,,0:00,,12:00,"Telgram, Watsapp"
+Miss,20,Science,statistics,Associate Degree,98,"Audio-visual activities (television, radio, cinema, satellite, etc.) ",4:06, Volleyball,2:03,painting,3:03,Television,1:03,Going to the nature,10:09,"Instagram, YouTube, Telgram"
+Miss,23,Science,pure chemistry,Bachelor,96,Virtual social activities,1:00,walking,0:00,,7:00,Television,0:00,,16:00,Telgram
+Sir,19,Science,Biology ,Bachelor,98,"Virtual social activities ,Artistic activity,Extracurricular study ,Sports activities",6:30,"walking,Hooping",6:00,painting,10:00,Television,0:00,,14:00,"Telgram, Watsapp"
+Miss,20,"Humanities,literature,foreg in language,law and economics",Industrial Management,Bachelor,98,Virtual social activities,1:00,walking,0:00,,2:00,Television,0:00,,10:00," Instagram, Watsapp Telgram"
+Sir,22,Engineering,Industrial Management,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",2:00,walking,0:00,,20:00,,0:00,,10:10,"Telgram, Watsapp"
+Sir,21,Engineering, Manufacturing Engineering,Bachelor,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",3:00,Bodybuilding,0:00,,10:00,,2:00,,20:00," Instagram, Watsapp Telgram"
+Sir,22,Engineering,Industrial Management,Bachelor,95,"Audio-visual activities (television, radio, cinema, satellite, etc.) ,Virtual social activities,Sports activities,  Extracurricular study ",5:00,walking,0:00,,22:00,Television,0:00,,7:00,Telgram
+Sir,21,Science,pure chemistry,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) ",4:00,"walking,Track and Field",0:00,...,6:00,Television,5:00, Party,2:00," Instagram, Watsapp Telgram"
+Miss,19,"Humanities,literature,foreg in language,law and economics",,Bachelor,98," Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",3:00,walking,0:00,,3:00,Television,0:00,,20:00,"Telgram, Watsapp"
+Miss,20,Science,Engineering Physics,Bachelor,98,"Virtual social activities,Artistic activity,Extracurricular study,Sports activities",2:30,walking,2:00,Writing,0:30,Television,3:00," Party,Going to the nature",20:00,Instagram
+Miss,21,"Humanities,literature,foreg in language,law and economics",Persian Language and Literature ,Bachelor,96,",Recreational social activities (travel and excursions, etc.),Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual socia activities",0:10,warm-up exercises,2:00,Calligraphy,10:00,Television,5:00,Going to the nature,15:00," Instagram, Watsapp Telgram"
+Miss,21,Science,Applied Chemistry,Bachelor,97," Audio-visual activities (television, radio, cinema, satellite, etc.) ",15:00,"walking, Pilates",0:30, Music,4:00,Television,4:00,to shop,15:00,"Telgram, Watsapp"
+Miss,20,Engineering,electrical engineering,Bachelor,98,"Extracurricular study,Sports activities ,Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",21:30,Bodybuilding,0:00,,22:00,Television,17:00, Party,22:00,"Instagram, YouTube, Telgram"
+Sir,22,Engineering,electrical engineering,Bachelor,96,"
+ Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities,Artistic activity
+",1:00,walking,3:00, Music,2:00,Television,0:00,,4:00,Telgram
+Sir,21,Engineering,,Bachelor,96,",Sports activities Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",7:00,walking,0:00,,8:00,Music,0:00,,10:00,"Twitter, Telgram"
+Sir,20,Engineering,Computer Engineering ,Bachelor,96,"Sports activities,Virtual social activities",7:50,walking,1:00,Mould,5:40,Television,0:00,,14:00,Instagram
+Miss,20,"Humanities,literature,foreg in language,law and economics",Consulting,Bachelor,98,Virtual social activities,0:00,walking,0:00,,14:00,Television,4:00,,19:00,"Telgram, Watsapp"
+Miss,27,"Humanities,literature,foreg in language,law and economics",English language translation,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities,Extracurricular study ,Artistic activity",1:00,"yoga, Bodybuilding",3:00, Knitting,7:00,Music,0:00,,7:00," Instagram, Watsapp Telgram"
+Miss,22,Engineering,mechanical engineering,Bachelor,97,Virtual social activities,3:00,walking,0:00,,10:00,Television,6:00, Party,6:00," Instagram, Watsapp Telgram"
+Sir,21,"Humanities,literature,foreg in language,law and economics",History,Bachelor,96,Sports activities,14:30,"walking,Aerobic",0:30,Calligraphy,16:00,Music,0:00,,18:00,Telgram
+Miss,20,Engineering, Manufacturing Engineering,Associate Degree,97,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",14:00,walking,13:00,Design,22:00,Television,0:00,,22:00," Instagram, Watsapp Telgram"
+Sir,23,Engineering,chemical engineering ,Bachelor,96,"Audio-visual activities (television, radio, cinema, satellite, etc.) , Virtual social activities",1:13,"walking,Aerobic",17:00,Cooking,10:00,"Television,Music",0:00,,17:00," Twitter, Instagram"
+Miss,20,"Humanities,literature,foreg in language,law and economics",English literature,Associate Degree,97," Extracurricular study,Virtual social activities",1:00,Aerobic,0:00,,5:00,Television,0:00,,6:00," Instagram, Watsapp Telgram"
+Miss,20,Engineering, Manufacturing Engineering,Bachelor,97,"Virtual social activities, Extracurricular study ,Sports activities,Artistic activity",8:00,"walking, Mountaineering",9:00,script writing,2:00,Music,0:00,,20:00,Instagram
+Sir,21,"Humanities,literature,foreg in language,law and economics",Educational Science,Bachelor,96,Virtual social activities,19:00,walking,1:00,painting,15:00,Television,5:00,,7:00,Instagram
+Miss,21,Engineering,Computer Engineering ,Associate Degree,97,Extracurricular study,4:00,walking,0:00,,0:00,,0:00,,10:00,Instagram
+Miss,22,Engineering,It,Associate Degree,96,Sports activities,7:30,Bodybuilding,0:30,,10:00,"Music,Television",1:00,,11:00,Telgram
+Miss,20,"Humanities,literature,foreg in language,law and economics",Consulting,Bachelor,98,"
+ Audio-visual activities (television, radio, cinema, satellite, etc.) 
+",6:00,walking,2:00,"Calligraphy, painting,Mould",23:00,"Music,Television",10:00,"Party,to shop,Going to the nature",23:00,Instagram
+Sir,22,Art,Carpet,Bachelor,98," Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities",0:10,walking,15:00,"Carpet weaving,Design",0:00,,0:00,,10:00,Telgram
+Sir,20,"Humanities,literature,foreg in language,law and economics",English literature,Associate Degree,97,"Extracurricular study,Virtual social activities",1:00, Aerobic,0:00,,5:00,Television,0:00,,6:00,"Instagram, YouTube, Telgram"
+Sir,19,Engineering, software engineering ,Bachelor,95,Virtual social activities,4:00,"walking,riding bike",0:00,,23:00,Television,0:00,,23:59," Instagram, Watsapp Telgram"
+Sir,21,Engineering,mechanical engineering,Bachelor,97," Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities",0:00,,0:00,,19:00,Television,0:00,,14:00," Twitter, Instagram"
+Sir,22,Engineering,mechanical engineering,Bachelor,96,"
+ Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities
+
+ Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities
+",1:00,Bodybuilding,0:00,,20:00,Television,0:00,,2:00," Instagram, Watsapp Telgram"
+Sir,20,Engineering,electrical engineering,Bachelor,98," Audio-visual activities (television, radio, cinema, satellite, etc.), Virtual social activities",0:00,,0:00,,21:00,,0:00,,20:00,

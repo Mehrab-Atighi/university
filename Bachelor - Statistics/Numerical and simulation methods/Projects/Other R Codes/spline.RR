@@ -1,0 +1,24 @@
+x = c(1973:2014)
+population = seq(500000, 600000, length.out = 42)
+list = spline(x, population, n = 4*length(x), method = "fmm",
+              xmin = min(x), xmax = max(x), ties = mean)
+
+x_spline = list$x
+pop_spline = list$y
+
+
+
+
+set.seed(1)
+N=100
+x = rnorm(N,10)
+e = rnorm(N)
+y = 2*sin(4*x) + 2*x + e
+
+par(mfrow=c(2,1), mar=rep(2,4))
+plot(x,y,cex=.5)
+plot(x,y,cex=.5)
+lines(smooth.spline(x,y),col=2)
+lines(loess.smooth(x,y,span = .2),col=3)
+legend(11.2,23,col = 2:3,lty=1,bty = "n",
+       legend = c("Spline","Loess"))

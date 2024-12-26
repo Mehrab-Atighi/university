@@ -1,0 +1,290 @@
+---
+title: "IranKhodro timeseries Analysis"
+author: "Mehrab Atighi"
+date: "12/20/2021"
+output: 
+  beamer_presentation: 
+    theme: Warsaw
+---
+
+
+                     In The Name Of God
+                     
+                     
+## Contents
+- problem statement \ref{1.0} \newline
+- Dawnloading Data \ref{2.0} \newline
+- Importing Data To R \ref{3.0} \newline
+- PreProccesing of data \ref{4.0} \newline
+- Regression modeling for Data \ref{5.1} \newline
+- Selecting and Ploting Data \ref{5.0} \newline
+- plot of auto correlation function \ref{6.0} \newline
+- plot of  partial auto correlation function \ref{7.0} \newline
+- Cheking The ARIMA Models with Data \ref{8.0} \newline
+- Modeling for all states \ref{9.0} \newline
+
+## problem statement
+\label{1.0}
+We want to use the Timeseries Algorithms On the shares of Irankhodro Company in the Iranian stock market.\newline
+we should chek it with all of \textcolor{blue}{ARIMA} state until the second time.\newline
+
+## Dawnloading Data
+\label{2.0}
+So We went Tse website and dawnload needed Excel file.for this step we should go to the \href{http://www.tsetmc.com/Loader.aspx?ParTree=151311&i=65883838195688438}{Site} and after dawnloding Excel file, we should save that as \textcolor{blue}{CSV} format.\newline
+
+## Importing Data To R 
+\label{3.0}
+\small
+Now we want to import the Dataset in to R. so we should use \textcolor{orange}{read.csv("...")} function.
+```{r , echo=TRUE , warning=FALSE}
+df = read.csv(file = "F:/lessons/time series/project/Iran.Khodro.csv")
+head(df , 4)
+```
+
+## PreProccesing of data
+\label{4.0}
+\tiny
+we should separate our data and we just need to Date and close value for each day.
+so we use \textcolor{orange}{separate} function from \textcolor{blue}{tidyverse} Package.\newline
+```{r ,echo=TRUE , warning=FALSE}
+library(tidyverse)
+df= separate(df,2,c("year","mouth","day"),
+           sep =c(4,6),remove = TRUE)
+df= df[,c(2,3,4,8)]
+head(df , 4 )
+```
+\normalsize
+
+
+## Regression modeling for Data 
+\label{5.1}
+\tiny
+Now we want to make a regression model for our data and calculating the coefficients estimate.
+
+```{r ,echo=TRUE , warning=FALSE}
+response = df$X.CLOSE.[(nrow(df)-200):nrow(df)]
+model_reg = lm(response ~ (time(response)))
+summary(model_reg)
+```
+\normalsize
+
+## Selecting and Ploting Data
+\label{5.0}
+\small
+Now we want to select the Two hundred days ago data to timeseries alg and ploting them fron dataset.
+```{r ,echo=TRUE , warning=FALSE ,out.width="70%" ,out.height="70%"}
+plot(response,type="o" , col = "orange")
+abline(model_reg)
+```
+\normalsize
+
+## plot of auto correlation function
+\label{6.0}
+Now we want to ploting the auto correlation function values of dataset.
+```{r ,echo=TRUE , warning=FALSE,out.width="70%" ,out.height="70%"}
+acf(response,lag=50,ylab="acf")
+```
+
+## plot of  partial auto correlation function
+\label{7.0}
+We want to ploting the partial auto correlation function values of dataset.
+```{r ,echo=TRUE , warning=FALSE,out.width="60%" ,out.height="60%"}
+pacf(response,lag=50,ylab="pacf")
+```
+We can see that the pacf values from the first times is lower than a blue bound and we can say its approximatly zero.
+
+## Cheking The ARIMA Models with Data
+\label{8.0}
+Now we want to chek all of ARIMA state until two times.\newline
+- ARIMA(0,0,1)\ref{8.1}
+- ARIMA(0,0,2)\ref{8.2}
+- ARIMA(1,0,0)\ref{8.3}
+- ARIMA(2,0,0)\ref{8.4}
+- ARIMA(1,0,1)\ref{8.5}
+- ARIMA(2,0,2)\ref{8.6}
+- ARIMA(0,1,1)\ref{8.7}
+- ARIMA(0,1,2)\ref{8.8}
+- ARIMA(1,1,0)\ref{8.9}
+- ARIMA(2,1,0)\ref{8.10}
+- ARIMA(1,1,1)\ref{8.11}
+- ARIMA(2,1,2)\ref{8.12}
+- ARIMA(0,2,1)\ref{8.13}
+- ARIMA(0,2,2)\ref{8.14}
+- ARIMA(1,2,0)\ref{8.15}
+- ARIMA(2,2,0)\ref{8.16}
+- ARIMA(1,2,1)\ref{8.17}
+- ARIMA(2,2,2)\ref{8.18}
+
+## Modeling for all states
+\label{9.0}
+\tiny
+We Want to Chek the response with ARIMA(0,0,1)\label{8.1}:
+attention that we need to install and library the \textcolor{blue}{TSA} Package.
+```{r ,echo=TRUE , warning=FALSE}
+library(TSA)
+(M1=arima(response,order=c(0,0,1)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(0,0,1)\label{8.2}:
+```{r ,echo=TRUE , warning=FALSE }
+(M2=arima(response,order=c(0,0,2)))
+```
+\normalsize
+
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(1,0,0)\label{8.3}:
+```{r ,echo=TRUE , warning=FALSE }
+(M3=arima(response,order=c(1,0,0)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(2,0,0)\label{8.4}:
+```{r ,echo=TRUE , warning=FALSE }
+(M4=arima(response,order=c(2,0,0)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(1,0,1)\label{8.5}:
+```{r ,echo=TRUE , warning=FALSE }
+(M5=arima(response,order=c(1,0,1)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(2,0,2)\label{8.6}:
+```{r ,echo=TRUE , warning=FALSE }
+(M6=arima(response,order=c(2,0,2)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(0,1,1)\label{8.7}:
+```{r ,echo=TRUE , warning=FALSE }
+(M7=arima(response,order=c(0,1,1)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(0,1,2)\label{8.8}:
+```{r ,echo=TRUE , warning=FALSE }
+(M8=arima(response,order=c(0,1,2)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(1,1,0)\label{8.9}:
+```{r ,echo=TRUE , warning=FALSE }
+(M9=arima(response,order=c(1,1,0)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(2,1,0)\label{8.10}:
+```{r ,echo=TRUE , warning=FALSE }
+(M10=arima(response,order=c(2,1,0)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(1,1,1)\label{8.11}:
+```{r ,echo=TRUE , warning=FALSE }
+(M11=arima(response,order=c(1,1,1)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(2,1,2)\label{8.12}:
+```{r ,echo=TRUE , warning=FALSE }
+(M12=arima(response,order=c(2,1,2)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(0,2,1)\label{8.13}:
+```{r ,echo=TRUE , warning=FALSE }
+(M13=arima(response,order=c(0,2,1)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(0,2,2)\label{8.14}:
+```{r ,echo=TRUE , warning=FALSE }
+(M14=arima(response,order=c(0,2,2)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(1,2,0)\label{8.15}:
+```{r ,echo=TRUE , warning=FALSE }
+(M15=arima(response,order=c(1,2,0)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(2,2,0)\label{8.16}:
+```{r ,echo=TRUE , warning=FALSE }
+(M16=arima(response,order=c(2,2,0)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(1,2,1)\label{8.17}:
+```{r ,echo=TRUE , warning=FALSE }
+(M17=arima(response,order=c(1,2,1)))
+```
+\normalsize
+
+## Modeling for all states
+\scriptsize
+We Want to Chek the response with ARIMA(2,2,2)\label{8.18}:
+```{r ,echo=TRUE , warning=FALSE }
+(M18=arima(response,order=c(2,2,2)))
+```
+\normalsize
+
+## Final AIC Comparing
+
+Now we want to compare all models AIC .
+
+```{r ,echo=TRUE , warning=FALSE}
+
+(AIC=c(M1$aic,M2$aic,M3$aic,M4$aic,M5$aic,M6$aic,
+  M7$aic,M8$aic,M9$aic,M10$aic,M11$aic,M12$aic,
+  M13$aic,M14$aic,M15$aic,M16$aic,M17$aic,M18$aic))
+
+min(AIC)
+which.min(AIC)
+```
+
+So we can say that the M14 or ARIMA(0,2,2) is the best fit for our dataset.
+
+
+
+## Final predict Visual
+
+```{r ,echo=TRUE}
+plot(response,type="o" , col = "orange")
+with(df , lines(x = time(response) , y = fitted(M14)))
+```
+

@@ -1,0 +1,207 @@
+---
+title: " Exercise2-1"
+author: "Mehrab Atighi"
+date: "4/14/2021"
+output:
+  word_document: default
+  pdf_document: 
+    keep_tex: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introducing data to R
+
+```{r Introducing data, echo=TRUE, message=TRUE, warning=FALSE, paged.print=TRUE}
+#after installing the msme packages we should library that`
+library("msme")
+data("medpar")
+#we want to see small sample of our data:
+head(medpar[,1:6])
+```
+We know that the los column indicates the length of nights the person has been hospitalized.
+
+hmo column indicates whether the person was covered by insurance or not (yes=1 ,No=0)
+
+white column indicates whether the person is white or not (yes=1 , No=0)
+
+died column indicates whether the person died within 48 hours of hospitalization or not (yes=1 ,No=0)
+
+age80 column ididactes wheter the person age is more equal 80 or not (yes=1 ,No=0)
+
+type coulmn idicates the person's kind of hospitalization (Optional=1 ,Instant=2 ,Emergency=3)
+
+## Solve:
+
+### chek correlation between the variables:
+
+```{r chek corr, echo=TRUE, paged.print=TRUE}
+
+cor(medpar[,1:6])
+
+```
+
+According to this matrix we can say that we dont have any significant dependence and correlation between variables.
+
+### chek the relation beween response and variables with Boxplots:
+
+```{r echo=TRUE, paged.print=TRUE}
+#at the first we should attach the data
+attach(medpar)
+#now we want to see the Box plot of each variable with our response:
+boxplot(los~died ,col=4)
+```
+
+According to this Boxplot we can say that median of los for death and live persons are 
+equal but for more los value we have more live persons.
+
+```{r echo=TRUE}
+boxplot(hmo~died ,col=3)
+
+```
+
+According to top Boxplot we can say that the majority of those admitted did not have insurance coverage.
+
+```{r echo=TRUE}
+boxplot(white~died ,col=2)
+```
+
+According to top Boxplot we can say that the majority of those admitted were whith white skin.
+
+```{r echo=TRUE}
+boxplot(age80~died ,col=85)
+```
+
+According to top Boxplot we can say that the majority of those admitted that death, are more and equal 80 years old.
+
+```{r echo=TRUE}
+boxplot(type~died, col="orange")
+
+```
+
+According to top Boxplot we can say that the majority of those admitted that their hospitalization were instant and emergency includ the majority of death.
+
+
+### Logstics Regression with severan variables and univariables
+
+#### Logstics regression for each variable and response:
+```{r echo=TRUE, paged.print=TRUE}
+
+fit1<-glm(died~los,family = binomial)
+coef(fit1)
+summary(fit1)
+```
+
+According to the summary and coef function outputs we can say that we have nagative relationship(betha los = -0.03048316) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 7.38e-05 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq1<-data.frame(los=seq(min(los),max(los),len=10^4))
+seq1$died=predict(fit1,newdata= seq1,type="response")
+plot(los,died,col= c(1:length(los)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~los , seq1 ,col=4,lwd=2)
+```
+
+According to top plot we can see the probabilty of death in 48 hour for los value between (0, 35) is value between (0.2 , 0.4) and for los more equal than 60 day is less than 0.1 .
+
+```{r echo=TRUE}
+fit2<-glm(died~hmo,family = binomial)
+coef(fit2)
+summary(fit2)
+```
+
+According to the summary and coef function outputs we can say that we have very Weak nagative relationship(betha hmo= -0.0002512619) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.999  and its not  less than alpha(0.05) so we say the H0 accept and the regression is not signifact. i think its not good variable for our regression.
+
+```{r echo=TRUE}
+seq2<-data.frame(hmo=seq(min(hmo),max(hmo),len=10^4))
+seq2$died=predict(fit2,newdata= seq2,type="response")
+plot(hmo,died,col= c(1:length(hmo)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~hmo , seq2 ,col=3,lwd=2)
+```
+
+According to top plot we can see the fix line about probabilty of death is equal to 0.34 and its fix when the hmo variable change, so we can say its not good variable for our regression.
+
+```{r echo=TRUE}
+fit3<-glm(died~white,family = binomial)
+coef(fit3)
+summary(fit3)
+```
+
+According to the summary and coef function outputs we can say that we have positive relationship(betha white= 0.3025126) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.14  and its less than alpha(0.05) so we say the H0 reject and the regression is signifact. 
+
+```{r echo=TRUE}
+seq3<-data.frame(white=seq(min(white),max(white),len=10^4))
+seq3$died=predict(fit3,newdata= seq3,type="response")
+plot(white,died,col= c(1:length(white)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~white , seq3 ,col=2,lwd=2)
+```
+
+According to top plot we can see the line  probabilty of death is
+between(0.283,0.36) and its apprixmimately fix when the white variable change, so we can
+say its not good variable for our regression.
+
+```{r echo=TRUE}
+fit4<-glm(died~age80,family = binomial)
+coef(fit4)
+summary(fit4)
+```
+
+According to the summary and coef function outputs we can say that we have positive relationship(betha age80= 0.64282) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 4.45e-07  and its less than alpha(0.05) so we say the H0 reject and the regression is signifact. 
+
+
+```{r echo=TRUE}
+seq4<-data.frame(age80=seq(min(age80),max(age80),len=10^4))
+seq4$died=predict(fit4,newdata= seq4,type="response")
+plot(age80,died,col= c(1:length(age80)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~age80 , seq4 ,col=85,lwd=2)
+```
+
+According to top plot we can see the line with positive slope about probabilty of death is between (0.309 ,0.46) and its increasing when the age80 variable increase.
+
+```{r echo=TRUE}
+fit5<-glm(died~type,family = binomial)
+coef(fit5)
+summary(fit5)
+```
+
+According to the summary and coef function outputs we can say that we have positive relationship(betha type= 0.3121013) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.000568 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact. 
+
+```{r echo=TRUE}
+seq5<-data.frame(type=seq(min(type),max(type),len=10^4))
+seq5$died=predict(fit5,newdata= seq5,type="response")
+plot(type,died,col= c(1:length(type)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~type , seq5 ,col="Orange",lwd=2)
+```
+
+According to top plot we can see the line with positive slope about probabilty of death is between (0.320 ,0.468) and its increasing when the age80 variable increase.
+
+
+#### Logstics regression for all variable and response(Multiple logstic regression)
+```{r echo=TRUE}
+full.fit<-glm(died~los+hmo+white+age80+type,family = binomial)
+coef(full.fit)
+summary(full.fit)
+```
+
+According to this models we can say that just the (hmo,white) variable p-values is more than 0.05 and its not good for our model and we should remove it, the others variable have positive relationships with response expect los.
+
+#### Reduce logstics model
+```{r echo=TRUE}
+reduce.fit<-glm(died~los+age80+type,family = binomial)
+coef(reduce.fit)
+summary(reduce.fit)
+
+```
+
+We can see that the reduce models outputs show that the (hmo,white) variable wasnt important and dont have effects on response.
+
+the Reduce model is best model with out any bad variable and all of them are signifact and we have good predict for our response,
+
+we can see the logstics predicton function here for reduce model:
+
+y = died , x1 = los , x2 = age80 , x3 = type.
+
+
+
+End.

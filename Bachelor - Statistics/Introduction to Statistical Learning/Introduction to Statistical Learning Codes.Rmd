@@ -1,0 +1,1030 @@
+---
+title: "Regression 2"
+author: "Mehrab Atighi"
+date: "5/3/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+here we can see all of the regression 2 codes with exmaple and exercise
+
+# First
+
+solve 5 bottom questions:
+
+## 1)  
+### a) According to the Bottem data make main model woth 18 points and get summary function?
+
+
+```{r}
+#Exercise one:
+rm(list=ls())
+#intruducing Data:
+x<-c(1.5,1.7,2,2.2,2.5,2.5,2.7,2.9,3,3.5,3.8,4.2,4.3,4.6,4,5.1,5.2,5.5)
+y<-c(1,2.5,3.5,3,3.1,3.6,2.2,3.9,4,4,4.2,4.1,4.8,1.2,5.1,5.1,4.8,5.3)
+
+A=3.4;B=9.5;C=9.5
+a=8;b=8;c=2.5
+#Make Models and get needed information:
+#Make First Regression Model(with main Data)
+#a)
+fit1<-lm(y~x)
+#Get needed information from this Model
+summary(fit1)
+```
+
+now we can see that or p_value for x is lower than 0.05 and the betha0 = 1.4616,
+
+betha1 = 0.6387,  the Residual standard error = 1.025,
+
+R-squared = 0.3902,t(betha1) = 3.200
+
+
+### b) According to the Bottem data make main model woth 18 points+A&a and get summary function?
+
+
+```{r}
+#b)
+#make Second regssion Model(With A point & main Data)
+x[19]= A ; y[19]= a
+fit2<-lm(y~x)
+#Get needed information from this Model
+summary(fit2)
+```
+now we can see that or p_value for x is lower than 0.05 and the betha0 = 1.6914,
+
+betha1 = 0.6387, the Residual standard error = 1.432,
+
+R-squared = 0.2358,t(betha1) = 2.290
+
+### c) According to the Bottem data make main model woth 18 points+B&b and get summary function?
+
+
+```{r}
+#c)
+#make third regssion Model(With B point & main Data)
+x[19]= B ; y[19]= b
+fit3<-lm(y~x)
+#Get needed information from this Model
+summary(fit3)
+```
+now we can see that or p_value for x is lower than 0.05 and the betha0 = 1.3223,
+
+betha1 = 0.6828,    the Residual standard error = 0.9973,
+
+R-squared = 0.6296,t(betha1)= 5.375
+
+### d) According to the Bottem data make main model woth 18 points+C&c and get summary function?
+
+```{r}
+#d)
+#make forth regssion Model(With C point & main Data)
+x[19]= C ; y[19]= c
+fit4<-lm(y~x)
+#Get needed information from this Model
+summary(fit4)
+```
+now we can see that or p_value for x is not lower than 0.05 and the betha0 = 2.9518,
+
+betha1 = 0.1671, the Residual standard error = 1.262,
+
+R-squared = 0.05978,t(betha1)=1.040 
+
+End.
+
+-----------------------------------------------------------------------
+
+## 2) show that the bottem datas variables (x1,x2) have linear relation.
+```{r}
+#Exercise Two:
+x1<-c(2,8,6,10)
+x2<-c(6,9,8,10)
+#produce variables plot:
+par(mfrow=c(1,1))
+plot(x1,x2,col="orange")
+
+```
+
+We can see a possetive relation between X1 & X2,
+so we can say when they have a linear relation.
+it will be possible to make a mistake make a regression model.
+End.
+
+-----------------------------------------------------------------------
+
+## 3) This question involves the use of simple linear regression on the Auto data set.
+## a) Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as the predictor. Use the summary() function to print the results. Comment on the output. For example:
+```{r}
+#Exercise Third(eigth of Book):
+#library Data:
+library("ISLR")
+y<-Auto$mpg
+x<-Auto$horsepower
+#a)
+fit1<-lm(y~x)
+summary(fit1)
+```
+
+#### i. Is there a relationship between the predictor and the response?
+
+```{r}
+#i)
+plot(x, y, col = "orange", type = "p")
+
+```
+
+We can see a nagative relation between X & Y its fixed for x > 150 .
+
+#### ii. How strong is the relationship between the predictor and the response?
+
+```{r}
+#ii
+summary(fit1)[8]
+anova(fit1)[5]
+```
+
+the r.squared is equal to 0.6059483.
+
+the p value of the Anova of our model is very lower than 0.05.
+
+So we can say that this linear regression model is significant and the r. squared show that its not very strong relation!.
+
+#### iii. Is the relationship between the predictor and the response positive or negative?
+
+```{r}
+#iii)
+cor(x,y)
+```
+
+the correlation value is equal to -0.7784268 ,
+so we have a nagative relation between X & Y
+
+#### iv. What is the predicted mpg associated with a horsepower of 98? What are the associated 95 % confidence and prediction intervals?
+
+```{r}
+#iv)
+#make a f(x) function and calculate f(98):
+f<-function(X){
+  f=as.numeric(fit1$coefficients[1])+ as.numeric((X*fit1$coefficients[2]))
+  return(f)
+}
+
+f(98)
+
+#predictioin confidence interval 95% for f(98) predict:
+predict(fit1,newdata = as.data.frame(x<-c(98)),interval = "confidence")
+
+```
+
+clearly we can see the lower and upper limit of our confidence interval and the prediction value.
+
+
+### b) Plot the response and the predictor. Use the abline() function to display the least squares regression line.
+
+```{r}
+#b)
+x<-Auto$horsepower
+y<-Auto$mpg
+plot(x, y, col = "orange", type = "p")
+abline(fit1,col="black")
+
+```
+
+### c) Use the plot() function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.
+
+```{r}
+#c)
+par(mfrow= c(1,2))
+plot(fit1,col="orange")
+
+```
+
+i think that we have three out lievs points and there is no high leverge points.
+and the QQplots show the normality distrubtion.
+
+End.
+
+-----------------------------------------------------------------------
+
+## 4) This question involves the use of multiple linear regression on the Auto data set.
+
+### a) Produce a scatterplot matrix which includes all of the variables in the data set.
+
+```{r}
+#Exercise forth(ninth of Book):
+#a):
+matplot(Auto[1:8],col = c("Red","Blue","Black","yellow","orange","Green","Brown",85),ylab = "Auto Data",type = "l")
+
+```
+
+### b) Compute the matrix of correlations between the variables using the function cor(). You will need to exclude the name variable, cor() which is qualitative.
+
+```{r}
+#b)
+(as.matrix(cor(Auto[1:8])))
+```
+
+### c) Use the lm() function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the summary() function to print the results. Comment on the output. For instance:
+
+```{r}
+#c)
+y<-Auto$mpg
+x1<-Auto$cylinders
+x2<-Auto$displacement
+x3<-Auto$horsepower
+x4<-Auto$weight
+x5<-Auto$acceleration
+x6<-Auto$year
+x7<-Auto$origin
+fit1<-lm(y~x1+x2+x3+x4+x5+x6+x7)
+summary(fit1)
+```
+
+#### i. Is there a relationship between the predictors and the response?
+
+```{r}
+#i)
+plot(x1,y,col="orange")
+
+plot(x2,y,col="orange")
+
+plot(x3,y,col="orange")
+
+plot(x4,y,col="orange")
+
+plot(x5,y,col="orange")
+
+plot(x6,y,col="orange")
+
+plot(x7,y,col="orange")
+
+
+summary(fit1)[8]
+```
+
+X2,X3,X4 have negative linear relationship with resonse.
+
+X5 have posetvie relation with response.
+
+#### ii. Which predictors appear to have a statistically significant relationship to the response?
+
+```{r}
+#ii)
+summary(fit1)[4]
+anova(fit1)
+```
+
+all of the predictors have statistically significant relationship to the response Except X5.
+
+#### iii. What does the coefficient for the year variable suggest?
+
+```{r}
+#iii)
+coefficients(fit1)[7]
+```
+
+### d) Use the plot() function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit.Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?
+
+```{r}
+#d)
+par(mfrow= c(1,2))
+plot(fit1,col="Orange")
+
+e<-residuals(fit1)
+s<-rstandard(fit1)
+t<-rstudent(fit1)
+par(mfrow=c(1,3))
+plot(x1,e,col="Orange")
+abline(h=0,col="black")
+plot(x1,s,col="Orange")
+abline(h=0,col="black")
+plot(x1,t,col="Orange")
+abline(h=0,col="black")
+plot(x2,e,col="Orange")
+abline(h=0,col="black")
+plot(x2,s,col="Orange")
+abline(h=0,col="black")
+plot(x2,t,col="Orange")
+abline(h=0,col="black")
+plot(x3,e,col="Orange")
+abline(h=0,col="black")
+plot(x3,s,col="Orange")
+abline(h=0,col="black")
+plot(x3,t,col="Orange")
+abline(h=0,col="black")
+plot(x4,e,col="Orange")
+abline(h=0,col="black")
+plot(x4,s,col="Orange")
+abline(h=0,col="black")
+plot(x4,t,col="Orange")
+abline(h=0,col="black")
+plot(x5,e,col="Orange")
+abline(h=0,col="black")
+plot(x5,s,col="Orange")
+abline(h=0,col="black")
+plot(x5,t,col="Orange")
+abline(h=0,col="black")
+plot(x6,e,col="Orange")
+abline(h=0,col="black")
+plot(x6,s,col="Orange")
+abline(h=0,col="black")
+plot(x6,t,col="Orange")
+abline(h=0,col="black")
+plot(x7,e,col="Orange")
+abline(h=0,col="black")
+plot(x7,s,col="Orange")
+abline(h=0,col="black")
+plot(x7,t,col="Orange")
+abline(h=0,col="black")
+```
+
+at the top of the QQplot we can see some unusually points that are not in y=x linear.
+
+we can see that we dont have fixed standard devation and i think that its posetive function of our predictors.
+
+and we can see some outlievs and High leverage points in our model.
+
+### e) Use the * and : symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
+
+```{r}
+#e)
+full.fit<-lm(y~x1+x2+x3+x4+x5+x6+x7+x1*x2+x1*x3+x1*x4+x1*x5+x1*x6+x1*x7+x2*x3+x2*x4+x3*x5+x3*x6+x3*x7+x4*x5+x4*x6+x4*x7+x5*x6+x5*x7+x6*x7)
+summary(full.fit)
+anova(full.fit)
+```
+
+now we can see that or p_value for predictors are signifact when is lower than 0.05.
+
+the bethaj for j=0,1,2,3,4,5,6,7 is equal to the Pr(>|t|) column.
+
+the Residual standard error = 2.714, R-squared = 0.8791.
+
+### f) Try a few different transformations of the variables, such as log(X), √X, X2. Comment on your findings.
+```{r}
+#f)
+#the log(X) transformation:
+y<-Auto$mpg
+x1<-log(Auto$cylinders)
+x2<-log(Auto$displacement)
+x3<-log(Auto$horsepower)
+x4<-log(Auto$weight)
+x5<-log(Auto$acceleration)
+x6<-log(Auto$year)
+x7<-log(Auto$origin)
+fit4<-lm(y~x1+x2+x3+x4+x5+x6+x7)
+summary(fit4)
+```
+
+now we can see that or p_value for predictors are signifact when is lower than 0.05.
+
+the bethaj for j=0,1,2,3,4,5,6,7 is equal to the Pr(>|t|) column.
+
+the Residual standard error =3.069 , R-squared =0.8482 .
+
+```{r}
+#the second root of X transformation:
+y<-Auto$mpg
+x1<-sqrt(Auto$cylinders)
+x2<-sqrt(Auto$displacement)
+x3<-sqrt(Auto$horsepower)
+x4<-sqrt(Auto$weight)
+x5<-sqrt(Auto$acceleration)
+x6<-sqrt(Auto$year)
+x7<-sqrt(Auto$origin)
+fit5<-lm(y~x1+x2+x3+x4+x5+x6+x7)
+summary(fit5)
+```
+
+now we can see that or p_value for predictors are signifact when is lower than 0.05.
+
+the bethaj for j=0,1,2,3,4,5,6,7 is equal to the Pr(>|t|) column.
+
+the Residual standard error = 3.21, R-squared = 0.8338.
+
+```{r}
+#the X power to two transformation:
+y<-Auto$mpg
+x1<-(Auto$cylinders)^2
+x2<-(Auto$displacement)^2
+x3<-(Auto$horsepower)^2
+x4<-(Auto$weight)^2
+x5<-(Auto$acceleration)^2
+x6<-(Auto$year)^2
+x7<-(Auto$origin)^2
+fit6<-lm(y~x1+x2+x3+x4+x5+x6+x7)
+summary(fit6)
+```
+
+now we can see that or p_value for predictors are signifact when is lower than 0.05.
+
+the bethaj for j=0,1,2,3,4,5,6,7 is equal to the Pr(>|t|) column.
+
+the Residual standard error = 3.539, R-squared = 0.7981.
+
+End.
+
+-----------------------------------------------------------------------
+
+## 5) This question should be answered using the Carseats data set.
+### a) Fit a multiple regression model to predict Sales using Price, Urban, and US.
+
+```{r}
+#Exercise fivth(Ten of Book):
+#introducing the variables:for classifactions qualitative variables(Yes=2    , No=1)
+
+#a)
+y<-Carseats$Sales
+x1<-Carseats$Price
+x2<-as.integer(Carseats$Urban)
+x3<-as.integer(Carseats$US)
+fit1<-lm(y~x1+x2+x3)
+```
+
+yes =2  and no =1
+
+### b) Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!
+
+```{r}
+#b)
+summary(fit1)
+```
+
+just X3 have posetive relationship with response.
+
+
+### c) Write out the model in equation form, being careful to handle the qualitative variables properly.
+
+```{r}
+#c)
+f<-function(X1,X2,X3){
+  f<-(as.numeric(coef(fit1)[1])+ (as.numeric(coef(fit1)[2])*X1)+ (as.numeric(coef(fit1)[3])*X2)+ (as.numeric(coef(fit1)[4])*X3))
+  return(f)
+}
+```
+
+### d) For which of the predictors can you reject the null hypothesis H0 : βj = 0?
+
+```{r}
+#d)
+anova(fit1)
+anova(fit1)[5]
+```
+
+now we can see that all of our predictors are signifact Except X2.
+
+### e) On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.
+
+```{r}
+#e)
+Reduce.fit<-lm(Sales~US+Price,data = Carseats)
+
+```
+
+### f) How well do the models in (a) and (e) fit the data?
+
+```{r}
+#f)
+summary(Reduce.fit)
+```
+
+the R squared is fixed(0.2393) when we remove the Urban perdictors form our model.
+
+the residuals standard error just is lower(0.003) than the full model.
+
+### g) Using the model from (e), obtain 95 % confidence intervals for the coefficient(s).
+
+```{r}
+#g)
+confint(fit1,level = 0.95)
+```
+
+### h) Is there evidence of outliers or high leverage observations in the model from (e)?
+
+```{r}
+#h)
+par(mfrow=c(1,2))
+plot(fit1,col="orange")
+```
+
+i think that our residuals have standard normal distrubtion.
+
+at the first devation is low then more after that again lower. 
+
+we have some lievs andHigh leverage points.
+
+End.
+
+-----------------------------------------------------------------------
+
+
+# Second
+
+
+## Introducing data to R
+
+```{r Introducing data, echo=TRUE, message=TRUE, warning=FALSE, paged.print=TRUE}
+#after installing the msme packages we should library that`
+library("msme")
+data("medpar")
+#we want to see small sample of our data:
+head(medpar[,1:6])
+```
+We know that the los column indicates the length of nights the person has been hospitalized.
+
+hmo column indicates whether the person was covered by insurance or not (yes=1 ,No=0)
+
+white column indicates whether the person is white or not (yes=1 , No=0)
+
+died column indicates whether the person died within 48 hours of hospitalization or not (yes=1 ,No=0)
+
+age80 column ididactes wheter the person age is more equal 80 or not (yes=1 ,No=0)
+
+type coulmn idicates the person's kind of hospitalization (Optional=1 ,Instant=2 ,Emergency=3)
+
+## Solve:
+
+### chek correlation between the variables:
+
+```{r chek corr, echo=TRUE, paged.print=TRUE}
+
+cor(medpar[,1:6])
+
+```
+
+According to this matrix we can say that we dont have any significant dependence and correlation between variables.
+
+### chek the relation beween response and variables with Boxplots:
+
+```{r echo=TRUE, paged.print=TRUE}
+#at the first we should attach the data
+attach(medpar)
+#now we want to see the Box plot of each variable with our response:
+boxplot(los~died ,col=4)
+```
+
+According to this Boxplot we can say that median of los for death and live persons are 
+equal but for more los value we have more live persons.
+
+```{r echo=TRUE}
+boxplot(hmo~died ,col=3)
+
+```
+
+According to top Boxplot we can say that the majority of those admitted did not have insurance coverage.
+
+```{r echo=TRUE}
+boxplot(white~died ,col=2)
+```
+
+According to top Boxplot we can say that the majority of those admitted were whith white skin.
+
+```{r echo=TRUE}
+boxplot(age80~died ,col=85)
+```
+
+According to top Boxplot we can say that the majority of those admitted that death, are more and equal 80 years old.
+
+```{r echo=TRUE}
+boxplot(type~died, col="orange")
+
+```
+
+According to top Boxplot we can say that the majority of those admitted that their hospitalization were instant and emergency includ the majority of death.
+
+
+### Logstics Regression with severan variables and univariables
+
+#### Logstics regression for each variable and response:
+```{r echo=TRUE, paged.print=TRUE}
+
+fit1<-glm(died~los,family = binomial)
+coef(fit1)
+summary(fit1)
+```
+
+According to the summary and coef function outputs we can say that we have nagative relationship(betha los = -0.03048316) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 7.38e-05 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq1<-data.frame(los=seq(min(los),max(los),len=10^4))
+seq1$died=predict(fit1,newdata= seq1,type="response")
+plot(los,died,col= c(1:length(los)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~los , seq1 ,col=4,lwd=2)
+```
+
+According to top plot we can see the probabilty of death in 48 hour for los value between (0, 35) is value between (0.2 , 0.4) and for los more equal than 60 day is less than 0.1 .
+
+```{r echo=TRUE}
+fit2<-glm(died~hmo,family = binomial)
+coef(fit2)
+summary(fit2)
+```
+
+According to the summary and coef function outputs we can say that we have very Weak nagative relationship(betha hmo= -0.0002512619) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.999  and its not  less than alpha(0.05) so we say the H0 accept and the regression is not signifact. i think its not good variable for our regression.
+
+```{r echo=TRUE}
+seq2<-data.frame(hmo=seq(min(hmo),max(hmo),len=10^4))
+seq2$died=predict(fit2,newdata= seq2,type="response")
+plot(hmo,died,col= c(1:length(hmo)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~hmo , seq2 ,col=3,lwd=2)
+```
+
+According to top plot we can see the fix line about probabilty of death is equal to 0.34 and its fix when the hmo variable change, so we can say its not good variable for our regression.
+
+```{r echo=TRUE}
+fit3<-glm(died~white,family = binomial)
+coef(fit3)
+summary(fit3)
+```
+
+According to the summary and coef function outputs we can say that we have positive relationship(betha white= 0.3025126) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.14  and its less than alpha(0.05) so we say the H0 reject and the regression is signifact. 
+
+```{r echo=TRUE}
+seq3<-data.frame(white=seq(min(white),max(white),len=10^4))
+seq3$died=predict(fit3,newdata= seq3,type="response")
+plot(white,died,col= c(1:length(white)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~white , seq3 ,col=2,lwd=2)
+```
+
+According to top plot we can see the line  probabilty of death is
+between(0.283,0.36) and its apprixmimately fix when the white variable change, so we can
+say its not good variable for our regression.
+
+```{r echo=TRUE}
+fit4<-glm(died~age80,family = binomial)
+coef(fit4)
+summary(fit4)
+```
+
+According to the summary and coef function outputs we can say that we have positive relationship(betha age80= 0.64282) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 4.45e-07  and its less than alpha(0.05) so we say the H0 reject and the regression is signifact. 
+
+
+```{r echo=TRUE}
+seq4<-data.frame(age80=seq(min(age80),max(age80),len=10^4))
+seq4$died=predict(fit4,newdata= seq4,type="response")
+plot(age80,died,col= c(1:length(age80)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~age80 , seq4 ,col=85,lwd=2)
+```
+
+According to top plot we can see the line with positive slope about probabilty of death is between (0.309 ,0.46) and its increasing when the age80 variable increase.
+
+```{r echo=TRUE}
+fit5<-glm(died~type,family = binomial)
+coef(fit5)
+summary(fit5)
+```
+
+According to the summary and coef function outputs we can say that we have positive relationship(betha type= 0.3121013) and our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.000568 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact. 
+
+```{r echo=TRUE}
+seq5<-data.frame(type=seq(min(type),max(type),len=10^4))
+seq5$died=predict(fit5,newdata= seq5,type="response")
+plot(type,died,col= c(1:length(type)),pch=19,cex=1.1,ylab="probabilty of death in 48 hour")
+lines(died~type , seq5 ,col="Orange",lwd=2)
+```
+
+According to top plot we can see the line with positive slope about probabilty of death is between (0.320 ,0.468) and its increasing when the age80 variable increase.
+
+
+#### Logstics regression for all variable and response(Multiple logstic regression)
+```{r echo=TRUE}
+full.fit<-glm(died~los+hmo+white+age80+type,family = binomial)
+coef(full.fit)
+summary(full.fit)
+```
+
+According to this models we can say that just the (hmo,white) variable p-values is more than 0.05 and its not good for our model and we should remove it, the others variable have positive relationships with response expect los.
+
+#### Reduce logstics model
+```{r echo=TRUE}
+reduce.fit<-glm(died~los+age80+type,family = binomial)
+coef(reduce.fit)
+summary(reduce.fit)
+
+```
+
+We can see that the reduce models outputs show that the (hmo,white) variable wasnt important and dont have effects on response.
+
+the Reduce model is best model with out any bad variable and all of them are signifact and we have good predict for our response,
+
+we can see the logstics predicton function here for reduce model:
+
+y = died , x1 = los , x2 = age80 , x3 = type.
+
+
+
+End.
+
+
+--------------------------------------------------------------------------------
+
+# thrid
+
+
+## Introducing data to R
+
+```{r}
+#now we want to attach our data to R from notepad or txt.
+Heart <- read.table("F://lessons//regression2//exercise//2-2//data.txt",sep=",",head=T,row.names=1)
+#now we want to see some of our data 
+head(Heart)
+#the fivth column of our dataset or famhist is not numeric and we get labe ( present = 1 ,Absent = 0)
+Heart[,5]=ifelse(Heart[,5]=="Absent",0,1)
+```
+
+sbp column indicates systolic blood pressure.
+
+tobacco column indicates cumulative tobacco (Kg).
+
+ldl column indicates low densiity lipoprotein cholesterol.
+
+adiposity coulmn it is a concept of body masses that are often in the form of fat.
+
+famhist column indicates family history of heart disease (Present, Absent).
+
+typea column indicates type-A behavior.
+
+obesity column it is a concept of obesity that has different types and according to its coefficient, different information can be obtained.
+
+alcohol column indicates current alcohol consumption.
+
+age column indicates age at onset.
+
+chd column indicates response, coronary heart disease.
+
+
+
+
+## Solve
+
+### chek correlation between the variables:
+
+```{r }
+cor(Heart)
+```
+
+### chek the relation beween response and variables with Boxplots:
+
+```{r}
+#at the first we should attach the data
+attach(Heart)
+
+#now we want to see the Box plot of each variable with our response:
+boxplot(sbp~chd,col=85)
+```
+
+According to this Boxplot we can say that median of sbp for Having and not having coronary heart disease are equal but for more sbp values we have more cornary heart disease.
+
+
+```{r echo=TRUE}
+boxplot(tobacco~chd,col=2)
+```
+
+According to this Boxplot we can say that median of tovacco for Having and not having coronary heart disease  are not equal and for more tobacco values we have more cornary heart disease.
+
+```{r echo=TRUE}
+boxplot(ldl~chd,col=3)
+```
+
+According to this Boxplot we can say that median of ldl for Having and not having coronary heart disease  are not equal and for more ldl values we have more cornary heart disease.
+
+
+```{r echo=TRUE}
+boxplot(adiposity~chd,col=4)
+```
+
+According to this Boxplot we can say that median of adiposity for Having and not having coronary heart disease  are not equal and for adiposity values between (0,25) we can say that we dont have  cornary heart disease and for more adiposity vlaues we have more and more cornary heart disease.
+
+```{r echo=TRUE}
+boxplot(famhist~chd,col=5)
+```
+
+According to this Boxplot we can say that median of famhist for Having and not having coronary heart disease are not equal but for more famhist values we have more cornary heart disease.
+
+```{r echo=TRUE}
+boxplot(typea~chd,col=6)
+```
+
+According to this Boxplot we can say that median of typea for Having and not having coronary heart disease are equal.
+
+```{r echo=TRUE}
+boxplot(obesity~chd,col=7)
+```
+
+According to this Boxplot we can say that median of obesity for Having and not having coronary heart disease are equal.
+
+```{r echo=TRUE}
+boxplot(alcohol~chd,col=8)
+```
+
+According to this Boxplot we can say that median of alcohol for Having and not having coronary heart disease are equal.
+
+```{r echo=TRUE}
+boxplot(age~chd,col=10)
+```
+
+According to this Boxplot we can say that median of age for Having and not having coronary heart disease  are not equal and for age values between (1,40) we can say that we dont have  cornary heart disease and for more adiposity vlaues we have more and more cornary heart disease.
+
+### Logstics Regression with severan variables and univariables
+
+#### Logstics regression for each variable and response:
+
+```{r echo=TRUE}
+fit1<-glm(chd~sbp,family = binomial)
+coef(fit1)
+summary(fit1)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha sbp = 0.019509) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 6.02e-05 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq1<-data.frame(sbp=seq(min(sbp),max(sbp),len=10^4))
+seq1$chd=predict(fit1,newdata= seq1,type="response")
+plot(sbp,chd,col=sbp,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~sbp , seq1 ,col=1,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for sbp large or big values its more and more and we have posetive relationship  for example sbp is equal 220 our  probabilty is equal 0.8.
+
+
+```{r echo=TRUE}
+fit2<-glm(chd~tobacco,family = binomial)
+coef(fit2)
+summary(fit2)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha tobacco = 0.14527) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 4.46e-09 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq2<-data.frame(tobacco=seq(min(tobacco),max(tobacco),len=10^4))
+seq2$chd=predict(fit2,newdata= seq2,type="response")
+plot(tobacco,chd,col=tobacco,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~tobacco , seq2 ,col=2,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for tobacco large or big its more and more values and we have posetive relationship , for example tobacco is more and equal 25 our  probabilty is more than 0.95.
+
+
+```{r echo=TRUE}
+fit3<-glm(chd~ldl,family = binomial)
+coef(fit3)
+summary(fit3)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha tobacco = 0.27466) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 1.04e-07 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq3<-data.frame(ldl=seq(min(ldl),max(ldl),len=10^4))
+seq3$chd=predict(fit3,newdata= seq3,type="response")
+plot(ldl,chd,col=ldl,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~ldl, seq3 ,col=3,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for ldl large or big values its more and more and we have posetive relationship, for example tobacco is more and equal 12 our  probabilty is more than 0.8.
+
+```{r echo=TRUE}
+fit4<-glm(chd~adiposity,family = binomial)
+coef(fit4)
+summary(fit4)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha adiposity = 0.07410) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 1.11e-07 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq4<-data.frame(adiposity=seq(min(adiposity),max(adiposity),len=10^4))
+seq4$chd=predict(fit4,newdata= seq4,type="response")
+plot(adiposity,chd,col=adiposity,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~adiposity, seq4 ,col=4,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for adiposity large or big values its more and more and we have posetive relationship, for example adiposity is more and equal 35 our  probabilty is more than 0.5.
+
+```{r echo=TRUE}
+fit5<-glm(chd~famhist,family = binomial)
+coef(fit5)
+summary(fit5)
+```
+
+According to the summary and coef function outputs we can say that we have posetive relationship (betha famhist = 1.1690) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 8.85e-09 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq5<-data.frame(famhist=seq(min(famhist),max(famhist),len=10^4))
+seq5$chd=predict(fit5,newdata= seq5,type="response")
+plot(famhist,chd,col=famhist,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~famhist, seq5 ,col=5,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for famhist large or big values its more and more and we have posetive relationship.
+but i think that its not good variable for our multiple logsticks regression.
+
+```{r echo=TRUE}
+fit6<-glm(chd~typea,family = binomial)
+coef(fit6)
+summary(fit6)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha typea = 0.02263) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.0275 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq6<-data.frame(typea=seq(min(typea),max(typea),len=10^4))
+seq6$chd=predict(fit6,newdata= seq6,type="response")
+plot(typea,chd,col=typea,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~typea, seq6 ,col=6,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for typea large or big values its more and more and we have posetive relationship . but i think that its not good variable for our multiple logsticks regression.
+
+```{r echo=TRUE}
+fit7<-glm(chd~obesity,family = binomial)
+coef(fit7)
+summary(fit7)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha obesity = 0.04942) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.03302 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq7<-data.frame(obesity=seq(min(obesity),max(obesity),len=10^4))
+seq7$chd=predict(fit7,newdata= seq7,type="response")
+plot(obesity,chd,col=obesity,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~obesity, seq7 ,col=7,lwd=2)
+```
+
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for obesity large or big values its more and more and we have posetive relationship. but i think that its not good variable for our multiple logsticks regression.
+
+
+```{r echo=TRUE}
+fit8<-glm(chd~alcohol,family = binomial)
+coef(fit8)
+summary(fit8)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha alcohol = 0.005198) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 0.182 and its more than alpha(0.05) so we say the H0 accept and the regression isnt signifact.
+
+```{r echo=TRUE}
+seq8<-data.frame(alcohol=seq(min(alcohol),max(alcohol),len=10^4))
+seq8$chd=predict(fit8,newdata= seq8,type="response")
+plot(alcohol,chd,col=alcohol,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~alcohol, seq8 ,col=8,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for alcohol large or big values its more and more and we have posetive relationship. but i think that its not good variable for our multiple logsticks regression.
+
+
+```{r echo=TRUE}
+fit9<-glm(chd~age,family = binomial)
+coef(fit9)
+summary(fit9)
+```
+
+According to the summary and coef function outputs we can say that we have weak posetive relationship (betha age = 0.064108) and  our p-value for signifacting H0 (Betha0 = Betha1 = 0)is equal to 5.76e-14 and its less than alpha(0.05) so we say the H0 reject and the regression is signifact.
+
+```{r echo=TRUE}
+seq9<-data.frame(age=seq(min(age),max(age),len=10^4))
+seq9$chd=predict(fit9,newdata= seq9,type="response")
+plot(age,chd,col=age,pch=19,cex=1.1,ylab="probabilty of Existence of coronary heart disease")
+lines(chd~age, seq9 ,col=10,lwd=2)
+```
+
+According to top plot we can see the probabilty of Existence of coronary heart disease for age large or big values its more and more and we have posetive relationship  , for example adiposity is more and equal 55 our  probabilty is more than 0.5.
+
+
+#### Logstics regression for all variable and response(Multiple logstic regression)
+```{r echo=TRUE}
+full.fit<-glm(chd~.,data=Heart,family = binomial)
+coef(full.fit)
+summary(full.fit)
+
+```
+
+
+According to this models we can say that  the (sbp,adiposity,obesity,alcohol) variables p-values is more than 0.05 and they are not good for our model and we should remove them, the others variable have positive relationships with response expect obesity.
+
+#### Reduce logstics model
+
+```{r}
+
+Reduce.fit<-glm(chd~tobacco+ldl+famhist+typea+age,data=Heart,family = binomial)
+coef(Reduce.fit)
+summary(Reduce.fit)
+
+```
+
+We can see that the reduce models outputs show that the (sbp,adiposity,obesity,alcohol) variable were not important and dont have effects on response.
+
+the Reduce model is best model without any bad variable and all of them are signifact and we have good predict for our response,
+
+we can see the logstics predicton function here for reduce model:
+
+y = chd , x1 = tobacco , x2 = ldl , x3 = famhist , x4 = typea , x5= age.
+
+
+End.
+
+
+--------------------------------------------------------------------------------
+
+
+

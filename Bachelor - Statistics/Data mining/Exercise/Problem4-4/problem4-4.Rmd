@@ -1,0 +1,43 @@
+---
+title: "problem4-4"
+author: "Mehrab Atighi"
+date: "11/19/2021"
+output: 
+  beamer_presentation: 
+    theme: Warsaw
+---
+
+
+## problem
+\tiny
+\textbf{Chemical Features of Wine}.\newline
+Table 4.13 shows the PCA output on data non normalized in which the variables represent chemical characteristics of wine, and each case is a different wine.
+
+```{r , echo=FALSE, out.height="80%", out.width="70%"}
+
+knitr::include_graphics("F:/lessons/Data mining/Exercise/problem4.png")
+```
+
+## problem
+
+a. The data are in the file Wine.csv. Consider the rows labeled Proportion of Variance. Explain why the value for PC1 is so much greater than that of any other column.
+b. Comment on the use of normalization (standardization) in part (a).
+
+
+## solution
+### a)
+According to output ( above table ) we can see summary and the rotation outputs.\newline
+the summary proprotaion of variance for PC1 is the biggest and is equal to 0.9981, it means the first components coverage about 99.81% of all variables variance and we can reduce our dimantion to one dimention with PC1 rotation and new values.\newline
+the cofficient of each variable for PC1 is equal to first column of second output(pcs\$cor\$rot[,1:4])
+
+## solution
+### b)
+i think that we should use principal components with normalaized data cuse we have alot of variables and they are with diffrent measure and scale and when we normalizing them  we are using scale and center on them and the its better for doing principal component method.
+for doing these code we just need to :
+```{r , echo=TRUE}
+#wine.df <- read.csv("Wine.csv")
+#pcs.cor.norm <- prcomp(wine.df[,-1] ,
+#center = TRUE, scale. = FALSE )
+#summary(pcs.cor.norm)
+#pcs.cor.norm$rot[,1:4]
+```

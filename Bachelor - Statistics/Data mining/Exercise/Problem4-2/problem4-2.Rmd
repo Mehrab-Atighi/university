@@ -1,0 +1,117 @@
+---
+title: "Problem4-2"
+author: "Mehrab Atighi"
+date: "11/18/2021"
+output: 
+  beamer_presentation:
+    fig_width: 9
+    fig_height: 6
+    theme: Warsaw
+---
+
+
+## problem
+
+\textbf{University Rankings.} The dataset on American college and university rankings
+(available from www.dataminingbook.com) \newline 
+contains information on 1302 American colleges and universities offering an undergraduate program. For each university, there are 17 measurements that include continuous measurements (such as tuition and graduation rate) and categorical measurements (such as location by state and whether it is
+a private or a public school).\newline
+
+a. Remove all categorical variables. Then remove all records with missing numerical
+measurements from the dataset.
+b. Conduct a principal components analysis on the cleaned data and comment on the
+results. Should the data be normalized? Discuss what characterizes the components
+you consider key
+
+## solution 
+\tiny
+At the first we should add data in R and see head of dataset.
+```{r , echo = TRUE , warnings = FALSE}
+Data<-read.csv("F:/lessons/Data mining/Data/Universities.csv")
+#View(Data)
+head(Data,4)
+dim(Data)
+```
+\normalsize
+
+## solution
+\small
+Now we want to remove the categorical variables after that remove na ( missing data) data.
+
+### a
+```{r , echo=TRUE , warning=FALSE}
+data <- Data[,c(2,3)]
+chek_na<- is.na(data)
+n=1
+index<-c()
+for( i in 1:nrow(chek_na)){
+  if(sum(chek_na[i,])>=1){
+    index[n]=i
+    n=n+1
+  }
+}
+
+data<-data[-index,]
+dim(data)
+```
+\normalsize
+
+## solution
+\tiny
+Now we are going to solve part b.\newline
+thus we know we had 2 categorical variable and 831 missing data.\newline
+i think that we need to normalaizing data cuse we have alot of variable with diffrent scales.\newline
+now we want to do a dimention reduction with principal components method:
+```{r ,echo=TRUE}
+pca<-prcomp(data[,-1] ,scale. = TRUE ,center = TRUE)
+summary(pca)
+```
+
+## solution
+\tiny
+```{r , echo=TRUE}
+head(pca$rotation,2)
+head(pca$x, 2)
+```
+\normalsize
+
+
+## solution
+so now we can see that we can reduce our dimantion to 6 for least 80% of all variance.
+for example the first component have 30%  the second 27% the third 7% and etc.\newline
+the pca$x values are our values with new rotation.\newline
+the rotation values come back to cofficient of each variable and there we have just for first and second variable.\newline
+Now we want to plot the clean, normalize dataset.
+\normalsize
+
+## solution
+```{r ,echo=TRUE , warning=FALSE,out.height="40%", out.width="55%"}
+
+#install.packages(factoextra)
+library(factoextra)
+fviz_eig(pca)#plot(pca)
+```
+
+## solution
+```{r ,echo=TRUE , warning=FALSE,out.height="40%", out.width="55%"}
+plot(pca$x[,1],pca$x[,2]
+     ,xlab = "Comp1" , ylab="Comp2" ,col="Blue")
+```
+
+## solution
+```{r ,echo=TRUE , warning=FALSE,out.height="40%", out.width="55%"}
+#biplot(pca)
+fviz_pca_ind(pca,
+             col.ind = "cos2", # Color by the quality of representation
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)      #Avoid text overlapping)
+```
+
+## solution
+```{r ,echo=TRUE , warning=FALSE,out.height="40%", out.width="55%"}
+fviz_pca_biplot(pca, repel = TRUE,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969"  # Individuals color
+                )
+```
+

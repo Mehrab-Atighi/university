@@ -1,0 +1,195 @@
+---
+title: "Ploting model 3 with R"
+author: "Mehrab Atighi"
+date: "2022-10-11"
+output: 
+  beamer_presentation: 
+    fig_width: 9
+    fig_height: 6
+    theme: Warsaw
+---
+
+## Contents
+
+- problem  \ref{Problem} \newline
+- Calculating Distribution function \ref{Dis} \newline
+- ploting Cummulative distribution function \ref{CDF} \newline
+- calculating Survial function \ref{Sur} \newline
+- ploting Survial function \ref{Psur} \newline
+- calculating probability mass function \ref{pdf} \newline
+- ploting probability mass function \ref{Ppdf} \newline
+
+## Problem 
+\label{Problem} 
+
+According to the \textcolor{pink}{Model 3  in chapter 2} of \textcolor{blue}{Loss Models from Data to Decision Edition 5}, We know that \newline
+Model 3 This random variable could serve as a model for the number of claims on one policy in one year. Probability is concentrated at the five points (from 0 to 4) and the probability at each is given by the size of the jump in the distribution function:
+$$
+F_3 (x) = 
+\begin{cases}
+0, & x = 0\\
+0.5, & 0 \leq x < 1\\
+0.75, & 1 \leq x < 2\\
+0.87, & 2 \leq x < 3\\
+0.95, & 3 \leq x < 4\\
+0.1, & 4 \leq x\\
+\end{cases}
+$$
+
+drow plot of Distribution, Density, Survial, Hazard rate function of this Random Variable.
+
+## Calculating Distribution function
+\label{Dis}
+
+According to the last slide we now that our cummulative distribution function is:
+
+\begin{equation}
+F_3 (x) = 
+\begin{cases}
+0, & x = 0\\
+0.5, & 0 \leq x < 1\\
+0.75, & 1 \leq x < 2\\
+0.87, & 2 \leq x < 3\\
+0.95, & 3 \leq x < 4\\
+0.1, & 4 \leq x\\
+\end{cases}
+\end{equation}
+
+
+## ploting Cummulative distribution function of  Model 3 
+\label{CDF}
+\tiny
+```{r , warning=FALSE , echo=TRUE}
+F_x3 = function(x){
+  if(x < 0){
+    prob = 0
+  }
+  if((x<1)&(x>=0)){
+    prob = 0.5
+  }
+  if((x<2)&(x>=1)){
+    prob = 0.75
+  }
+  if((x<3)&(x>=2)){
+    prob = 0.87
+  }
+  if((x<4)&(x>=3)){
+    prob = 0.95
+  }
+  if(x>=4){
+    prob = 1
+  }
+  return(prob)
+}
+#please enter your number (input) as x:
+x = 3
+F_x3(x)
+```
+\normalsize
+
+
+## Ploting Cummulative distribution function of Model 3
+\tiny
+```{r , echo=TRUE , out.height="55%" , out.width="85%" ,warning=FALSE}
+S = seq(-10 , 10);w = c();k = 1
+for(i in S){
+  w[k] = F_x3(i)
+  k = k+1}
+plot(x = S , y = w , col = "blue" , type = "b" ,
+     xlab = "x value" , ylab = "cummulative Probability",
+     main = "Cummulative distribution function of Model 3")
+```
+\normalsize
+
+
+## calculating Survial function of Model 3
+\label{Sur}
+
+According to bottem formula for calculating survial function we have:
+\begin{equation}
+S_X (x) = 1 - F_X (x)
+\end{equation}
+So our result is:
+\begin{equation}
+S_X (x) = 
+\begin{cases}
+0.5, & 0 \leq x < 1\\
+0.25, & 1 \leq x < 2\\
+0.13, & 2 \leq x < 3\\
+0.05, & 3 \leq x < 4\\
+0, & 4 \leq x\\
+\end{cases}
+\end{equation}
+
+## Ploting Survial function of Model 3
+\label{Psur}
+
+```{r , echo=TRUE  , warning=FALSE}
+S_x3 = function(x){
+  prob = 1 - F_x3(x)
+  return(prob)}
+x = 3
+S_x3(x)
+```
+
+
+## Ploting Survial function of Model 3
+\small
+```{r , echo=TRUE , out.height="55%" , out.width="85%" ,warning=FALSE}
+S = seq(-10 , 10);q = c();k = 1
+for(i in S){
+  q[k] = S_x3(i)
+  k = k+1}
+ plot(x = S , y = q , col = "blue" , type = "b" ,
+      xlab = "x value" , ylab = "Probability",
+      main = "")
+```
+\normalsize
+
+## calculating probability mass function of Model 3
+\label{pdf}
+Now here we want to Calculating the Probability mass function of Model 3 according to the bottem formula:
+\begin{equation}
+p_X (x)= Pr(X=x)
+\end{equation}
+\newline
+So our result is:
+\begin{equation}
+p_3 (x) =
+\begin{cases}
+0.50, &x=0\\
+0.25, & x=1\\
+0.12, & x=2\\
+0.08, & x=3\\
+0.05, & x=4\\
+\end{cases}
+\end{equation}
+
+## ploting probability mass function of Model 3
+\label{Ppdf}
+
+```{r , echo=TRUE , warning=FALSE}
+ f_x3 = function(x){
+   prob = F_x3(x) - F_x3(x-1)
+   return(prob)
+ }
+x = 3
+f_x3(x)
+```
+
+
+## ploting probability mass function of Model 3
+
+```{r , echo=TRUE , out.height="55%" , out.width="85%" ,warning=FALSE}
+S = seq(-10 , 10 );e = c();k = 1
+for(i in S){
+  e[k] = f_x3(i)
+  k = k+1}
+barplot( e  ,names.arg = -10:10 ,
+         xlab = "X value" , ylab = "Probability" ,
+         col = 5:1 , main = "Probability(mass) function")
+```
+
+## End
+\huge   
+- \textcolor{blue}{Thanks for your attention}

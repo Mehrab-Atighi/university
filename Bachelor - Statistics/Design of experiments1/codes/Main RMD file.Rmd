@@ -1,0 +1,421 @@
+---
+title: "Untitled"
+author: "Mehrab Atighi"
+date: "6/13/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+
+
+#set.seed(13)
+#rm(list = ls())
+data<-read.csv("F://lessons//introductio sampling 2//project//data//edited.data.csv" , header = TRUE)
+o<-c(1:95)
+c<-sample(o , size = 30, replace=FALSE)
+sample<-data.frame(data[c,])
+nhat<-function(N,p,d,alpha){
+  q=1-p
+  z<-qnorm(1-(alpha/2))
+  nhat=((z^2)*p*q/d^2)/(1+(1/N)*(((z^2)*p*q/d^2)-1))
+ print(nhat)}
+
+
+# nhat baraye darsade afradi ke faliate majazi daran:
+m<-length(which(sample$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.!=0))
+w<-length(sample$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.)
+phat.majazi<-(m/w)
+p=phat.majazi
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+nHat.majazi<-nhat(N,p,d,alpha)
+# nhat baraye mean saaty ke dar hafte faliat majazi daran:
+s<-sd(sample$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.)
+ybar.n<-mean(sample$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.)
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+n0<-((z*s)/(d*ybar.n))^2
+n.hat.majazi<-n0/1+(n0/N)
+print(n.hat.majazi)
+# nhat baraye darsade afradi ke faliat varzeshi daran:
+m<-length(which(sample$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.!=0))
+w<-length(sample$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.)
+phat.sport<-(m/w)
+p=phat.sport
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+nHat.sport<-nhat(N,p,d,alpha)
+print(nHat.sport)
+# nhat baraye mean saaty ke daneshjo ha dar hafte faliate varzeshi daran:
+s<-sd(sample$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.)
+ybar.n<-mean(sample$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.)
+n0<-((z*s)/(d*ybar.n))^2
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+n.hat.sport<-n0/1+(n0/N)
+print(n.hat.sport)
+# nhat darsade afradi ke faliat honary daran:
+m<-length(which(sample$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.!=0))
+w<-length(sample$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.)
+phat.art<-(m/w)
+p=phat.art
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+nHat.art<-nhat(N,p,d,alpha)
+print(nHat.art)
+# nhat baraye mean saaty ke daneshjo ha dar hafte faliat honary daran:
+s<-sd(sample$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.)
+ybar.n<-mean(sample$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.)
+alpha=0.25
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.25
+n0<-((z*s)/(d*ybar.n))^2
+n.hat.art<-n0/1+(n0/N)
+print(n.hat.art)
+# nhat baraye darsade daneshjo hayi ke age>20:
+m<-length(which(sample$Age>20))
+w<-length(sample$Age)
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+phat.age<-(m/w)
+p=phat.age
+nHat.age<-nhat(N,p,d,alpha)
+print(nHat.age)
+# nhat baraye mean age daneshjo ha:
+s<-sd(sample$Age)
+ybar.n<-mean(sample$Age)
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+n0<-((z*s)/(d*ybar.n))^2
+n.hat.age<-n0/1+(n0/N)
+print(n.hat.age)
+# nhat baraye darsade afradi ke faliat gheyre darsi dashtn:
+m<-length(which(sample$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.!=0))
+w<-length(sample$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.)
+phat.study<-(m/w)
+p=phat.study
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+nHat.study<-nhat(N,p,d,alpha)
+print(nHat.study)
+# nhat baraye mean saty ke daneshjo ha faliate gheyre darsi kardn:
+s<-sd(sample$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.)
+ybar.n<-mean(sample$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.)
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+n0<-((z*s)/(d*ybar.n))^2
+n.hat.study<-n0/1+(n0/N)
+print(n.hat.study)
+# nhat baraye darsade afradi ke faliate Tv dashtn:
+m<-length(which(sample$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we!=0))
+w<-length(sample$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+phat.visual<-(m/w)
+p=phat.visual
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+nHat.visual<-nhat(N,p,d,alpha)
+print(nHat.visual)
+# nhat baraye mean saaty ke daneshjo ha faliate Tv dashtn:
+s<-sd(sample$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+ybar.n<-mean(sample$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+alpha=0.15
+z=qnorm(1-(alpha/2))
+N=6854
+d=0.2
+n0<-((z*s)/(d*ybar.n))^2
+n.hat.visual<-n0/1+(n0/N)
+print(n.hat.visual)
+
+
+t<-c(nHat.age,nHat.art,nHat.majazi,nHat.sport,nHat.study,nHat.visual,n.hat.age,n.hat.art,n.hat.majazi,n.hat.sport,n.hat.study,n.hat.visual)
+t
+max(t)
+
+
+
+#Amare tosifi:
+#baraye chek kardane inke dakhele in hast ya na:
+y<-"Sir"
+z<-"Miss"
+Sir<-sum(as.integer(sapply(y,grepl,dQuote(data$Gender))))
+Miss<-sum(as.integer(sapply(z,grepl,dQuote(data$Gender))))
+l<-length(data$Gender)
+(pop.Sir<-Sir/l)*100
+(pop.Miss<-Miss/l)*100
+
+
+#baraye age haye mokhtalef va bishtarin va darsard harkodom:
+summary(data$Age)
+table(data$Age)
+(percnt.Age<-(table(data$Age)/length(data$Age))*100)
+
+
+#baraye daneshkade ha darim:
+100*table(data$Faculty)/length(data$Faculty)#darsad ha
+
+#baraye reshte hayi ke dar in porseshname sherkat kardan.
+table(data$Field)*100/length(data$Field)#darsad ha
+
+
+#baraye akharin maghtaye tahsili:
+100*table(data$Last.degree)/length(data$Last.degree)
+
+#braye sale vorod be uni:
+100*table(data$Year.of.entering.the.university.in.the.last.degree)/length(data$Year.of.entering.the.university.in.the.last.degree)
+
+
+#baraye anvaye mokhtalefe faaliat ha darim:
+y<-c("Sports activities","Extracurricular study","Artistic activity","Audio-visual activities (television, radio, cinema, satellite, etc.)","Recreational social activities (travel and excursions, etc.)","Virtual social activities")
+for(i in 1:length(y)){
+  print(paste("tedade koli tekrare  faliate",y[i],":"))
+  print(sum(as.integer(sapply(y[i],grepl,dQuote(data$In.the.past.week..have.you.filled.your.free.time.with.any.of.the.following.activities.)))))}
+
+
+#baraye  saat varzesh dar hafte:
+mean(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.)
+summary(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.)
+#baraye darsade afradi ke falyiat zarzeshy dashtan:
+sum(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.!=0)*100/length(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.)
+#baraye anvaye varzesh ha darim:
+table(data$What.sports.do.you.do.in.your.spare.time.)*100/length(data$What.sports.do.you.do.in.your.spare.time.)
+#baraye tak tak anvaye faliat ha zarveshi darim:
+y=c("walking","yoga","dancing","riding bike","Track and Field","Aerobic","Swim","physical readiness","warm-up exercises","Volleyball","Bodybuilding","Ping pong","Mountaineering","martial art","horse riding","Hooping","boxing","Pilates","Futsal")
+for(i in 1:length(y)){
+  print(paste("tedade koli tekrare varzeshe",y[i]))
+  print(sum(as.integer(sapply(y[i],grepl,dQuote(data$What.sports.do.you.do.in.your.spare.time.)))))}
+
+
+#baraye saat motale gheyr darsi dar hafte darim:
+mean(data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.)
+summary(data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.)
+#baraye darsade afrady ke falyiat gheyre darsi daran darim:
+sum(data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.!=0)*100/length(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.)
+
+
+
+#baraye saat faalyiat honary darim:
+mean(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.)
+summary(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.)
+#baraye darsade afradi ke faliat honari daran:
+sum(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.!=0)*100/length(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.)
+
+
+#baraye saat faalyat Tv darim:
+mean(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+summary(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+#baraye darsade afradi ke faliat Tv daran darim:
+sum(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we!=0)*100/length(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+#baraye anvaye faliat haye Tv darim:
+table(data$In.your.spare.time..which.of.the.following.audio.visual.activities.do.you.use.for.your.leisure.time.)
+#baraye tak tak faliat haye Tv darim:
+y=c("Computer","Music","Television")
+for(i in 1:length(y)){
+  print(paste("tedade koli tekrare faliat Tv:",y[i]))
+  print(sum(as.integer(sapply(y[i],grepl,dQuote(data$In.your.spare.time..which.of.the.following.audio.visual.activities.do.you.use.for.your.leisure.time.)))))}
+
+
+
+#baraye saat faliat tafrihi darim:
+mean(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.)
+summary(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.)
+#baraye darsade afradi ke faliat tafrihi dashtn darim:
+100*sum(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.!=0)/length(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.)
+#baraye anvaye faliat haye tafrihi darim:
+table(data$What.social.and.recreational.activities.do.you.do.in.your.spare.time.)
+#baraye tak tak faliat haye tafrihi darim:
+y=c("Party","Going to the nature","to shop")
+for(i in 1:length(y)){
+  print(paste("tedade koli tekrare faliat Tv:",y[i]))
+  print(sum(as.integer(sapply(y[i],grepl,dQuote(data$What.social.and.recreational.activities.do.you.do.in.your.spare.time.)))))}
+
+
+
+
+#baraye saat faaliat majazi darim:
+mean(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.)
+summary(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.)
+#baraye darsade afradi ke faliat majazi daran darim:
+sum(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.!=0)*100/length(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.)
+#baraye anvaye faliat haye majazi darim:
+table(data$What.kind.of.virtual.activity.do.you.do.most.in.your.spare.time.)
+#baraye tedad tak tak faliat haye majazi darim:
+y=c("Telgram","Gaming","Twitter","Instagram","Watsapp","YouTube")
+for(i in 1:length(y)){
+  print(paste("tedade koli tekrare faliat majazi:",y[i]))
+  print(sum(as.integer(sapply(y[i],grepl,dQuote(data$What.kind.of.virtual.activity.do.you.do.most.in.your.spare.time.)))))}
+#boxplot baraye sen daneshjo haye mokhtalef:
+boxplot(data$Age ,col="85",xlab="?????????????????? ?????????????? ????????",ylab="????")
+#boxplot baraye saat faliat haye varzeshy daneshjo ha:
+boxplot(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.,col="Gold",xlab="???????????? ??????????",ylab="???????? ???? ????????")
+#boxplot baraye saat faliat motaleye gheyre darsi darim:
+boxplot(data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.,col="85",xlab="???????????? ???????????????? ??????????????",ylab="???????? ???? ????????")
+#boxplot baraye saat faliat honary daneshjo ha:
+boxplot(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.,col="Gold",xlab="???????????? ????????",ylab="???????? ???? ????????")
+#boxplot baraye saat faliat tafrihi:
+boxplot(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.,col="85",xlab="???????????? ????????????",ylab="???????? ???? ????????")
+#baxplot baraye saat faliat majazi:
+boxplot(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.,col="Gold",xlab="???????????? ??????????",ylab="???????? ???? ????????")
+#boxplot baraye saat faliat samibasary:
+boxplot(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we,col = "85",xlab="???????????? ???????? ????????",ylab="???????? ???? ????????")
+
+#baraye nemodar boxplot anvaye faliat ha darim:
+boxplot(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.,data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.,data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.,data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we,data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.,data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.,ylab="houre per week",xlab="1=sport,2=travel,3=art,4=audio,5=virtual,6=out of school study")
+
+
+
+
+
+#Amare estenbaty:
+#azmon farzie 1:
+#h0:mean(Boy)-mean(Girl)=0
+#h1:mean(Boy)-mean(Girl)<0
+sir<-which(data$Gender=="Sir")
+miss<-which(data$Gender=="Miss")
+Boy<-c(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.[sir])
+Girl<-c(data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.[miss])
+t.test(Boy,Girl,alternative = "less" , mu=0 , var.equal =FALSE  , conf.level = 0.90)
+
+
+
+#azmon farzie 2:
+#h0:mean(Girl)-mean(Boy)=0
+#h1:mean(Girl)-mean(Boy)>0
+sir<-which(data$Gender=="Sir")
+miss<-which(data$Gender=="Miss")
+Boy<-c(data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.[sir])
+Girl<-c(data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.[miss])
+t.test(Girl,Boy,alternative = "greater" ,mu=0 ,var.equal = FALSE , conf.level = 0.90)
+
+
+
+#azmon farzie 3:
+#h0:mean(Sports science)-mean(Art)=0
+#h1:mean(Sports science)-mean(Art)>0
+sport.since<-which(data$Faculty=="Sports science")
+art<-which(data$Faculty=="Art")
+Sport<-c(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.[sport.since])
+Art<-c(data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.[art])
+t.test(Sport,Art, alternative = "greater",var.equal = FALSE ,mu=0 ,conf.level = 0.9)
+
+
+#azmon farzie 4:
+#h0:(p.girl.art)=(p.boy.art)
+#h1:(p.girl.art)>(p.boy.art)
+sir<-which(data$Gender=="Sir")
+miss<-which(data$Gender=="Miss")
+Sir<-length(which(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.[sir]!=0))
+Miss<-length(which(data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.[miss]!=0))
+binom.test(Miss,length(miss) ,p=(Sir/length(sir)) ,alternative = "greater" ,conf.level = 0.9 )
+#h0
+
+
+#azmon farzie 5:
+#h0:mean(Age)=20
+#h1:mean(Age)>20
+t.test(data$Age ,alternative = "greater" , mu=20 , conf.level = 0.9)
+
+#azmon farzie 6: 
+#h0:p.all.Tv=0.85
+#h1:p.all.Tv>0.85
+a<-sum(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we!=0)
+l<-length(data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we)
+binom.test(a , l , p=0.85 ,conf.level = 0.9 , alternative = "greater")
+
+
+
+#azmon farzie 7:
+#h0:p.all.tafrih=0.40
+#h1:p.all.rafrih<0.40
+a<-sum(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.!=0)
+l<-length(data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.)
+binom.test(a , l , p=0.40 ,conf.level = 0.9 , alternative = "less")
+
+#azmon farzie 8:
+# H0: mu_age = mu_field = mu_gender
+#H1: at least one of them diffrent
+attach(data)
+library(tibble)
+Data<-tibble("Age"=as.numeric(Age),"Gender" = Gender ,"Field"=Field , 
+             "Exercising" =as.numeric(How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.),
+             "social" =as.numeric(How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.),
+             "art Activity"=as.numeric(How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.),
+             "visual&Radio activity" = as.numeric(How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we),
+             "Virtual activity"= as.numeric(How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.),
+             "studing"=as.numeric(How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.))
+#View(Data)
+
+
+fit<-manova(cbind(as.numeric(Data$Exercising),
+                  as.numeric(Data$social),
+                  as.numeric(Data$`art Activity`),
+                  as.numeric(Data$`visual&Radio activity`),
+                  as.numeric(Data$`Virtual activity`),
+                  as.numeric(Data$studing))
+            ~Age+factor(Field)+factor(Gender) ,data = Data)
+#now we want to see the Pillai test outputs:
+summary(fit,test = "Pillai")
+#now we want to see the Wilks test outputs:
+summary(fit,test = "Wilks")
+#now we want to see the Hotelling-Lawley test outputs:
+summary(fit,test = "Hotelling-Lawley")
+#now we want to see the Roy test outputs:
+summary(fit,test = "Roy")
+
+
+
+#azmon farzie 9:
+#H0:mu_men = mu_women
+#H1: mu_men != mi_women
+
+#now we want to test the mean of multivariate
+#for example now we want to chek and test that can we say that the mean of men and womens for our response (Exercise ,...) are equals or not?
+s<-which(data$Gender=="Sir")
+w<-which(data$Gender=="Miss")
+#library("ICSNP")
+HotellingsT2(cbind(as.numeric(Data$Exercising)[w],
+                   as.numeric(Data$social)[w],
+                   as.numeric(Data$`art Activity`)[w],
+                   as.numeric(Data$`visual&Radio activity`)[w],
+                   as.numeric(Data$`Virtual activity`)[w],
+                   as.numeric(Data$studing)[w]) ,mu=colMeans(Data[s,4:9]))
+
+
+#azmon farzie 10:
+
+# for multivariate regression with respone varibales social,art activity , ...
+#attach(Data)
+model<-lm(cbind(Exercising,
+                social,
+                `art Activity`,
+                `visual&Radio activity`,
+                `Virtual activity`,
+                studing)~Age)
+summary(model)
+
+#produce by Mehrab Atighi.
+
+
+
+
+```

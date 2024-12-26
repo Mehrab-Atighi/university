@@ -1,0 +1,172 @@
+---
+title: "final test"
+author: "Mehrab Atighi"
+date: "6/20/2021"
+output: word_document
+---
+
+```{r}
+set.seed(1)
+library("ISLR")
+data("swiss")
+attach(swiss)
+head(swiss)
+```
+
+# a)
+
+## for make Full model and plot we have:
+
+```{r}
+fit<-lm(Fertility~. , data=swiss)
+summary(fit)
+par(mfrow=c(2,2))
+plot(fit)
+```
+
+
+we can see that just Examination and Agriculture variables (predictors) 
+are not signifact and anothers are becuse they have a p-values less than
+0.05(alpha). 
+the adjust R sqrue is 0.67  and R squre is 0.7 and our standard error is 7.165
+and Agriculture , Examination , Education predictors have
+negative relationships with our response.
+
+## for make plot of each varibale with response we have:
+
+```{r}
+par(mfrow=c(1,1))
+plot(Fertility,Agriculture , col="red")
+abline(lm(Fertility~Agriculture), col="Blue")
+```
+
+
+According to this plot we see the approxmiatly posetive realationships
+and we have 1 High leverage point (the left and down side of plot).
+
+```{r}
+plot(Fertility,Examination , col="red")
+abline(lm(Fertility~Examination), col="Blue")
+```
+
+
+now we can see the negative realationships between response and this predictor
+and we have 3 High leverage points (the left side).
+
+```{r}
+plot(Fertility,Education , col="red")
+abline(lm(Fertility~Education), col="Blue")
+```
+
+
+now we can see the negative realationships between response and this predictor
+and we have 3 High leverage points (the left side).
+
+```{r}
+plot(Fertility,Catholic , col="red")
+abline(lm(Fertility~Catholic), col="Blue")
+```
+
+
+we can see the posetive realationships and 3High leverage points (the left side).
+
+```{r}
+plot(Fertility,Infant.Mortality , col="red")
+abline(lm(Fertility~Infant.Mortality), col="Blue")
+```
+
+ 
+ here we can see the posetive realationships with one outlires and 
+ high leverage point.
+
+## for make covariance matrix of variables we have:
+```{r}
+cov(swiss)
+```
+
+according to this out put we see all of the covariance between each variables.
+
+# b)
+
+## best subset selection:
+at the first we need to library this package:
+
+```{r}
+library(leaps)
+```
+
+Now we make our model from swiss data:
+```{r}
+best.subset.fit1<-regsubsets(Fertility~. , data = swiss , nvmax = 19)
+summary(best.subset.fit1)
+```
+
+
+now here we can see that in the first step we have select M1 model or
+a model with one predictors from all of the models with one predictors 
+and we can see that this method choose the Education predictors from these models.
+like this for the model with 2 predictors we choose model with M1 + Catholic=M2
+predictors from all of them.
+like this for the model with 3 predictors we choose model with  M2+Infant.Mortality =M3
+predictors from all of them.
+like this for the model with 4 preditos we choose model with M3+Agriculture =M4
+and at the last for model with all of predictors we have just 1 model
+or full model with all of the predictors M4 +Examinarion=M5
+
+
+# backward subset selection:
+```{r}
+backward.fit1<-regsubsets(Fertility~.,data=swiss ,nvmax= 19 , method = "backward")
+summary(backward.fit1)
+```
+
+
+here at the first we have compelte model(M0) with all of the predictors
+in the M1 we just delete the Education preditor from our M0 it means that M1=M0-Education
+in the next step we have: M2= M1-Catholic
+the next step we have: M3= M2-Infant.mortality
+the next step we have: M4 = M3 - Agriculture
+the M5 is the model with 0 predictor. M5= M4-Examination
+
+
+# c)
+
+
+Now we want to make a training and test data with probabilty (0.7 , 0.3 ) and again chek models with bic:
+
+```{r}
+sample<-sample(c(TRUE , FALSE ) , nrow(swiss) , replace = T , prob=c(0.7,0.3))
+train<-swiss[sample,]
+test<-swiss[!sample,]
+```
+
+
+Now again we make model with best subset selection and backward method here:
+```{r}
+best.subset.fit2<-regsubsets(Fertility~. , data = train , nvmax = 19)
+backward.fit2<-regsubsets(Fertility~.,data= train ,nvmax= 19 , method = "backward")
+```
+
+
+now we want to calculate and see the bic of each method here:
+```{r}  
+bic1<-summary(best.subset.fit2)$bic
+plot(bic1 , type="b" , col="Blue" , xlab="number of predictors")
+points(4,bic1[which.min(bic1)] ,cex=2 , col="red")
+```
+
+
+according to this plot we choose the model with 4 predictors that have the minimum of the BIC.
+
+```{r}
+bic2<-summary(backward.fit2)$bic
+plot(bic2 , type="b" , col="Blue",xlab="number of deleted predictors")
+points(4,bic2[which.min(bic1)] ,cex=2 , col="red")
+```
+
+
+according to this plot we choose the model with 1 predictor that have the minimum of the BIC.attention:backward method.
+
+
+End.
+by: Mehrab Atighi

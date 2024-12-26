@@ -1,0 +1,26 @@
+---
+title: "Exercise section15"
+author: "Mehrab Atighi"
+date: "11/18/2021"
+output: word_document
+---
+
+```{r  , echo=TRUE , warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MASS)
+library(haven)
+library(ggplot2)
+data<-as.data.frame(read_spss("F:/lessons/Multi countios Variate2/data/Table 8.3 football.sav"))
+head(data)
+m1 = lda(data$group ~ . , data = data)
+m1
+plot(m1)
+pp = predict(m1)
+dd= data.frame(LD1 = pp $ x [,1] , LD2 = pp $ x [,2])
+ggplot(data = dd , aes(x = LD1 , y = LD2  ))+
+  geom_point(aes (col = factor(data$group)))
+
+
+```
+
+

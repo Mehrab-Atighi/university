@@ -1,0 +1,96 @@
+---
+title: "Calculate Cv value with diffrent polynomial degree regression."
+author: "Mehrab Atighi"
+date: "5/4/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# library the packages that we need to solve this exercise
+after the library the needed packages we should library our data 
+
+```{r}
+library(ISLR)
+library(reshape2)
+library(tibble)
+library(ggplot2)
+data(Auto)
+```
+
+Now we want to use leave one out cross validation to calculate Cv with diffrent polynomial degree regression.
+At the first we can see summary of our data 
+
+```{r}
+# Leave-one-out cross-validation :
+dt<-data.frame(Auto$mpg , Auto$horsepower)
+head(dt)
+```
+
+Now we make a table and make loops for calculate each MSE with diffrent polynomial degree regression.
+
+```{r}
+all.MSE.table<-tibble(number.of.leave.out.data = rep(c(1:nrow(dt)),10) , degree = rep(c(1:10),each=nrow(dt)) ,MSE =c(1:3920))
+# i show the degree of the polynomial regression function
+# j show the number of data that we will leave out (MSE_j) for each i
+test<-data.frame(dt$Auto.horsepower ,  dt$Auto.mpg)
+count=1
+for(i in 1:10){
+  for(j in 1:nrow(dt)){
+    train<-data.frame(train1=dt$Auto.mpg[-j] , train2=dt$Auto.horsepower[-j])
+    fit<-glm( train1 ~poly(train2,degree= i),data = train)
+    new= data.frame(train2 = test$dt.Auto.horsepower[j])
+    all.MSE.table$MSE[count]<-(test$dt.Auto.mpg[j]-predict(fit ,newdata = new ,type="response"))^2
+    count=count+1
+    }
+}
+
+```
+
+Now we can see the all of the MSE (mean squre Error) with diffrent polynomial degree regression.
+
+```{r}
+all.MSE.table
+```
+
+Now we want to calculate Cv with MSE values , then see them.
+
+```{r}
+Cv=c(1:10)
+Cv.table<-tibble(Degree =1:10 ,Cv)
+
+for(i in 1:10){
+Cv.table$Cv[i]=mean(all.MSE.table$MSE[which(all.MSE.table$degree==i)])
+}
+
+Cv.table
+```
+
+
+
+# drawing plots
+Now we want to draw the plot of y and y hat
+
+```{r}
+ggplot(all.MSE.table , aes(degree,MSE))+
+  geom_point(colour="Red",cex=0.1)
+
+
+```
+
+
+Now we want to draw the plot of Cv
+
+```{r}
+ggplot(Cv.table,aes(Degree , Cv))+
+  geom_point(colour = "Red",cex=4) +
+  geom_line(colour = "Blue")
+  
+
+
+```
+
+
+End.
+

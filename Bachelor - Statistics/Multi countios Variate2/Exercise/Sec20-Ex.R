@@ -1,0 +1,12 @@
+Data = data.frame(
+  City = c("Atlanta" , "Boston" ,"Chicago" ,"Dallas" , "Denver" , "Detroit"),
+  Murder = c(16.5 , 4.2 , 11.6 , 18.1 , 6.9 , 13.0),
+  Rape = c(24.8 , 13.3 , 24.7 , 34.2 , 41.5 , 35.7),
+  Robbery = c(106 , 122 , 340 , 184 , 173 , 477),
+  Assault = c(147 , 90 , 242 , 293 , 191 , 220),
+  Burglary = c(1112 , 982 , 808 , 1668 , 1534 , 1566),
+  Larceny = c(905 , 669 , 609 , 901 , 1368 , 1183),
+  AutoTheft = c(494 , 954 , 645 , 602 , 780 , 788)
+)
+
+dist( Data , method = "euclidean" , diag = TRUE , upper = TRUE , p =2)

@@ -1,0 +1,90 @@
+---
+title: "sec12"
+author: "Mehrab Atighi"
+date: "4/15/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## a) Introducing data to R
+
+```{r }
+
+y1<-c(47.8,46.4,46.3,45.1,47.6,52.5,51.2,49.8,48.1,45.0,51.2,48.5,52.,48.2,49.6,50.7,47.2,53.3,46.2,46.3)
+y2<-c(48.8,47.3,46.8,45.3,48.5,53.2,53.0,50.0,50.8,47.0,51.4,49.2,52.8,48.9,50.4,51.7,47.7,54.6,47.5,47.6)
+y3<-c(49.0,47.7,47.8,46.1,48.9,53.3,54.3,50.3,52.3,47.3,51.6,53.0,53.7,49.3,51.2,52.7,48.4,55.1,48.1,51.3)
+y4<-c(49.7,48.4,48.5,47.2,49.3,53.7,54.5,52.7,54.4,48.3,51.9,55.5,55.0,49.8,51.8,53.3,49.5,55.3,48.4,51.8)
+
+dat<-data.frame(y1,y2,y3,y4)
+dat
+
+```
+
+ H0: mean(y1,y2,y3,y4) == mu
+ 
+ H1: mean(y1,y2,y3,y4) != mu
+
+## b) 
+
+Now we want to test all variable with HotelingsT2 function
+
+```{r echo=TRUE}
+library("ICSNP")
+
+HotellingsT2(dat,mu= c(48,49,50,51),test = "chi")
+
+```
+According to this test we can say that the H0 accept becuse our p-value is more than 0.05(alpha)
+and it means that the lower jaw bone size of boys are not equal with mu(48,49,50,51) in 8,8.5,9,9.5 years old.
+
+
+## c) 
+
+Now we want to test each variable mean with mu value
+```{r }
+#H0: mean(y1) == 48
+ 
+#H1: mean(y1) != 48
+
+t.test(y1,mu = 48)
+```
+
+according to tests outputs we can say that the p-value is more that alpha and H0 accept and we can say the mean of y1 approximately is equal to 48.65
+
+```{r}
+#H0: mean(y2) == 49
+ 
+#H1: mean(y2) != 49
+t.test(y2, mu = 49)
+```
+
+according to tests outputs we can say that the p-value is more that alpha and H0 accept and we can say the mean of y2 approximately is equal to 49.625
+
+```{r}
+#H0: mean(y3) == 50
+ 
+#H1: mean(y3) != 50
+t.test(y3, mu = 50)
+```
+
+according to tests outputs we can say that the p-value is more that alpha and H0 accept and we can say the mean of y3 approximately is equal to 50.57
+
+```{r}
+#H0: mean(y4) == 51
+ 
+#H1: mean(y4) != 51
+t.test(y4, mu = 51)
+
+```
+
+according to tests outputs we can say that the p-value is more that alpha and H0 accept and we can say the mean of y4 approximately is equal to 51.45
+
+
+
+
+
+
+

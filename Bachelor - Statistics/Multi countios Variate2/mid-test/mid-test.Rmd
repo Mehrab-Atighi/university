@@ -1,0 +1,25 @@
+---
+title: "mid-test"
+author: "Mehrab Atighi"
+date: "12/8/2021"
+output: word_document
+---
+
+```{r , echo=TRUE , warning=FALSE}
+# mid-test-Mehrab Atighi - question 2
+library(MASS)
+noshabe=read.table("C:/Users/Frostless/Desktop/noshabe.txt",header=T)
+head(noshabe)
+r=cor(noshabe)
+eigen(r)
+pca = princomp(noshabe , scores = TRUE , cor = TRUE)
+summary(pca)
+pca$loadngs
+plot(pca$scores[,1] , pca$scores[,2])
+abline(h=0 , v= 0 , col="red")
+library(factoextra)
+fviz_eig(pca)
+
+factanal(noshabe , data = noshabe)
+
+```

@@ -1,0 +1,715 @@
+---
+title: "multivariate2 project"
+author: "Mehrab Atighi"
+date: "12/23/2021"
+output: 
+  beamer_presentation:
+    fig_width: 9
+    fig_height: 6
+    theme: Warsaw
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Contents
+\scriptsize
+- Pca Method On Data \textcolor{blue}{\ref{0.1}} \newline
+- Factor Analysis on Data \textcolor{blue}{\ref{0.2}}\newline
+- Discriminant Analysis On Data \textcolor{blue}{\ref{0.3}}\newline
+- Clustering On Data With euclidean Distance\textcolor{blue}{\ref{0.4}}\newline
+- Clustering On Data With manhattan Distance \textcolor{blue}{\ref{0.5}}\newline
+- K-Means Clustering \textcolor{blue}{\ref{0.6}}\newline
+- K-Means Method With 2 cluster \textcolor{blue}{\ref{0.61}}\newline
+- K-Means Method With 3 cluster \textcolor{blue}{\ref{0.62}}\newline
+- K-Means Method With 4 cluster \textcolor{blue}{\ref{0.63}}\newline
+- K-Means Method With 5 cluster \textcolor{blue}{\ref{0.64}}\newline
+- K-Means Determining Optimal Clusters \textcolor{blue}{\ref{0.65}}\newline
+
+\normalsize
+
+
+# PCA Method On Data
+\label{0.1}
+Now we are importing our data from Excel and csv format to R.
+\small
+```{r ,echo=TRUE}
+rm(list=ls())
+Data<-read.csv("F:/lessons/Multi countios Variate2/project/edited-data.csv")
+#View(Data)
+new.data.y<-data.frame(y1=Data$How.much.time.did.you.spend.exercising.last.week...Total.duration.of.activity.per.week.,
+                       y2=Data$How.much.time.did.you.spend.last.week.on.social.and.recreational.activities..travel..excursions..etc.....Total.duration.of.,
+                       y3=Data$How.much.time.did.you.spend.on.art.activities.last.week...Total.duration.of.activity.per.week.,
+                       y4=Data$How.much.time.did.you.spend.on.audio.visual.activities..TV..radio..cinema..etc...last.week...Total.duration.of.activity.per.we,
+                       y5=Data$How.much.time.did.you.spend.on.virtual.social.activities.last.week...Total.duration.of.activity.per.week.,
+                       y6=Data$How.much.time.did.you.spend.studying.outside.of.school.last.week...Total.duration.of.activity.per.week.)
+#View(new.data.y)
+head(new.data.y,5)
+```
+\normalsize
+
+
+# PCA Method On Data
+Now We want to see the dimantiom of our data and get Correlation and Variance Covarince matrix of our variables.
+\tiny
+```{r , echo=TRUE}
+dim(new.data.y)
+cor(new.data.y)
+cov(new.data.y)
+```
+\normalsize
+
+# PCA Method On Data
+Now we want to see the Correlation between variables in heatmap
+```{r , echo=TRUE , warning=FALSE}
+heatmap(cor(new.data.y))
+```
+
+
+# PCA Method On Data
+Now its time to see the eigen values of correlation matrix. and use principal components method on our dataset with two matrix(Correlation and Variance Covarianve matrix.)
+\small
+```{r , echo=TRUE}
+eigen(cor(new.data.y))
+
+pc.r<-princomp(new.data.y , cor = TRUE , scores = TRUE)
+pc.c<-princomp(new.data.y , cor = FALSE , scores = TRUE)
+```
+\normalsize
+# PCA Method On Data
+To see the Standard deviation and proprtion of Varince for each new components we use the summary function.\newline
+\small
+```{r , echo=TRUE}
+summary(pc.r)
+```
+\normalsize
+According to above outputs we should select 4 components until good cumulative proportion of variance.
+we can see that the first Components just have 31% of variance and the second 21% and 4 components have 84% cumulative proprtion of variance.
+
+# Pca Method On Data
+
+Now we want to see the Cofficient of each y in each components:
+\small
+```{r ,echo=TRUE}
+pc.r$loadings
+```
+\normalsize
+
+# Pca Method On Data
+Now we want to see the values of each observation in new dimantions, so we have values for each Componetes(all of them). Attention that here we will see just 10 observation.
+\small
+```{r , echo=TRUE}
+head(pc.r$scores, 10)
+```
+\normalsize
+
+# Pca Method On Data
+Now we want to visualazing Pca components.
+```{r , echo=TRUE ,out.height="65%", out.width="85%" ,warning=FALSE}
+library(factoextra)
+fviz_eig(pc.r)
+```
+
+# Pca Method On Data
+
+```{r ,echo=TRUE , out.height="65%", out.width="85%"}
+plot(pc.r$scores[,1],pc.r$scores[,2]
+     ,xlab = "Comp1" , ylab="Comp2" ,col="Blue")
+abline(h=0 , col="orange")
+abline(v=0 , col="orange")
+```
+
+# Pca Method On Data
+
+```{r , echo=TRUE , out.height="65%", out.width="85%" ,warning=FALSE}
+fviz_pca_ind(pc.r,
+             col.ind = "cos2", # Color by the quality of representation
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE) #Avoid text overlapping
+```
+
+# Pca Method On Data
+
+```{r , echo=TRUE , out.height="65%", out.width="85%" ,warning=FALSE}
+fviz_pca_biplot(pc.r, repel = TRUE,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969" # Individuals color
+                )
+```
+
+
+# Factor Analysis on Data 
+\label{0.2}
+
+Now we want to do Factor Analysis on our Data.\newline
+at the first we start with factor analysis method with correlation matrix that calculated with pearson method.
+```{r , echo=TRUE}
+#with Correlation Matrix
+fa1<-factanal(new.data.y  , 3 ,scores = "regression" ,
+              rotation = "none", cor="pearson")
+fa2<-factanal(new.data.y  , 3 ,scores = "Bartlett",
+              cor="pearson")
+fa3<-factanal(new.data.y  , 3 ,scores = "regression" ,
+              rotation = "varimax", cor="pearson")
+```
+
+# Factor Analysis on Data 
+
+in last slide we made 3 factor analysis with diffrent rotation type \textbf{\textcolor{blue}{none, variamx}} and type of scores \textbf{\textcolor{blue}{regression , Bartlett}}.\newline
+in next sildes we want to ploting these factor analysis points with new axes.
+
+# Factor Analysis on Data 
+\footnotesize
+ploting for fa1:
+```{r , echo=TRUE , warning=FALSE , out.height="40%", out.width="55%" }
+#windows(10,10)
+par(mfrow=c(1,2))
+plot(loadings(fa1)[,1],loadings(fa1)[,2],pch=16,xlab="Factor 1",
+     ylab="Factor 2",col="red")
+abline(h=0 , col="blue")
+abline(v=0 , col="blue")
+plot(loadings(fa1)[,1],loadings(fa1)[,3],pch=16,xlab="Factor 1",
+     ylab="Factor 3",col="black")
+abline(h=0 , col="blue")
+abline(v=0 , col="blue")
+```
+\normalsize
+# Factor Analysis on Data
+\footnotesize
+ploting for fa2:
+
+```{r , echo=TRUE , warning=FALSE , out.height="40%", out.width="55%" }
+#windows(10,10)
+par(mfrow=c(1,2))
+plot(loadings(fa2)[,1],loadings(fa2)[,2],pch=16,xlab="Factor 1",
+     ylab="Factor 2",col="red")
+abline(h=0 , col="blue")
+abline(v=0 , col="blue")
+plot(loadings(fa2)[,1],loadings(fa2)[,3],pch=16,xlab="Factor 1",
+     ylab="Factor 3",col="black")
+abline(h=0 , col="blue")
+abline(v=0 , col="blue")
+```
+\normalsize
+
+# Factor Analysis on Data
+\footnotesize
+ploting for fa3:
+```{r , echo=TRUE , warning=FALSE , out.height="40%", out.width="55%" }
+#windows(10,10)
+par(mfrow=c(1,2))
+plot(loadings(fa3)[,1],loadings(fa3)[,2],pch=16,xlab="Factor 1",
+     ylab="Factor 2",col="red")
+abline(h=0 , col="blue")
+abline(v=0 , col="blue")
+plot(loadings(fa3)[,1],loadings(fa3)[,3],pch=16,xlab="Factor 1",
+     ylab="Factor 3",col="black")
+abline(h=0 , col="blue")
+abline(v=0 , col="blue")
+```
+\normalsize
+
+# Factor Analysis on Data 
+\tiny
+```{r , echo=TRUE, warning=FALSE}
+fa1
+```
+\normalsize
+
+# Factor Analysis on Data 
+\tiny
+```{r , echo=TRUE, warning=FALSE}
+fa2
+```
+\normalsize
+
+# Factor Analysis on Data 
+\tiny
+```{r , echo=TRUE, warning=FALSE}
+fa3
+```
+\normalsize
+
+
+
+
+# Factor Analysis on Data
+We can you and have Factor Analysis method without Correlation matrix and using covariance matrix in this algorithm.
+```{r ,echo=TRUE, warning=FALSE}
+#install.packages("psych")
+library(psych)
+library(ggplot2)
+```
+
+# Factor Analysis on Data
+\tiny
+using factor analysis with covariance matrix and varimax method:
+
+```{r ,echo=TRUE , warning=FALSE}
+fa4 <- fa(new.data.y,nfactors = 6, rotate = "varimax" ,
+          scores = "regression" ,covar = TRUE )
+fa4
+```
+
+\normalsize
+
+# Factor Analysis on Data
+\footnotesize
+```{r , echo=TRUE , warning=FALSE, out.height="40%", out.width="55%" }
+n_factors <- length(fa4$e.values)
+scree     <- data.frame(
+  Factor_n =  as.factor(1:n_factors), 
+  Eigenvalue = fa4$e.values)
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) + 
+  geom_point() + geom_line() +
+  xlab("Number of factors") +
+  ylab("Initial eigenvalue") +
+  labs( title = "Scree Plot", 
+        subtitle = "(Based on the unreduced correlation matrix)")
+```
+\normalsize
+
+# Factor Analysis on Data
+\tiny
+using factor analysis with covariance matrix and without varimax method:
+```{r, echo=TRUE}
+fa5 <- fa(new.data.y,nfactors = 6, rotate = "none" ,
+          scores = "regression" ,covar = TRUE )
+fa5
+```
+\normalsize
+
+# Factor Analysis on Data
+\footnotesize
+```{r , echo=TRUE ,out.height="40%", out.width="55%"}
+n_factors <- length(fa5$e.values)
+scree     <- data.frame(
+  Factor_n =  as.factor(1:n_factors), 
+  Eigenvalue = fa5$e.values)
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) + 
+  geom_point() + geom_line() +
+  xlab("Number of factors") +
+  ylab("Initial eigenvalue") +
+  labs( title = "Scree Plot", 
+        subtitle = "(Based on the unreduced correlation matrix)")
+```
+
+
+# Factor Analysis on Data
+\tiny
+using factor analysis with correlation matrix and  varimax rotate :
+
+```{r , echo=TRUE}
+fa6 <- fa(new.data.y,nfactors = 6, rotate = "varimax",
+          scores = "regression" )
+fa6
+```
+\normalsize
+
+# Factor Analysis on Data
+\footnotesize
+```{r , echo=TRUE,out.height="40%", out.width="55%"}
+n_factors <- length(fa6$e.values)
+scree     <- data.frame(
+  Factor_n =  as.factor(1:n_factors), 
+  Eigenvalue = fa6$e.values)
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) + 
+  geom_point() + geom_line() +
+  xlab("Number of factors") +
+  ylab("Initial eigenvalue") +
+  labs( title = "Scree Plot", 
+        subtitle = "(Based on the unreduced correlation matrix)")
+```
+\normalsize
+
+# Factor Analysis on Data
+\tiny
+using factor analysis with correlation matrix and  without varimax rotate :
+```{r , echo=TRUE, warning=FALSE}
+fa7 <- fa(new.data.y,nfactors = 6, rotate = "none" ,
+          scores = "regression" )
+fa7
+```
+\normalsize
+
+# Factor Analysis on Data
+\footnotesize
+```{r , echo=TRUE, warning=FALSE,out.height="40%", out.width="55%"}
+n_factors <- length(fa7$e.values)
+scree     <- data.frame(
+  Factor_n =  as.factor(1:n_factors), 
+  Eigenvalue = fa7$e.values)
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) + 
+  geom_point() + geom_line() +
+  xlab("Number of factors") +
+  ylab("Initial eigenvalue") +
+  labs( title = "Scree Plot", 
+        subtitle = "(Based on the unreduced correlation matrix)")
+```
+\normalsize
+
+
+# discriminats analysis on Data 
+\label{0.3}
+Now we want to do discriminats analysis on Data. we can use \textcolor{orange}{lda function} to do it.
+after that we will see the outputs and we will plotting new data.\newline
+so at the first we add our faculty column to new.data.y data frame.
+
+```{r ,echo=TRUE , warning=FALSE}
+new.data.y$group = Data$Faculty
+new.data.y$group[which(new.data.y$group == "Humanities,literature,foreg in language,law and economics")] ="HLLLE"
+new.data.y$group[which(new.data.y$group== "Agriculture and Natural Resources  ")] ="AN"
+library(MASS)
+m1 = lda (group~. , data = new.data.y)
+```
+
+# discriminats analysis on Data 
+\tiny
+```{r , echo=TRUE}
+
+m1
+```
+
+
+# discriminats analysis on Data 
+Now we want to plot it 
+```{r , echo=TRUE, warning=FALSE,out.height="40%", out.width="55%"}
+#plot(m1)
+library(ggplot2)
+pp = predict(m1)
+dd= data.frame(LD1 = pp $ x [,1] ,LD2 = pp $ x[ , 2] )
+ggplot(data = dd, aes(x = dd$LD1 , y = dd$LD2 ))+
+  geom_point(aes (shape = factor(new.data.y$group)) , data = new.data.y)
+
+```
+
+
+# discriminats analysis on Data 
+\tiny
+Now we want to prediction and calculate the accuracy of model.
+```{r ,echo=TRUE}
+p1 <- predict(m1)$class
+tab <- table(Predicted = p1, Actual = new.data.y$group)
+tab
+sum(diag(tab))/sum(tab)
+```
+\normalsize
+
+# Clustering On Data With euclidean Distance
+\label{0.4}
+Now we want to use Clustering methods On our data with continues variables and columns in Dataset.\newline
+\tiny
+```{r ,echo=TRUE , warning=FALSE}
+data = Data[,c(3,7,9,12,15,18,21,24)]
+colnames(data) = c("Age" , "vorodi" , "Exercise_time" , "Study_time" , "Art_time" , "audio_visual_time" , "social_time" , "phone_time")
+head(data,4)
+```
+\normalsize
+
+# Clustering On Data With euclidean Distance
+\tiny
+we should make distance matrix with \textcolor{blue}{euclidean method to calculate distance values} :\newline
+```{r , echo=TRUE , warning=FALSE}
+(Dist = dist(data[1:5,] , method = "euclidean",
+              diag = TRUE , upper = TRUE))
+Dist1 = dist(data , method = "euclidean",
+              diag = TRUE , upper = TRUE)
+```
+\normalsize
+
+# Clustering On Data With euclidean Distance
+\tiny
+To use Single method for clustering we have:
+```{r , echo = TRUE , warning = FALSE , out.height="60%" ,out.width="100%"}
+#single method
+model1 = hclust(Dist1 , method = "single")
+model1
+plot( model1 , hang = -1  )
+```
+\normalsize
+
+# Clustering On Data With euclidean Distance
+\tiny
+To use Complete method for Clustering we have:
+```{r , echo=TRUE , warning=FALSE, out.height="60%" ,out.width="100%"}
+model2 = hclust(Dist1 , method = "complete")
+model2
+plot( model2 , hang = -1  )
+```
+\normalsize
+
+# Clustering On Data With euclidean Distance
+\tiny
+To use Average method for Clustering we have:
+```{r , echo=TRUE , warning=FALSE, out.height="60%" ,out.width="100%"}
+#average method:
+model3 = hclust(Dist1 , method = "average")
+model3
+plot( model3 , hang = -1  )
+```
+\normalsize
+
+
+# Clustering On Data With euclidean Distance
+\tiny
+To use Ward method for Clustering we have:
+```{r , echo=TRUE , warning=FALSE, out.height="60%" ,out.width="100%"}
+#ward method:
+model4 = hclust(Dist1 , method = "ward.D")
+model4
+plot( model4 , hang = -1  )
+```
+\normalsize
+
+
+# Clustering On Data With manhattan Distance
+\label{0.5}
+\tiny
+we should make distance matrix with \textcolor{blue}{manhattan method to calculate distance values} :\newline
+```{r , echo=TRUE , warning=FALSE}
+(Dist = dist(data[1:5,] , method = "manhattan",
+              diag = TRUE , upper = TRUE))
+Dist1 = dist(data , method = "euclidean",
+              diag = TRUE , upper = TRUE)
+```
+\normalsize
+
+# Clustering On Data With manhattan Distance
+\tiny
+To use Single method for clustering we have:
+```{r , echo = TRUE , warning = FALSE , out.height="60%" ,out.width="100%"}
+#single method
+model1 = hclust(Dist1 , method = "single")
+model1
+plot( model1 , hang = -1  )
+```
+\normalsize
+
+# Clustering On Data With manhattan Distance
+\tiny
+To use Complete method for Clustering we have:
+```{r , echo=TRUE , warning=FALSE, out.height="60%" ,out.width="100%"}
+model2 = hclust(Dist1 , method = "complete")
+model2
+plot( model2 , hang = -1  )
+```
+\normalsize
+
+# Clustering On Data With manhattan Distance
+\tiny
+To use Average method for Clustering we have:
+```{r , echo=TRUE , warning=FALSE, out.height="60%" ,out.width="100%"}
+#average method:
+model3 = hclust(Dist1 , method = "average")
+model3
+plot( model3 , hang = -1  )
+```
+\normalsize
+
+
+# Clustering On Data With manhattan Distance
+\tiny
+To use Ward method for Clustering we have:
+```{r , echo=TRUE , warning=FALSE, out.height="60%" ,out.width="100%"}
+#ward method:
+model4 = hclust(Dist1 , method = "ward.D")
+model4
+plot( model4 , hang = -1  )
+```
+\normalsize
+
+# K-Means Clustering
+\label{0.6}
+in this sigment we want to use K-Means Method With four way
+
+## K-Means Way:
+-  Hartigan-Wong
+- Lloyd
+- Forgy
+- MacQueen
+
+## Determining Optimal Clusters
+- Elbow method
+- Silhouette method
+- Gap statistic
+
+# K-Means Method With 2 cluster
+\label{0.61}
+Now we want to clustering our data with 2 cluster and K-means method and four way.
+```{r ,echo=TRUE , warning=FALSE}
+library(factoextra)
+library(gridExtra)
+model1 = kmeans(data , 2  , algorithm = "Hartigan-Wong")
+model2 = kmeans(data , 2  , algorithm = "Lloyd")
+model3 = kmeans(data , 2  , algorithm = "Forgy")
+model4 = kmeans(data , 2  , algorithm = "MacQueen")
+```
+
+# K-Means Method With 2 cluster
+\scriptsize
+```{r , echo=TRUE, warning=FALSE ,out.height="70%"}
+# plots to compare with 2 cluster
+p1 <- fviz_cluster(model1, geom = "point", data = data) + ggtitle("way = 1")
+p2 <- fviz_cluster(model2, geom = "point",  data = data) + ggtitle("way = 2")
+p3 <- fviz_cluster(model3, geom = "point",  data = data) + ggtitle("way = 3")
+p4 <- fviz_cluster(model4, geom = "point",  data = data) + ggtitle("way = 4")
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+\normalsize
+
+# K-Means Method With 3 Cluster
+\label{0.62}
+Now we want to clustering our data with 3 cluster and K-means method and four way.
+```{r ,echo=TRUE , warning=FALSE}
+
+model1 = kmeans(data , 3  , algorithm = "Hartigan-Wong")
+model2 = kmeans(data , 3  , algorithm = "Lloyd")
+model3 = kmeans(data , 3  , algorithm = "Forgy")
+model4 = kmeans(data , 3  , algorithm = "MacQueen")
+```
+
+# K-Means Method With 3 cluster
+\scriptsize
+```{r , echo=TRUE, warning=FALSE ,out.height="70%"}
+# plots to compare with 3 cluster
+p1 <- fviz_cluster(model1, geom = "point", data = data) + ggtitle("way = 1")
+p2 <- fviz_cluster(model2, geom = "point",  data = data) + ggtitle("way = 2")
+p3 <- fviz_cluster(model3, geom = "point",  data = data) + ggtitle("way = 3")
+p4 <- fviz_cluster(model4, geom = "point",  data = data) + ggtitle("way = 4")
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+\normalsize
+
+# K-Means method With 4 Cluster
+\label{0.63}
+Now we want to clustering our data with 4 cluster and K-means method and four way.
+```{r ,echo=TRUE , warning=FALSE}
+#library(factoextra)
+#library(gridExtra)
+model1 = kmeans(data , 4  , algorithm = "Hartigan-Wong")
+model2 = kmeans(data , 4  , algorithm = "Lloyd")
+model3 = kmeans(data , 4  , algorithm = "Forgy")
+model4 = kmeans(data , 4  , algorithm = "MacQueen")
+```
+
+# K-Means Method With 4 cluster
+\scriptsize
+```{r , echo=TRUE, warning=FALSE ,out.height="70%"}
+# plots to compare with 4 cluster
+p1 <- fviz_cluster(model1, geom = "point", data = data) + ggtitle("way = 1")
+p2 <- fviz_cluster(model2, geom = "point",  data = data) + ggtitle("way = 2")
+p3 <- fviz_cluster(model3, geom = "point",  data = data) + ggtitle("way = 3")
+p4 <- fviz_cluster(model4, geom = "point",  data = data) + ggtitle("way = 4")
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+\normalsize
+
+# K-Means method With 5 Cluster
+\label{0.64}
+Now we want to clustering our data with 5 cluster and K-means method and four way.
+```{r ,echo=TRUE , warning=FALSE}
+#library(factoextra)
+#library(gridExtra)
+model1 = kmeans(data , 5  , algorithm = "Hartigan-Wong")
+model2 = kmeans(data , 5  , algorithm = "Lloyd")
+model3 = kmeans(data , 5  , algorithm = "Forgy")
+model4 = kmeans(data , 5  , algorithm = "MacQueen")
+```
+
+# K-Means Method With 5 cluster
+\scriptsize
+```{r , echo=TRUE, warning=FALSE ,out.height="70%"}
+# plots to compare with 5 cluster
+p1 <- fviz_cluster(model1, geom = "point", data = data) + ggtitle("way = 1")
+p2 <- fviz_cluster(model2, geom = "point",  data = data) + ggtitle("way = 2")
+p3 <- fviz_cluster(model3, geom = "point",  data = data) + ggtitle("way = 3")
+p4 <- fviz_cluster(model4, geom = "point",  data = data) + ggtitle("way = 4")
+grid.arrange(p1, p2, p3, p4, nrow = 2)
+```
+\normalsize
+
+# K-Means Determining Optimal Clusters
+\label{0.65}
+\tiny
+Now we want to Determining optimal Clusters with Elbow Method, for $K=1,2,...,50$.\newline
+```{r ,echo=TRUE , warning=FALSE}
+# Elbow Method :
+# function to compute total within-cluster sum of square 
+wss <- function(k) {
+  kmeans(data, k )$tot.withinss
+}
+
+# Compute and plot wss for k = 1 to k = 50
+k.values <- 1:50
+
+# extract wss for 2-50 clusters
+library(tidyverse)
+wss_values <- map_dbl(k.values, wss)
+```
+\normalsize
+
+# K-Means Determining Optimal Clusters
+\scriptsize
+Now we should ploting last slide outputs too show the best number of clusters.\newline
+```{r ,echo=TRUE, warning=FALSE , out.height="70%",out.width="70%"}
+p1= ggplot(mapping =aes(k.values, wss_values),
+     type="b", pch = 19, frame = FALSE, 
+     xlab="Number of clusters K",
+     ylab="Total within-clusters sum of squares")+
+  geom_point()+geom_line()
+p2= fviz_nbclust(data, kmeans, method = "wss")
+grid.arrange(p1, p2, nrow = 1)
+```
+\normalsize
+
+# K-Means Determining Optimal Clusters
+Now we want to compute Average silhouette for K Clusters, $k=1,2,...,50$.\newline
+```{r ,echo=TRUE,warning=FALSE}
+# function to compute average silhouette for k clusters
+library(cluster)
+avg_sil <- function(k) {
+  km.res <- kmeans(data, centers = k)
+  ss <- silhouette(km.res$cluster, dist(data))
+  mean(ss[, 3])
+}
+# Compute and plot wss for k = 2 to k = 50
+k.values <- 2:50
+# extract avg silhouette for 2-50 clusters
+avg_sil_values <- map_dbl(k.values, avg_sil)
+```
+
+
+# K-Means Determining Optimal Clusters
+\scriptsize
+Now we want to ploting them.
+```{r,echo=TRUE, warning=FALSE , out.height="70%",out.width="70%"}
+p1 = ggplot(mapping= aes(k.values, avg_sil_values),
+     type = "b", pch = 19, frame = FALSE, 
+     xlab = "Number of clusters K",
+     ylab = "Average Silhouettes")+
+  geom_point()+geom_line()
+
+p2 = fviz_nbclust(data, kmeans, method = "silhouette" )
+grid.arrange(p1, p2, nrow = 1)
+```
+\normalsize
+
+# K-Means Determining Optimal Clusters
+\scriptsize
+Now we want to determining optimal clusters with gap statistics way.
+# compute gap statistic
+```{r , echo=TRUE,warning=FALSE}
+gap_stat <- clusGap(data, FUN = kmeans,
+                    K.max = 50, B = 50)
+# Print the result
+print(gap_stat, method = "firstmax")
+```
+\normalsize
+
+# K-Means Determining Optimal Clusters
+Now we want to ploting Gap statistics with sd .
+
+```{r,echo=TRUE}
+fviz_gap_stat(gap_stat)
+```

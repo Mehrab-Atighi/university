@@ -1,0 +1,65 @@
+---
+title: "section 24"
+author: "Mehrab Atighi"
+date: "6/13/2021"
+output: word_document
+---
+
+```{r}
+
+data<-read.csv("F://lessons//Multi Countios Variate1//pdf//TABLE 3.5 diabet.csv")
+#View(data)
+library("car")
+#now we want to do the Exercise for chemical groups:
+chemical<-which(data[,7]=="chemical")
+Data.chemical<-tibble::as.tibble(data[chemical,2:6])
+head(Data.chemical)
+fit.chemical<-lm(cbind(relative.weight,fasting.plasma.glucose)~
+                   glucose.intolerance^2+
+                   insulin.resistance^2+
+                   insulin.response^2+
+                   glucose.intolerance:insulin.resistance+
+                   glucose.intolerance:insulin.response+
+                   insulin.resistance:insulin.response ,
+                 data = Data.chemical)
+summary(fit.chemical)
+
+
+```
+
+
+```{r}
+#now we want to do the Exercise for normal groups:
+normal<-which(data[,7]=="normal")
+Data.normal<-tibble::as.tibble(data[normal,2:6])
+head(Data.normal)
+fit.normal<-lm(cbind(relative.weight,fasting.plasma.glucose)~
+                   glucose.intolerance^2+
+                   insulin.resistance^2+
+                   insulin.response^2+
+                   glucose.intolerance:insulin.resistance+
+                   glucose.intolerance:insulin.response+
+                   insulin.resistance:insulin.response ,
+                 data = Data.normal)
+summary(fit.normal)
+
+```
+
+
+```{r}
+#now we want to do the Exercise for overt groups:
+overt<-which(data[,7]=="overt")
+Data.overt<-tibble::as.tibble(data[overt,2:6])
+head(Data.overt)
+fit.overt<-lm(cbind(relative.weight,fasting.plasma.glucose)~
+                   glucose.intolerance^2+
+                   insulin.resistance^2+
+                   insulin.response^2+
+                   glucose.intolerance:insulin.resistance+
+                   glucose.intolerance:insulin.response+
+                   insulin.resistance:insulin.response ,
+                 data = Data.overt)
+summary(fit.overt)
+
+
+```

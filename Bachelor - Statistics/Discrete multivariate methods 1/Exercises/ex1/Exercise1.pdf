@@ -1,0 +1,20 @@
+L<- function(alpha , beta){
+  (1 / (1 +exp(alpha))) ^ 56 *
+    (exp(alpha) / (1 +exp(alpha))) ^ 1  *
+    (1 / (1 +exp(alpha + beta))) ^ 3  *
+    (exp(alpha + beta ) / (1 +exp(alpha + beta ))) ^ 40 
+}
+l<-function(alpha , beta){
+  log(L(alpha , beta))
+}
+
+Negative.ll<-function(par){
+  alpha=par[1]
+  beta=par[2]
+  -L(alpha, beta)
+}
+
+ll<-outer(alpha , beta , l) 
+persp(alpha , beta , ll , theta = 30 , phi =30, expand = 0.5)
+
+optim(par = c(0,0) , Negative.ll)

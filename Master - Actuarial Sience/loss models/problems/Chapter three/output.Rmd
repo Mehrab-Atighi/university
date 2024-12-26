@@ -1,0 +1,202 @@
+---
+title: "Untitled"
+author: "Pegah Abedini"
+date: "2023-12-22"
+output: word_document
+---
+
+## EXAMPLE 3.18
+
+(Tail comparisons) Consider three loss distributions for an insurance company. Losses
+for the next year are estimated to be 100 million with standard deviation 223.607
+million. You are interested in finding high quantiles of the distribution of losses.
+Using the normal, Pareto, and Weibull distributions, obtain VaR at the 99%, 99.9%,
+and 99.99% security levels.\newline
+From the mean and standard deviation, using the moment formulas in Appendix
+A, the distributions and their parameters (in millions) are Normal(100, 223.607),
+Pareto(150, 2.5), and Weibull(50, 0.5). From the formulas for the cumulative distribution functions, the quantiles $\pi_{0.9}$, $\pi_{0.99}$, and $\pi_{0.999}$ are obtained. They are listed, in millions, in Table 3.1.
+
+## Table 3.1
+
+```{r , echo=FALSE, fig.cap="The quantiles for Example 3.18.", out.width = '100%'}
+knitr::include_graphics("fig1.JPG")
+```
+
+## Normal Distribution
+
+Now we want to Calculate the mean and variance of data for Normal Distribution then simulation and chek them.\newline
+We know(According to the Appendix A.) that if $X~Normal(\mu , sigma^2)$ then  $E[X] = \mu$ and $Var(X) = \sigma^2$. so if we have a dataset that show the 100$ with Standard devation 223.607 then:
+\begin{equation}
+\begin{cases}
+$$
+E[X] =  \mu  =  \sum x_i/n  = 100 \\
+Var(X) = \sigma^2  =\sum (x_i - \mu )^2 / n = 223.607^2 
+$$
+\end{cases}
+\end{equation}
+
+and we know that \newline
+$$ Var(X) = E[X^2] - E^2[X].$$
+
+## Simulation For Normal Distribution
+
+now we are generating $10^7$ number from Normal distribution with mean = 100 and standard devation = 223.607 with \textcolor{blue}{rnorm()} function and after that we  chek the mean and standard devation of generated values with \textcolor{blue}{mean() , sd()} functions.
+
+```{r echo=TRUE , warning= FALSE }
+normal_numbers = rnorm(10^7 , mean = 100 , sd = 223.607)
+c(Mean = mean(normal_numbers) , Sd = sd(normal_numbers))
+```
+
+## Pareto (Lomax) Distribution
+
+we want to Calculate the mean  and variance of data for Pareto Distribution then simulation and chek them.\newline
+We know(According to the Appendix A.) that if $X~Pareto(\alpha , \theta)$ then  $E[X] = \theta / (\alpha-1)$ , $E[X^2] = (2*\theta^2)/(\alpha - 1 )(\alpha-2)$ and we need to calculate the variance from cross formula: $Var(X) = E[X^2] - E^2[X]  $.\newline
+so if we have a dataset that show the 100$ with Standard devation 223.607 then:
+\begin{equation}
+\begin{cases}
+$$
+E[X] = \theta / (\alpha-1) = 100 => \theta = 100 (\alpha - 1 )  \\
+Var(X) = E[X^2] - E^2[X] = (2*\theta^2)/(\alpha - 1 )(\alpha-2) - \theta / (\alpha-1)
+$$
+\end{cases}
+\end{equation}
+
+
+## Pareto (Lomax) Distribution
+
+if we supplant $\theta = 100(\alpha - 1)$ then we will find the $\alpha$ value as:
+
+### Some Mathematical realation
+\begin{equation*}
+\begin{cases}
+$$
+Var(X) = [(2*\theta^2)/(\alpha - 1 )(\alpha-2)] - [\theta / (\alpha-1)] = 223.607^2 \\
+<=> [2 * 100^2 * (\alpha - 1)^2  - 100^2 (\alpha-2)]/(\alpha-2) = 223.607^2 \\
+<=> (100^2)[(2\alpha - 2) + (\alpha + 2)] = (\alpha - 2) (223.607^2) \\
+<=> 100^2\alpha - 223.607^2\alpha - (2)223.607^2 = 0 \\
+=> \alpha = (1/4) * 10 \\
+=>\alpha = 0.25*10 = 2.5.
+$$
+\end{cases}
+\end{equation*}
+
+## Simulation for Pareto Distribution
+
+now we are generating $10^7$ number from Pareto distribution with $\alpha= 150$ and $\theta = 2.5$ with \textcolor{blue}{rlomax()} function from \textcolor{pink}{VGAM} package and after that we chek the mean and standard devation of generated values with \textcolor{blue}{mean() , sd()} functions.
+
+```{r , echo=TRUE , warning=FALSE}
+require(VGAM)
+pareto_numbers = rlomax(10^7 , 150 , 2.5) 
+c(Mean = mean(pareto_numbers) , Sd = sd(pareto_numbers))
+```
+
+
+## Weibull Distribution
+the calculations for weibull distribution have steps like as Normal and Pareto distributions. so we will find these value for our parametes:
+\begin{equation}
+\begin{cases}
+\alpha = 50 \\
+\tau = 0.5
+\end{cases}
+\end{equation}
+
+## Simulation for Weibull Distribution
+
+now we are generating $10^7$ number from Weibull distribution with $\alpha= 50$ and $\tau = 0.5$ with \textcolor{blue}{rweibull} function and after that we chek the mean and standard devation of generated values with \textcolor{blue}{mean() , sd()} functions.
+
+```{r , echo=TRUE , warning=FALSE}
+weibull_numbers = rweibull(10^7 , 0.5 , 50)
+c(Mean = mean(weibull_numbers) , Sd = sd(weibull_numbers))
+```
+
+## Ploting The Distributions
+\small
+now we want to plot the distrinutions and compare them in this four slides.
+```{r , echo=TRUE , warning= FALSE}
+#making partitions:
+par(mfrow = c(1 , 3))
+#adding plots to partitions:
+plot(0, 0, xlim = c(-1100, 1000), ylim = c(0, 0.002),
+     type = "n" , xlab = "Loss" , ylab = "Density" ,
+     main = "Normal(100 , 223.607)")
+curve(dnorm(x, mean = 100, sd = 223.607), from = -1100,
+      to = 1000, col = 1, add = TRUE , type = "l" )
+plot(0, 0, xlim = c(0, 1000), ylim = c(0, 0.015),
+     type = "n" , xlab = "Loss" , ylab = "Density" ,
+     main = "Weibull(0.5 , 50)")
+curve(dweibull(x, 0.5, 50), from = 0, to = 1000,
+      col = 2, add = TRUE , type = "l")
+plot(0, 0, xlim = c(0, 1000), ylim = c(0, 0.02),
+     type = "n" , xlab = "Loss" , ylab = "Density" ,
+     main = "Pareto(150 , 2.5)")
+curve(dlomax(x, 150, 2.5), from = 0, to = 1000, col = 3,
+      add = TRUE , type = "l")
+```
+\normalsize
+
+## Ploting The Distributions
+```{r , echo=FALSE, fig.cap="Compare Distributions Tails", out.width = '100%'}
+knitr::include_graphics("fig2.PNG")
+```
+
+
+## Ploting The Distributions
+```{r ,echo=TRUE , warning=FALSE}
+#change the partions to 1*1:
+par(mfrow = c(1 , 1))
+#Drow the Basic Plot (type = "n)
+plot(0, 0, xlim = c(-1100, 1000), ylim = c(0, 0.015),
+     type = "n" , xlab = "Loss" , ylab = "Density")
+#Add the Distributions Curve here:
+curve(dnorm(x, mean = 100, sd = 223.607), from = -1100,
+      to = 1000, col = 1, add = TRUE , type = "l")
+curve(dweibull(x, 0.5, 50), from = 0, to = 1000,
+      col = 2, add = TRUE , type = "l")
+curve(dlomax(x, 150, 2.5), from = 0, to = 1000,
+      col = 3, add = TRUE , type = "l")
+#Add Legend to our plot.
+legend(750, 0.015, legend=c("Normal", "Weibull" , "Pareto"),
+       col= 1:3, lty=1, cex=0.8,
+       box.lty=2, box.lwd=2, box.col="black" ,
+       text.font=4, bg='lightblue')
+```
+
+
+## Ploting The Distributions
+```{r , echo=FALSE, fig.cap="Compare Distributions Tails", out.width = '100%'}
+knitr::include_graphics("fig3.PNG")
+```
+
+## Calculate the $\pi_p$ or quantiles 
+according to the formulas that we learned in Book. we need to calculate the the quantiles $\pi_{0.9}$, $\pi_{0.99}$, and $\pi_{0.999}$ with using Cumulative distribution function. for simulating this we have to run these codes:
+\footnotesize
+```{r , echo=TRUE, warning=FALSE}
+n = c();p = c();w = c()
+n[1] = qnorm(0.9  , 100 , 223.607)
+n[2] = qnorm(0.99 , 100 , 223.607)
+n[3] = qnorm(0.999 , 100 , 223.607)
+w[1] = qweibull(0.9   , 0.5, 50)
+w[2] = qweibull(0.99  , 0.5, 50)
+w[3] = qweibull(0.999 , 0.5, 50)
+p[1] = qlomax(0.9  , 150 , 2.5)
+p[2] = qlomax(0.99 , 150 , 2.5)
+p[3] = qlomax(0.999 , 150 , 2.5)
+```
+\normalsize
+
+## Result of  $\pi_p$ or quantiles
+\footnotesize
+here we are making a data frame to show the results:
+```{r , echo=TRUE , warning=FALSE}
+row_name = c("0.9" , "0.99" , "0.999")
+output = data.frame(n , p , w , row.names = row_name)
+col_name = c("Normal(100 , 223.607)"
+             , "Pareto(150 , 2.5)" , "Weibull(0.5 , 50)")
+colnames(output) = col_name
+output
+```
+the results are same as table 3.1.
+
+## End
+\huge   
+- \textcolor{blue}{Thanks for your attention}

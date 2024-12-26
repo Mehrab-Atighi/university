@@ -1,0 +1,125 @@
+---
+title: "Principal Components Analysis in R for thired exercise"
+author: "Mehrab Atighi - Zahra Ghasabi - Zahra Barzegar - Morteza Hoseingholipur -Mina Daliry"
+date: "10/19/2021"
+output: 
+  beamer_presentation: 
+    fig_width: 9
+    fig_height: 6
+    theme: Warsaw
+---
+
+## Contents
+- Whats the issue?\newline
+- How to use PCA in R \newline
+- How to visualizating PCA Data in R \newline
+
+
+
+## Whats the issue?
+
+
+We want to display two way to dimantion reduction our data in R.\newline
+When we want to do Dimantion reduction we should make a data as type of \textcolor{blue}{Data Frame}, after that we should use \textcolor{orange}{princomp} function that is in base of R.\newline
+For Example we have \textcolor{blue}{ramus data(exercise3)}. we import Dataset from Excel csv file with \textcolor{orange}{read.csv("addres",...)} into R. and using \textcolor{orange}{head(data name ,number to show)} to see the 4 observation of our data. and using \textcolor{orange}{dim} to see the dimantion of our data.
+
+## Whats the issue?
+
+\tiny
+```{r warning=FALSE}
+data<-read.csv("F:/lessons/Multi countios Variate2/data/ramos-data.csv")
+data=data[,-1]
+#View(data)
+head(data , 4)
+dim(data)
+eigen(cor(data))
+```
+
+## Principal Components Analysis in R
+
+
+Now we are going to use Principal Components Analysis with auto way in R:\newline
+we should use \textcolor{orange}{princomp} function.\newline
+we should write the data as type as \textcolor{blue}{data.frame} into this function.\newline
+we have a \textcolor{orange}{cor} argument in this function that we can equal it with \textcolor{blue}{TRUE} when we want to do Principal Components method with Correlation matrix, or \textcolor{blue}{FALSE} when we want to do Principal Components method with Covariance matrix.\newline
+the other argument in this function is \textcolor{orange}{scores} that we can equal it with \textcolor{blue}{TRUE} and it will show the score of each component.
+
+```{r warning=FALSE}
+pc.r<-princomp( data,cor = TRUE ,scores = TRUE )
+pc.c<-princomp(data , cor = FALSE ,scores = TRUE)
+```
+\normalsize
+
+## Principal Components Analysis in R
+\small
+```{r warning=FALSE}
+summary(pc.r)
+```
+\normalsize
+```{r warning=FALSE}
+
+head(pc.r$loadings,2)
+head(pc.r$scores, 2)
+```
+
+## Principal Components Analysis in R
+\small
+```{r warning=FALSE}
+summary(pc.c)
+```
+\normalsize
+```{r warning=FALSE}
+head(pc.c$loading,2)
+head(pc.c$scores, 2)
+```
+
+## Principal Components Analysis in R
+
+to see the Percentage of Explained Variances of each variable we should install a new packages that we call \textcolor{blue}{factoextra} and library it.\newline
+the output is a scree plot that we can see codes in next silde.
+
+## How to visualizating PCA Data in R
+
+
+\tiny
+```{r warning=FALSE, out.height="65%", out.width="85%"}
+#install.packages(factoextra)
+library(factoextra)
+fviz_eig(pc.c)#plot(pc.c)
+#fviz_eig(pc.r)#plot(pc.r)
+```
+
+## How to visualizating PCA Data in R
+\small
+So Now we select 2 components of our data here and ploting them.\newline
+we can use 2 function here, the first function is plotting components 1 , 2 with \textcolor{orange}{plot()} function and the second function is \textcolor{orange}{biplot}.
+```{r, out.height="65%", out.width="85%"}
+plot(pc.r$scores[,1],pc.r$scores[,2]
+     ,xlab = "Comp1" , ylab="Comp2" ,col="Blue")
+#biplot(pc.r)
+```
+\normalsize
+
+## How to visualizating PCA Data in R
+\tiny
+Now we want to see the Graph of individuals. Individuals with a similar profile are grouped together.
+```{r, out.height="65%", out.width="85%"}
+ #biplot(pc.r)
+ fviz_pca_ind(pc.r,
+              col.ind = "cos2", # Color by the quality of representation
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE)      #Avoid text overlapping)
+```
+\normalsize
+
+## How to visualizating PCA Data in R
+
+```{r, out.height="65%", out.width="85%"}
+fviz_pca_biplot(pc.r, repel = TRUE,
+                col.var = "#2E9FDF", # Variables color
+                col.ind = "#696969"  # Individuals color
+                )
+```
+End.
+
+

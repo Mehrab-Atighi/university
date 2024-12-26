@@ -1,0 +1,112 @@
+after install Git open CMD THEN:
+cd Temp
+	
+cd project
+git init
+git status
+---- Make a new file like as test.txt in the project folder then:
+git status
+-- you can see all the file and if you want to add test.txt file into your github :
+git add test.txt
+-- now you can see your git status again that which file go to your stage area?
+git status 
+-- for save it and commiting it with a message or comment we have:
+git commit -m "this is test message for test_code.txt file by Mehrab"
+-- and now after each change in the your file ( test_code.txt ) you can git status and commit it again!! 
+
+-- if you want to git add you can you these : 
+git add -A # it use for all files
+git add "*.txt"
+
+=================================================================
+-- if you do a change befor commit it you can see the change with 
+-- bottem code attention to the + and - and the numbers show which line change in the codes. and the HEAD is last update ( befor commit )
+git diff HEAD
+
+
+-- after add a file into the stage area ( git add -A or file name) we can see the staged files diff with bottem code:
+git diff --staged
+
+-- for make out of stage area a file we should use:
+git reset "filename.123"
+
+--if you want to back to the last commit
+git checkout -- filename.123
+--and after that commit again.
+
+
+===========================================
+if you want to see your branches 
+git branch -- (star* show you are on witch branch)
+git branch NewBranchName -- you can create new branch for your project
+git checkout NewBranchName -- you can switch to your NewBranchName branch
+-- if you want to merge two different branches which are commited and they are without any stage and completly commited, you should use:
+git merge NewBranchName
+===================================
+
+if you want to delete a file from your git directory and file system you should use:
+git rm filename.123
+
+if you want to delete a branch after merge with master branch you can use bottem code:
+git branch -d NewBranchName
+==========================================
+Please Come out of Your Project1_test directory
+if you want from local to GitHub : push
+if you want from GitHub to local : pull
+
+so if you have a link of a project in GitHub you can pull that from url with bottem code:
+git clone url  -- for pull a project from github
+git status -- for see status of new directory
+ls -- for see all files
+then if you do some change for save it on your GitHub you should use these codes:
+git push origin master -- means that please save the master branch on the origin branch which we download or clone that then it want to connect to the GitHub.
+
+git pull origin master -- means that please come all change in the internet into my GitHub directory
+--its connecting to the repository without any authentication because its open source or publick repository
+
+
+==================
+if you want to push something into internet you should at the first add one remote address as origin please attention to these codes:
+git status
+git remote
+git remote add origin URL -- add origin remote area to your git
+git remote 
+git push -u origin master -- for change all things from master to the origin url or remote area
+
+================
+-- if you want to open a file in the git you can use bottem code:
+vi FILE.123
+===============
+-- if you have change 1 file in the same time from your local and remote
+the local user at the first should git pull every thing from remote origin then if it dont have a conflict it will merge them else you should change the file and again add it into staging area then commit it again!!!!.
+================
+if you want to save your commites with version it means you use tag function
+git tag -a v2.0 -m "this is the first version with tag for running"
+git tag -- you can see all versions
+--just in this time make this name as v2
+
+if you want to use a previounse version from last or 3 time ago commit you should use bottem code:
+git tag -a v1.8 CommitKey -m"Message it please"
+git tag -l "v*" -- its for search versions
+git show v1.8 -- for show version 1.8 
+
+git push origin v1.8 -- it means that please push the version 1.8 on the origin
+-- the bottem code will be push all tags on the origin
+git push origin --tags 
+
+==================
+if you want to find who change a file and which line you can use bottem code :
+
+git blame file.123 -L5 
+===============
+if you want to find a code bugs you can use
+git bisect start
+git bisect bad -- it means in this situation (HEAD) we have bug
+git log -- for see the commit logs
+git bisect good KEYOFCOMMIT -- you tell to git that in this commit it was good
+and the git will help you
+you should just use 
+git bisect good 
+or
+git bisect bad
+================

@@ -1,0 +1,20 @@
+\frametitle{Web Scraping}
+\protect\hypertarget{web-scraping-8}{}
+Now we want to downlod our links with \textcolor{blue}{download.file}
+function that the first arg is link to download and second arg is the
+address to save it.\newline the \textcolor{blue}{apply} function here is
+downloading 1 to 3 first links on my dekstop. \tiny
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{apply}\NormalTok{(links[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{, ], }\DecValTok{1}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x)\{}
+  \FunctionTok{try}\NormalTok{(}\FunctionTok{download.file}\NormalTok{(x[}\DecValTok{1}\NormalTok{],}\FunctionTok{paste0}\NormalTok{(}\StringTok{"C:/Users/Frostless/Desktop/"}\NormalTok{,x[}\DecValTok{2}\NormalTok{])))}
+\NormalTok{\})}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0 0 0
+\end{verbatim}
+
+\normalsize

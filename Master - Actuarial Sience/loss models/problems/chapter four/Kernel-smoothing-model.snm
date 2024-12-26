@@ -1,0 +1,15 @@
+\beamer@slide {whats-the-emprical-model}{2}
+\beamer@slide {definition}{2}
+\beamer@slide {example-4.7}{3}
+\beamer@slide {visualizing-emperical-model-in-example-4.7}{4}
+\beamer@slide {whats-kernel-smoothing-model}{5}
+\beamer@slide {definition-1}{5}
+\beamer@slide {making-a-uniform-kernel-smoothing-model-for-example-4.7-data-with-bandwidth-2.}{6}
+\beamer@slide {making-a-uniform-kernel-smoothing-model-for-example-4.7-data-with-bandwidth-2-for-point-x-3}{7}
+\beamer@slide {plotting-a-distributed-point-x-3-with-new-model}{8}
+\beamer@slide {making-a-uniform-kernel-smoothing-model-for-example-4.7-data-with-bandwidth-2-for-point-x-7}{9}
+\beamer@slide {plotting-a-distributed-point-x-7-with-new-model}{10}
+\beamer@slide {uniform-kernel-smoothing-with-bandwidth-2-formula}{11}
+\beamer@slide {plot-of-example-4.7}{12}
+\beamer@slide {note}{13}
+\beamer@slide {end}{14}
