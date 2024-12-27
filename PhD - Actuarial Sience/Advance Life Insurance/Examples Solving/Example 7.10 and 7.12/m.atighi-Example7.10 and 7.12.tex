@@ -6,7 +6,7 @@
 \begin{document}
 	\begin{Large}
 		\textsf{\textbf{Gross Premium Policy Value Calculations}}\\
-		Example 7.10
+		Example 7.10 and 7.12
 	\end{Large}
 	
 	\vspace{1ex}
@@ -16,7 +16,7 @@
 	
 	\vspace{2ex}
 	
-	\begin{problem}{}{gross-premium}
+	\begin{problem}{}{Example 7.10}
 		A life aged 50 purchases a 10-year term insurance with sum insured \$500,000 payable at the end of the month of death. Level monthly premiums, each of amount $P = 460$, are payable for at most five years.
 		
 		Calculate the (gross premium) policy values at durations 2.75, 3, and 6.5 years using the following basis:
@@ -26,8 +26,12 @@
 			\item \textbf{Expenses:} 10\% of each gross premium
 		\end{itemize}
 	\end{problem}
+	\begin{problem}{}{Example 7.11}
+		According to the problem1 (Example 7.10) Calculate the (gross premium) policy value at the duration 2.8. \\
+		\textbf{Attention that t = 2.8 is between premium dates }
+	\end{problem}
 	
-	\begin{solve}{}{gross-premium-solution}
+	\begin{solve}{}{Example 7.10 solution}
 		\section*{Solution}
 		
 		\subsection*{Step 1: Define the Random Loss Variable}
@@ -190,7 +194,24 @@
 	
 		
 	\end{solve}
-	
+	\begin{solve}{}{Example 7.12 solution}
+		\section*{Solution}
+		According to the Above information and the note that valuation time (2.8) is between premium dates.\\
+		
+		we have \textbf{two method for solve} this example.
+	\begin{enumerate}
+		\item Using Recursions formula:\\
+		we should split the EPV of future cash flows into the part up to the next premium date or benefit date and the parts
+		after that date.\\
+		The EPV of future benefits is 
+		\begin{align*} S \nu^{0.033} \frac{0.033 q_{52.8}}{0.033} A_{\actuarialangle{52.833:7.167}}^{(12) 1} &= 500\,000 \nu^{0.033} \frac{0.033 q_{52.8}}{0.033} A_{\actuarialangle{52.833:7.167}}^{(12) 1} \\ &= 6614.75. 
+		\end{align*}
+		
+		The EPV of future premiums less expenses is \[ 0.9 \times 4 P \nu^{0.2} 0.2 P_{52.8} \ddot{a}_{\actuarialangle{53:2}}^{(4)} = 3138.59.\] In each of the above, we have used an exact calculation. Combining these, \[ 2.8 V = 6614.75 - 3138.59 = 3476.16. \] An alternative approach is to use a form of recursion from time \( t = 2.8 \) up to the next benefit date, time \( t = 2.833 \), where we can use formula (7.9) to calculate \( 2.833 V = 3456.72 \). Accumulating \( 2.8 V \) for 0.033 of a year to provide \( S \) if death occurs before time 2.833 or \( 2.833 V \) if the policyholder survives to time 2.833, we have \[ 2.8 V (1 + i)^{0.033} = 0.033 q_{52.8} S + 0.033 P_{52.8} (2.833 V) \] giving \( 2.8 V = 3476.16 \), as before.
+		$$$$
+	\end{enumerate}
+		
+	\end{solve}
 	\vspace{2ex}
 	
 	% =================================================

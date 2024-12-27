@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2024.3.11)  27 DEC 2024 22:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2024.3.11)  27 DEC 2024 23:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1120,19 +1120,23 @@ File: uesint.fd
 ) [1
 
 {c:/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
-(./m.atighi-Example7.10 and 7.12.aux)
+Underfull \hbox (badness 10000) in paragraph at lines 199--200
+
+ []
+
+[5] (./m.atighi-Example7.10 and 7.12.aux)
 Package rerunfilecheck Info: File `"m.atighi-Example7.10 and 7.12".out' has not
  changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30732 strings out of 478994
- 569810 string characters out of 5862207
- 948768 words of memory out of 5000000
- 47658 multiletter control sequences out of 15000+600000
+ 30744 strings out of 478994
+ 570013 string characters out of 5862207
+ 950828 words of memory out of 5000000
+ 47666 multiletter control sequences out of 15000+600000
  416554 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,13n,119p,480b,1037s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 117i,19n,119p,810b,1038s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/tex
 live/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2021
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2021/texmf-di
@@ -1147,10 +1151,10 @@ f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2021/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2021/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmtt10.pfb><c:/texlive/2021/texmf-dist/fonts/type1/public/cm
 -super/sfrm1095.pfb>
-Output written on "m.atighi-Example7.10 and 7.12.pdf" (4 pages, 159631 bytes).
+Output written on "m.atighi-Example7.10 and 7.12.pdf" (5 pages, 166154 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
- 7 named destinations out of 1000 (max. 500000)
+ 98 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
+ 11 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
