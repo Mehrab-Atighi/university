@@ -207,8 +207,15 @@
 		\begin{align*} S \nu^{0.033} \frac{0.033 q_{52.8}}{0.033} A_{\actuarialangle{52.833:7.167}}^{(12) 1} &= 500\,000 \nu^{0.033} \frac{0.033 q_{52.8}}{0.033} A_{\actuarialangle{52.833:7.167}}^{(12) 1} \\ &= 6614.75. 
 		\end{align*}
 		
-		The EPV of future premiums less expenses is \[ 0.9 \times 4 P \nu^{0.2} 0.2 P_{52.8} \ddot{a}_{\actuarialangle{53:2}}^{(4)} = 3138.59.\] In each of the above, we have used an exact calculation. Combining these, \[ 2.8 V = 6614.75 - 3138.59 = 3476.16. \] An alternative approach is to use a form of recursion from time \( t = 2.8 \) up to the next benefit date, time \( t = 2.833 \), where we can use formula (7.9) to calculate \( 2.833 V = 3456.72 \). Accumulating \( 2.8 V \) for 0.033 of a year to provide \( S \) if death occurs before time 2.833 or \( 2.833 V \) if the policyholder survives to time 2.833, we have \[ 2.8 V (1 + i)^{0.033} = 0.033 q_{52.8} S + 0.033 P_{52.8} (2.833 V) \] giving \( 2.8 V = 3476.16 \), as before.
-		$$$$
+		The EPV of future premiums less expenses is \[ 0.9 \times 4 P \nu^{0.2} 0.2 P_{52.8} \ddot{a}_{\actuarialangle{53:2}}^{(4)} = 3138.59.\] In each of the above, we have used an exact calculation. Combining these, \[ 2.8 V = 6614.75 - 3138.59 = 3476.16. \] An alternative approach is to use a form of recursion from time \( t = 2.8 \) up to the next benefit date, time \( t = 2.833 \), where we can use formula (7.9). 
+		We can derive recursive formulae for policy values for policies with cash flows at discrete times other than annually. For a policy with premiums of \(P\) every \(1/m\) years, premium expenses of \(e_t\) at time \(t\), and sum insured \(S\) payable at the end of the \(1/m\)th year of death, then following exactly the reasoning for the annual case, for \(t = 0, \frac{1}{m}, \frac{2}{m}, \frac{3}{m}, \ldots\), we have 
+		
+		\begin{align*}
+			\left(_tV + P - e_t\right) (1 + i)^{\frac{1}{m}} &= _\frac{1}{m} q_{[x]+t} S + _\frac{1}{m}P_{[x]+t} \left(_{t + \frac{1}{m}}V\right) \\
+			&= _{t +\frac{1}{m}}V + _{\frac{1}{m}}q_{[x]+t} \left(S - _{t + \frac{1}{m} }V\right).
+		\end{align*}
+		On the left-hand side, we have the policy value brought forward, with the addition of the premium less premium expenses, and with interest added at the end of the \(1/m\) years. On the right-hand side, we have the expected cost of death claims arising during the period, plus the expected cost of the policy value to be carried forward to the next period. In expectation, everything is in balance.\\
+		So Accumulating \( 2.8 V \) for 0.033 of a year to provide \( S \) if death occurs before time 2.833 or \( 2.833 V \) if the policyholder survives to time 2.833, we have \[ 2.8 V (1 + i)^{0.033} = 0.033 q_{52.8} S + 0.033 P_{52.8} (2.833 V) \] giving \( 2.8 V = 3476.16 \), as before.
 	\end{enumerate}
 		
 	\end{solve}
