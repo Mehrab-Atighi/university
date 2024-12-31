@@ -1,0 +1,209 @@
+\input{preamble}
+\input{format}
+\input{commands}
+\usepackage{actuarialsymbol}
+
+\begin{document}
+	\begin{Large}
+		\textsf{\textbf{Gross Premium Policy Value Calculations}}\\
+		Example 7.18
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Teacher:}} \text{Shirin Shoaee}, \href{mailto:sh_shoaee@sbu.ac.ir}{\texttt{sh\_shoaee@sbu.ac.ir}}
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{Example 7.10}
+		An insurer issues a whole life insurance policy to a life aged 50. The sum insured of 100 000\$ is payable at the end of the year of death. Level premiums are payable annually in advance throughout the term of the contract. All premiums and policy values are calculated using the Standard Select Survival Model, and an interest rate of 5\% per year effective. Initial expenses are 50\% of the gross premium plus 250\$. Renewal expenses are 3\% of the gross premium plus 25\$ at each premium date after the first.\\
+		Calculate:\\
+		(a) the expense loading, $P^e$, and\\
+		(b) $_{10}V^e$ , $_{10}V^n$ and $_{10}V^g$.
+	\end{problem}
+	
+	\begin{solve}{}{Example 7.18 solution}
+		\section*{Solution}
+		
+		\subsection*{Step 1: Define the Random Loss Variable}
+		The random loss variable $L_t$ at time $t$ is defined as:
+		\[
+		L_t = B_t - P_t - E_t,
+		\]
+		where:
+		\begin{itemize}
+			\item $B_t$: the benefits variable at time $t$,
+			\item $P_t$: the premiums variable  at time $t$,
+			\item $E_t$: the expenses variable at time $t$.
+		\end{itemize}
+		
+		\subsection*{Step 2: Components of the Loss Variables}
+		\subsubsection*{1. Benefits}
+		The benefits are \$100,000, payable at the end of the year of death. The present value of benefits as time t is given by:
+		\[
+		B_t = 100,000 \cdot \sum_{k=1}^{n} v^{k} \cdot \,q_{x},
+		\]
+		where:
+		\begin{itemize}
+			\item $n = \infty $ (until death),
+			\item $v = (1+i)^{-1}$ is the annullay discount factor, $i = 0.05$ annually,
+			\item $q_{x}$ is the probability of dying in the 1 year.
+		\end{itemize}
+		
+		\subsubsection*{2. Premiums}
+		The annually premium is \$. The present value of premiums at time t is:
+		\[
+		P_t = \sum_{k=1}^{n}   \cdot v^{k} \cdot \,p_{x}.
+		\]
+		where:
+		\begin{itemize}
+			\item $n = \infty$ ,
+			\item $p_{x}$ is the probability of survival a person with x age for 1 year.
+		\end{itemize}
+		
+		\subsubsection*{3. Expenses}
+			\begin{itemize}
+			\item Inital expenses:\\
+			according to the example information we have:
+			$$0.5P^g + 250\$$$ 
+			the above value will be pay just at t = 0.
+		
+			\item renewal expenses:\\
+			 at the t =0 there is no renewal expense because its the first time of contract and only we have initial expense but in the other premium date its equal to the $0.03 p^g + 25\$$ as an annually annuity until death. so we have two part for renewal calculation here, the first part is from t=1 to $\infty$ and the second part is t = 0 premium that we should not pay that. attention please:
+			 $$(0.03 p^g + 25) \ddot{a}_{\actuarialangle{50}} - (0.03 p^g + 25)$$
+			\end{itemize}
+
+		Expenses are 10\% of each gross premium paid, so the monthly expense is:
+		\[
+		\text{Expense per premium payment} = 0.1 \cdot P = 46.
+		\]
+		So if we want tot calculate the expense loading or $p^e$ we should calculate the gross premium at the step 1.
+		
+		
+		\subsection*{Step 3: Expected Present Value (EPV) of the Loss Random Variable}
+		Using the survival model, the gross premium policy value at time $t$ is the expected value of the loss random variable:
+		\[
+		V_t = \text{EPV}(Z_t) - \text{EPV}(P_t) - \text{EPV}(E_t).
+		\]
+		\subsection*{Step 4: Components of the Expected Present Value (EPV) of the Loss Random Variable}
+		\subsubsection*{1. Expected Present Value of Benefits (\(Z_t\))}
+		
+		The benefits are 100,000\$, payable at the end of the month of death. The expected present value (EPV) of these benefits at time \(t\) is denoted by:
+		\[
+		EPV(B)_t = S \cdot \,  A_{\actuarialangle{50}} = 100,000 \cdot \,  A_{\actuarialangle{50}}.
+		\]
+		where:
+		\begin{itemize}
+			\item \(A_{\actuarialangle{50}}\): The expected present value of a 1-unit insurance benefit, payable at the end of the year of death, for a life aged \(50\).
+			\item The symbol \( A_{\actuarialangle{50}}\) incorporates the annually interest rate and survival probabilities, as follows:
+			\[
+			A_{\actuarialangle{50}} = \sum_{k=1}^{n} v^{k} \cdot \,q_{50}.
+			\]
+			\item \(v = (1+i)^{-1}\): The annual discount factor %, with \(i = 0.05\).
+			\item \(n = \infty\): The total number of years for the whole life insurance.
+			\item \(q_x\): The probability that the life dies in the \((k)\)th year.
+		\end{itemize}
+		
+		\subsubsection*{2. Expected Present Value of Premiums (\(P_t\))}
+		
+		The premiums are \$460, payable Quarterly for a maximum of 5 years (20 Quarter). The expected present value (EPV) of these premiums at time \(t\) is denoted by:
+		\[
+		EPV(P)_t = 4 * P \cdot \, \ddot{a}_{\actuarialangle{x:5}}^{(4)} = 4 * 460 \cdot \, \ddot{a}_{\actuarialangle{x:5}}^{(4)}.
+		\]
+		where:
+		\begin{itemize}
+			\item \(\ddot{a}_{\actuarialangle{x:n}}^{(12)}\): The expected present value of a 1-unit premium paid Quarterly in advance for a life aged \(x\), for a maximum of n years, with payments made 4 times per year.
+			\item The symbol \(\ddot{a}_{\actuarialangle{x:n}}^{(4)}\) incorporates the monthly interest rate and survival probabilities, as follows:
+			\[
+			\sum_{k=1}^{n} v^{k} \cdot \,q_{x}
+			\]
+			where:
+			\begin{itemize}
+				\item \(v = (1+i)^{-1}\): The annual discount factor, with \(i = 0.05\),
+				\item \(nm = 5*4 = 20\): The total number of Quarter premiums (5 years),
+				\item \(_{k/4}p_x\): The probability that the life survives to the \((k/4)\)th month.
+			\end{itemize}
+		\end{itemize}
+		
+		\subsubsection*{3. Expected Present Value of Expenses (\(E_t\))}
+		
+		The expenses are 10\% of each premium, i.e., \$46, payable Quarterly for a maximum of 5 years (20 Quarte). The expected present value (EPV) of these expenses at time \(t\) is denoted by:
+		\[
+		EPV(E)_t = 4 * 0.1P \cdot \, \ddot{a}_{\actuarialangle{x:5}}^{(4)} = 4 * 46 \cdot \, \ddot{a}_{\actuarialangle{x:5}}^{(4)}.
+		\]
+		where:
+		\begin{itemize}
+			\item \(\ddot{a}_{\actuarialangle{x:n}}^{(4)}\): The expected present value of a 1-unit expense paid Quarterly in advance for a life aged \(x\), for a maximum of n=6 years, with payments made 4 times per year.
+			\item The symbol \(\ddot{a}_{x}^{(4)}\) is the same as used in the premium calculation:
+			\[
+			\ddot{a}_{\actuarialangle{x:n}}^{(4)} = \sum_{k=0}^{nm-1} v^{k/4} \cdot \, _{k/4}p_x,
+			\]
+			where:
+			\begin{itemize}
+				\item \(v = (1+i)^{-1}\): The annual discount factor, with \(i = 0.05\),
+				\item \(nm = 5*4 = 20\): The total number of monthly expense payments (5 years),
+				\item \(_{k/4}p_x\): The probability that the life survives to the \((k/4)\)th month.
+			\end{itemize}
+		\end{itemize}
+		
+		
+		\subsection*{Step 5: Policy Value Calculation at Times \(t = 2.75\), \(t = 3\), and \(t = 6.5\)}
+		
+		The policy value at any time \(t\) is given by the general formula:
+		\[
+		tV_x + EPV_t(\text{future premiums}) = EPV_t(\text{future benefits}) + EPV_t(\text{future expenses}),
+		\]
+		where:
+		\begin{itemize}
+			\item \(tV_x\): The policy value at time \(t\) for a life aged \(x+t\).
+			\item \(EPV_t(\text{future premiums})\): The expected present value of premiums still to be paid after time \(t\).
+			\item \(EPV_t(\text{future benefits})\): The expected present value of benefits payable after time \(t\).
+			\item \(EPV_t(\text{future expenses})\): The expected present value of expenses after time \(t\).
+		\end{itemize}
+		
+		To calculate the policy value at times \(t = 2.75\), \(t = 3\), and \(t = 6.5\):
+		The policy value at  \(t = 2.75 \) is given by the general formula:
+		\[
+		2.75V_{50} = EPV_{2.75}(\text{B}) + EPV_{2.75}(\text{E}) -  EPV_{2.75}(\text{P})
+		\]
+		Now we will place the values that we calculated above for t = 2.75.
+		\[
+		2.75V_{50} = 500,000 \cdot \,  \ddot{A}_{\actuarialangle{52.75:7.25}}^{(12)} + 4 * 0.1P \cdot \, \ddot{a}_{\actuarialangle{52.75:2.25}}^{(4)} - 4 * P \cdot \, \ddot{a}_{\actuarialangle{52.75:2.25}}^{(4)}
+		\]
+		
+		$$= 
+		500,000 \cdot \,  \ddot{A}_{\actuarialangle{52.75:7.25}}^{(12)} - 4 * 0.9P \cdot \, \ddot{a}_{\actuarialangle{52.75:2.25}}^{(4)} = 3091.02\$ $$
+		
+	
+		Similarly for t = 3.
+		\[
+		3V_{50} = 500,000 \cdot \,  \ddot{A}_{\actuarialangle{53:7}}^{(12)} + 4 * 0.1P \cdot \, \ddot{a}_{\actuarialangle{53:2}}^{(4)} - 4 * P \cdot \, \ddot{a}_{\actuarialangle{53:2}}^{(4)}
+		\]
+		
+		$$= 
+		500,000 \cdot \,  \ddot{A}_{\actuarialangle{53:7}}^{(12)} - 4 * 0.9P \cdot \, \ddot{a}_{\actuarialangle{53:2}}^{(4)} = 3357.94\$ $$
+		And finally similarly for t = 3.
+		we should note that there is no premium in t = 6 so we dont have premiums and expenses!.
+		\[
+		6.5V_{50} = 500,000 \cdot \,  \ddot{A}_{\actuarialangle{56.5:3.5}}^{(12)} 
+		\]
+		
+		$$= 
+		500,000 \cdot \,  \ddot{A}_{\actuarialangle{56.5:3.5}}^{(12)} = 4265.63\$ $$
+		
+	
+		
+	\end{solve}
+	
+	\vspace{2ex}
+	
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+%	
+%	\bibliographystyle{apalike}
+%	\bibliography{references}
+\end{document}
