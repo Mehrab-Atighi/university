@@ -1,0 +1,114 @@
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+	
+	\begin{Large}
+		\textsf{\textbf{This is a great title}}
+		
+		This is an even greater subtitle
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		A consequence of the Cramer-Lundberg model definition is that ($N(t)$) is a homogeneous Poisson process with intensity $\lambda > 0$. Hence \cite{Embrechts.etal1997}:
+		
+		\begin{enumerate}[(a)]
+			\item Prove the following
+			\begin{enumerate}[label = (\roman*)]
+				\item $P(N(t) =k) = \exp^{-\lambda t} \frac{(\lambda t)^k}{k!} \, k = 0,1,2,\cdots$ .
+			\end{enumerate}
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+		we know that Any counting process N(t) must satisfy:\\
+		\begin{enumerate}
+			\item N(t) $\geq$ 0;
+			\item N(t) is integer valued;
+			\item if s<t, then N(s) $\leq$ N(t);
+			\item For any s<t, N(t) $\leq$ N(s) equals the number of events that occur in the interval $(s,t]$
+		\end{enumerate}
+		Consider a Poisson process:\\
+		\begin{enumerate}
+			\item 	Denote the time of the first event by $T_1$.
+			\item 	For any n>1, let $T_n$ denote the elapsed time between the $(n-1)$st and the $n$th event.
+		\end{enumerate}
+		The sequence ${T_n,n = 1,2,\cdots} $is called the sequence of \textbf{interarrival times}.
+		\begin{figure}
+			\captionsetup{justification=centering}
+			\includegraphics[width=\textwidth]{pic1.png}
+			\caption{ \textbf{interarrival times}}
+			\label{fig1}
+		\end{figure}
+		
+		and we know that ${T_n,n=1,2,\cdots}$ are independent identically distributed (iid) exponential random variables with parameter $\lambda$.\\
+		$$P(T_1 > t) = P(N(t) = 0) = \exp^{\lambda t} \rightarrow T_1 \sim \text{EXP}(\lambda )$$
+		
+		The total waiting time for n occurrences of the event has a Gamma distribution (with parameters $(n,\lambda)$
+		\\
+		This implies that
+		$$E(S_n) = \frac{n}{\lambda} \, Var(S_n) = \frac{n}{\lambda^2}$$
+		The homogeneous Poisson process is a type of stochastic process that models events occurring randomly over time. Let's go through a step-by-step proof of some fundamental properties of a \textbf{homogeneous Poisson process} $N(t)$, with rate $\lambda > 0$.
+		
+		
+		\begin{enumerate}
+			\item Definition\\
+			A \textbf{Poisson process} $N(t)$ with rate $\lambda > 0$ is defined as a stochastic process with the following properties:
+			\subitem 1. $N(0) = 0$ (the process starts at 0).
+			\subitem 2. \textbf{Independent increments}: The number of events that occur in disjoint time intervals are independent.
+			\subitem 3. \textbf{Stationary increments}: The probability of $k$ events occurring in any time interval of length \( t \) depends only on $t$ , not on where the interval starts, and is given by the Poisson distribution:
+			$$P(N(t + s) - N(s) = k) = \frac{(\lambda t)^k e^{-\lambda t}}{k!}, \quad k = 0, 1, 2, \dots$$
+			
+			\item Proof: $N(t) \sim \text{Poisson}(\lambda t)$
+			
+			We will prove that the number of events $N(t)$ in a time interval $[0, t]$ follows a Poisson distribution with parameter $\lambda t$.
+			
+			\subitem Step 1: Small time intervals approximation
+			
+			Divide the time interval $[0, t]$ into $n$ small sub-intervals of length  $\Delta t = \frac{t}{n}$. For large $n$, each sub-interval is short, and we assume that:
+			\subsubitem 1. The probability of one event occurring in a sub-interval is approximately $\lambda \Delta t$.
+			\subsubitem 2. The probability of more than one event occurring in a sub-interval is negligible, i.e., $O(\Delta t^2)$.
+			
+			Thus, for each sub-interval $[t_i, t_{i+1}]$:
+			$$P(\text{1 event in } [t_i, t_{i+1}]) \approx \lambda \Delta t, \quad P(\text{no event in } [t_i, t_{i+1}]) \approx 1 - \lambda \Delta t.$$
+			
+			\subitem Step 2: Approximation for the total number of events
+			
+			Let $N_n(t)$ represent the number of events in the $n$ sub-intervals. Since the intervals are independent, $N_n(t)$ is the sum of $n$ independent Bernoulli random variables, where the probability of an event in each sub-interval is $\lambda \Delta t$.
+			
+			The expected number of events in $[0, t]$ is:
+			
+			$$E[N_n(t)] = n \cdot \lambda \Delta t = \lambda t$$.
+			
+			
+			As $n \to \infty$, the sum of these Bernoulli trials converges to a Poisson distribution with mean $\lambda t$ (this follows from the \textbf{Poisson limit theorem}).
+			
+			\item Step 3: Deriving the Poisson distribution
+			From the Poisson limit theorem, we conclude that as $\Delta t \to 0$  (or equivalently $n \to \infty$ ), the number of events $N(t)$ in $[0, t]$ converges to a Poisson random variable with parameter $\lambda t$, i.e.,
+			
+			$$P(N(t) = k) = \frac{(\lambda t)^k e^{-\lambda t}}{k!}, \quad k = 0, 1, 2, \dots$$
+			
+		\end{enumerate}
+		\textbf{Conclusion:}\\
+		We have shown that the number of events in a homogeneous Poisson process over a time interval $[0, t]$ follows a Poisson distribution with mean $\lambda t$, confirming the definition of the homogeneous Poisson process.
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+	
+\end{document}
