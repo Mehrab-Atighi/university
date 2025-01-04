@@ -55,12 +55,10 @@
       <file>biblatex.def</file>
       <file>standard.bbx</file>
       <file>numeric.bbx</file>
-      <file>numeric-comp.bbx</file>
-      <file>ieee.bbx</file>
-      <file>numeric-comp.cbx</file>
-      <file>ieee.cbx</file>
+      <file>numeric.cbx</file>
       <file>biblatex.cfg</file>
       <file>english.lbx</file>
+      <file>british.lbx</file>
     </requires>
   </internal>
   <external package="biblatex" priority="5" active="1">
