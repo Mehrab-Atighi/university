@@ -1,0 +1,14 @@
+\begin{thebibliography}{EKM97}
+
+\bibitem[Che19]{LectureA}
+Guangliang Chen.
+\newblock Poisson processes, 2019.
+
+\bibitem[EKM97]{Embrechts.etal1997}
+Paul Embrechts, Claudia Klüppelberg, and Thomas Mikosch.
+\newblock {\em Modelling extremal events}, volume~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer-Verlag, Berlin, 1997.
+\newblock For insurance and finance.
+
+\end{thebibliography}

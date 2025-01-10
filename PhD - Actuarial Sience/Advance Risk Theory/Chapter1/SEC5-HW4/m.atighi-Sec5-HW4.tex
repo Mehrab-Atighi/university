@@ -1,0 +1,75 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Check slowly varying - $f(x) = (x\ln(1+x))^\alpha$}}\\
+		Section 5 - Home Work 4
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Show that if we set $f(x) = \ln(\ln(e+x))$ then check that is this function slowly varying or not.\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+	To determine if the function \( f(x) = \ln(\ln(e+x)) \) is a slowly varying function, we use the definition of a slowly varying function. A function \( L(x) \) is slowly varying at infinity if for all \( a > 0 \):
+	
+	$$ \lim_{x \to \infty} \frac{L(ax)}{L(x)} = 1 $$
+	
+	Let's apply this to \( f(x) = \ln(\ln(e+x)) \):
+	\begin{enumerate}
+		\item \textbf{Substitute \( ax \) into the function:}
+	$$f(ax) = \ln(\ln(e+ax))$$
+	
+	\item \textbf{Form the ratio \( \frac{f(ax)}{f(x)} \):}
+	$$\frac{\ln(\ln(e+ax))}{\ln(\ln(e+x))}$$
+	\item \textbf{Take the limit as \( x \) approaches infinity:}
+	$$\lim_{x \to \infty} \frac{\ln(\ln(e+ax))}{\ln(\ln(e+x))}$$
+	\end{enumerate}
+	To evaluate this limit, consider the behavior of the logarithmic functions for large \( x \). For large \( x \), \( \ln(e+x) \approx \ln(x) \). Thus, we can approximate:
+	
+	\[
+	\ln(\ln(e+ax)) \approx \ln(\ln(ax)) = \ln(\ln(a) + \ln(x))
+	\]
+	
+	For large \( x \), \( \ln(a) \) becomes negligible compared to \( \ln(x) \), so:
+	
+	\[
+	\ln(\ln(a) + \ln(x)) \approx \ln(\ln(x))
+	\]
+	
+	Therefore:
+	
+	\[
+	\frac{\ln(\ln(e+ax))}{\ln(\ln(e+x))} \approx \frac{\ln(\ln(x))}{\ln(\ln(x))} = 1
+	\]
+	
+	Thus:
+	
+	\[
+	\lim_{x \to \infty} \frac{\ln(\ln(e+ax))}{\ln(\ln(e+x))} = 1
+	\]
+	
+	Since this limit equals 1 for any \( a > 0 \), \( f(x) = \ln(\ln(e+x)) \) is indeed a slowly varying function.
+	\cite{r1,r2,r3,r4,r5,r6,r7,r8,r9,r10}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

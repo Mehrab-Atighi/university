@@ -1,0 +1,81 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Moments of distributions in DA($\alpha$)}}\\
+		Section 10 - Home Work 4
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+				\textbf{Corollary 2.2.10 (Moments of distributions in DA($\alpha$))} If $X \in DA(\alpha)$, then \[ E|X|^\delta < \infty \quad \text{for } \delta < \alpha, \] \[ E|X|^\delta = \infty \quad \text{for } \delta > \alpha \text{ and } \alpha < 2. \] In particular, \[ \text{var}(X) = \infty \quad \text{for } \alpha < 2, \] \[ E|X| < \infty \quad \text{for } \alpha > 1, \] \[ E|X| = \infty \quad \text{for } \alpha < 1. \]
+				\cite{Embrechts.etal1997}
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+\textbf{Proof:}
+
+Let \( X \in DA(\alpha) \). We will examine the existence of the moments \( \mathbb{E}[|X|^\delta] \) based on the value of \( \delta \) relative to \( \alpha \).
+
+\subsection*{Part 1: Finite Moments for \( \delta < \alpha \)}
+
+To understand why \( \mathbb{E}[|X|^\delta] < \infty \) for \( \delta < \alpha \), recall that being in \( DA(\alpha) \) implies that \( X \) has a heavy-tailed distribution characterized by a decay rate that is asymptotically proportional to \( |X|^{-\alpha} \) as \( |X| \to \infty \). Specifically, there exists a constant \( C > 0 \) such that for large \( x \),
+\[
+P(|X| > x) \approx C x^{-\alpha}.
+\]
+
+For the \( \delta \)-th moment \( \mathbb{E}[|X|^\delta] \) to exist, we must have
+\[
+\int_{0}^{\infty} P(|X| > x^{1/\delta}) \, dx < \infty.
+\]
+Using the tail behavior \( P(|X| > x) \approx C x^{-\alpha} \), we approximate
+\[
+\mathbb{E}[|X|^\delta] = \int_{0}^{\infty} \delta x^{\delta - 1} P(|X| > x) \, dx \approx \int_{0}^{\infty} \delta x^{\delta - 1} C x^{-\alpha} \, dx.
+\]
+This integral converges if and only if \( \delta - \alpha < -1 \), or equivalently, \( \delta < \alpha \). Therefore, if \( \delta < \alpha \), then \( \mathbb{E}[|X|^\delta] < \infty \).
+
+\subsection*{Part 2: Infinite Moments for \( \delta > \alpha \) (when \( \alpha < 2 \))}
+
+Now suppose \( \delta > \alpha \) and \( \alpha < 2 \). We want to show that \( \mathbb{E}[|X|^\delta] = \infty \) in this case.
+
+Since \( X \in DA(\alpha) \), the tail decay rate \( P(|X| > x) \approx C x^{-\alpha} \) implies that for any \( \delta > \alpha \), the \( \delta \)-th moment integral diverges:
+\[
+\mathbb{E}[|X|^\delta] = \int_{0}^{\infty} \delta x^{\delta - 1} P(|X| > x) \, dx \approx \int_{0}^{\infty} \delta x^{\delta - 1} C x^{-\alpha} \, dx.
+\]
+This integral diverges if \( \delta > \alpha \), indicating that \( \mathbb{E}[|X|^\delta] = \infty \) for \( \delta > \alpha \) when \( \alpha < 2 \).
+
+\subsection*{Special Cases}
+
+Using the results above, we analyze some special cases for the moments of \( X \).
+
+\begin{itemize}
+	\item \textbf{Variance:} The variance \( \mathrm{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 \) is finite only if \( \alpha > 2 \). Since we assume \( X \in DA(\alpha) \) with \( \alpha < 2 \), we have \( \mathbb{E}[X^2] = \infty \), so \( \mathrm{Var}(X) = \infty \) for \( \alpha < 2 \).
+	
+	\item \textbf{First Moment:} The existence of the first moment \( \mathbb{E}[|X|] \) depends on whether \( \alpha > 1 \) or \( \alpha < 1 \).
+	\begin{itemize}
+		\item If \( \alpha > 1 \), then \( \mathbb{E}[|X|] < \infty \) because \( \delta = 1 < \alpha \).
+		\item If \( \alpha < 1 \), then \( \mathbb{E}[|X|] = \infty \) because \( \delta = 1 > \alpha \).
+	\end{itemize}
+\end{itemize}
+ \cite{r1,r2,r3,r4,r5,r6,r7}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

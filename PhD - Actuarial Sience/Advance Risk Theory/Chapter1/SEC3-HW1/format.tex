@@ -1,0 +1,64 @@
+\usepackage{titlesec}
+\usepackage[many]{tcolorbox}
+\usepackage{graphics}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{lineno}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{multirow}
+\usepackage{graphics}
+\usepackage{bm}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+
+
+
+% Adjust spacing after the chapter title
+% \titlespacing*{<command>}{<left>}{<before-sep>}{<after-sep>}
+\titlespacing*{\chapter}{0cm}{-2.0cm}{0.50cm}
+\titlespacing*{\section}{0cm}{0.50cm}{0.25cm}
+
+% Indent 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+
+% --- Theorems, lemma, corollary, postulate, definition ---
+% \numberwithin{equation}{section}
+
+
+\newtcbtheorem[]{problem}{Problem}%
+    {enhanced,
+    colback = black!5, %white,
+    colbacktitle = black!5,
+    coltitle = black,
+    boxrule = 0pt,
+    frame hidden,
+    borderline west = {0.5mm}{0.0mm}{black},
+    fonttitle = \bfseries\sffamily,
+    breakable,
+    before skip = 3ex,
+    after skip = 3ex
+}{problem}
+
+\newtcbtheorem[]{solve}{Solve}%
+{enhanced,
+	colback = black!5, %white,
+	colbacktitle = black,
+	coltitle=white,
+	boxrule = 0pt,
+	frame hidden,
+	borderline west = {0.5mm}{0.0mm}{black},
+	fonttitle = \bfseries\sffamily,
+	breakable,
+	before skip = 3ex,
+	after skip = 3ex
+}{solve}
+
+\tcbuselibrary{skins, breakable}

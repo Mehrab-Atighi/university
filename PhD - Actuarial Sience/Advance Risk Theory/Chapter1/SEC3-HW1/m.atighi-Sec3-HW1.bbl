@@ -1,0 +1,36 @@
+\begin{thebibliography}{}
+
+\bibitem[Asmussen, 2000]{r3}
+Asmussen, S. (2000).
+\newblock Ruin probabilities.
+\newblock {\em World Scientific}.
+
+\bibitem[Asmussen, 2003]{r4}
+Asmussen, S. (2003).
+\newblock Applied probability and queues.
+\newblock {\em Springer}.
+
+\bibitem[Asmussen and Glynn, 2010]{r5}
+Asmussen, S. and Glynn, P.~W. (2010).
+\newblock Stochastic simulation: Algorithms and analysis.
+\newblock {\em Springer}.
+
+\bibitem[Embrechts et~al., 1997]{Embrechts.etal1997}
+Embrechts, P., Klüppelberg, C., and Mikosch, T. (1997).
+\newblock {\em Modelling extremal events}, volume~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer-Verlag, Berlin.
+\newblock For insurance and finance.
+
+\bibitem[Geng et~al., 2024]{r2}
+Geng, B., Liu, Y., and Wan, H. (2024).
+\newblock Systemic risk asymptotics in a renewal model with multiple business
+  lines and heterogeneous claims.
+\newblock {\em arXiv preprint arXiv:2410.00158}.
+
+\bibitem[Schmidli, 2018]{r1}
+Schmidli, H. (2018).
+\newblock {\em The Renewal Risk Model}.
+\newblock Springer.
+
+\end{thebibliography}

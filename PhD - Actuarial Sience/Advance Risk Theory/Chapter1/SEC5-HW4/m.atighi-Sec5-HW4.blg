@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2021/W32TeX)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: m.atighi-Sec5-HW4.aux
+The style file: apalike.bst
+Database file #1: references.bib
+Warning--empty publisher in r2
+Warning--empty publisher in r10
+You've used 11 entries,
+            1935 wiz_defined-function locations,
+            517 strings with 4744 characters,
+and the built_in function-call counts, 3272 in all, are:
+= -- 328
+> -- 88
+< -- 13
++ -- 32
+- -- 26
+* -- 220
+:= -- 592
+add.period$ -- 27
+call.type$ -- 11
+change.case$ -- 67
+chr.to.int$ -- 9
+cite$ -- 13
+duplicate$ -- 150
+empty$ -- 236
+format.name$ -- 37
+if$ -- 638
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 5
+newline$ -- 52
+num.names$ -- 33
+pop$ -- 59
+preamble$ -- 1
+purify$ -- 68
+quote$ -- 0
+skip$ -- 124
+stack$ -- 0
+substring$ -- 195
+swap$ -- 22
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 64
+warning$ -- 2
+while$ -- 28
+width$ -- 0
+write$ -- 126
+(There were 2 warnings)

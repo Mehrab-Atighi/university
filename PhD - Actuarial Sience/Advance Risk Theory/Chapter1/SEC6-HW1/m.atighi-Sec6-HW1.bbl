@@ -1,0 +1,25 @@
+\begin{thebibliography}{}
+
+\bibitem[Embrechts et~al., 1997]{Embrechts.etal1997}
+Embrechts, P., Klüppelberg, C., and Mikosch, T. (1997).
+\newblock {\em Modelling extremal events}, volume~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer-Verlag, Berlin.
+\newblock For insurance and finance.
+
+\bibitem[Mandjes and Boxma, 2023]{r2}
+Mandjes, M. and Boxma, O. (2023).
+\newblock {\em The Cramér-Lundberg Model and Its Variants}.
+\newblock Springer Actuarial. Springer.
+
+\bibitem[Schmidli, 2018]{r1}
+Schmidli, H. (2018).
+\newblock {\em Risk Theory}.
+\newblock Springer Actuarial. Springer.
+
+\bibitem[Springer, 2023]{r3}
+Springer (2023).
+\newblock {\em Risk Theory}.
+\newblock Springer Actuarial. Springer.
+
+\end{thebibliography}

@@ -1,0 +1,13 @@
+name: Shiny-Project2
+title: Shiny-Project2
+username: mehrab-atighi
+account: mehrab-atighi
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13206245
+bundleId: 9303235
+url: https://mehrab-atighi.shinyapps.io/Shiny-Project2/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData

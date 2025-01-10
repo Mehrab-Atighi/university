@@ -1,0 +1,3 @@
+"0","ggplot(danishuni, aes(x = Date , y = Loss)) +"
+"0","  geom_line(binwidth = 3 , color = 85) +"
+"0","  labs(title = ""Trend of Total Losses from 1980 to 1991"", x = ""Loss (mDKK)"", y = ""Frequency"")"

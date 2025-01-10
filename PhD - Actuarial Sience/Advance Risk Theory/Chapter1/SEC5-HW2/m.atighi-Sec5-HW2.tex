@@ -1,0 +1,65 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Check slowly varying - $f(x) = \ln(1+x)$}}\\
+		Section 5 - Home Work 2
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Show that if we set $f(x) = \ln(1+x)$ then check that is this function slowly varying or not.\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+		To determine if the function \( f(x) = \ln(1+x) \) is a slowly varying function, we need to use the definition of a slowly varying function. A function \( L(x) \) is slowly varying at infinity if for all \( a > 0 \):
+		
+		$$ \lim_{x \to \infty} \frac{L(ax)}{L(x)} = 1 $$
+		
+		Let's apply this to \( f(x) = \ln(1+x) \):
+		\begin{enumerate}
+			\item 		\textbf{Substitute \( ax \) into the function:}
+			$$f(ax) = \ln(1+ax)$$
+			
+			\item \textbf{Form the ratio \( \frac{f(ax)}{f(x)} \):}
+			$$\frac{\ln(1+ax)}{\ln(1+x)}$$
+			\item \textbf{Take the limit as \( x \) approaches infinity:}
+			$$\lim_{x \to \infty} \frac{\ln(1+ax)}{\ln(1+x)}$$
+		\end{enumerate}
+
+		
+		To evaluate this limit, consider the behavior of the logarithmic function for \textbf{large \( x \)}. For large \( x \), \( \ln(1+x) \approx \ln(x) \). Thus, we can approximate:
+		
+		\[
+		\frac{\ln(1+ax)}{\ln(1+x)} \approx \frac{\ln(ax)}{\ln(x)} = \frac{\ln(a) + \ln(x)}{\ln(x)} = 1 + \frac{\ln(a)}{\ln(x)}
+		\]
+		
+		As \( x \) approaches infinity, \( \frac{\ln(a)}{\ln(x)} \) approaches 0. Therefore:
+		
+		\[
+		\lim_{x \to \infty} \frac{\ln(1+ax)}{\ln(1+x)} = 1
+		\]
+		
+		Since this limit equals 1 for any \( a > 0 \), \( f(x) = \ln(1+x) \) is indeed a slowly varying function.
+		\cite{r1,r2,r3,r4,r5,r6,r7,r8,r9,r10}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

@@ -1,0 +1,71 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Check slowly varying - $f(x) = (x\ln(1+x))^\alpha$}}\\
+		Section 5 - Home Work 3
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Show that if we set $f(x) = (x\ln(1+x))^\alpha$ then check that is this function slowly varying or not.\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+		To determine if the function \( f(x) = (x \ln(1+x))^\alpha \) is a slowly varying function, we need to use the definition of a slowly varying function. A function \( L(x) \) is slowly varying at infinity if for all \( a > 0 \):
+		$$ \lim_{x \to \infty} \frac{L(ax)}{L(x)} = 1 $$
+		Let's apply this to \( f(x) = (x \ln(1+x))^\alpha \):
+		\begin{enumerate}
+			
+			\item \textbf{Substitute \( ax \) into the function:}
+			$$f(ax) = (ax \ln(1+ax))^\alpha$$
+			
+			\item \textbf{Form the ratio \( \frac{f(ax)}{f(x)} \):}
+			$$\frac{(ax \ln(1+ax))^\alpha}{(x \ln(1+x))^\alpha} = \left( \frac{ax \ln(1+ax)}{x \ln(1+x)} \right)^\alpha = \left( a \frac{\ln(1+ax)}{\ln(1+x)} \right)^\alpha$$
+			
+			\item \textbf{Take the limit as \( x \) approaches infinity:}
+			$$\lim_{x \to \infty} \left( a \frac{\ln(1+ax)}{\ln(1+x)} \right)^\alpha$$
+		\end{enumerate}
+		
+		
+	
+		To evaluate this limit, consider the behavior of the logarithmic function for large \( x \). For large \( x \), \( \ln(1+x) \approx \ln(x) \). Thus, we can approximate:
+		
+		\[
+		\frac{\ln(1+ax)}{\ln(1+x)} \approx \frac{\ln(ax)}{\ln(x)} = \frac{\ln(a) + \ln(x)}{\ln(x)} = 1 + \frac{\ln(a)}{\ln(x)}
+		\]
+		
+		As \( x \) approaches infinity, \( \frac{\ln(a)}{\ln(x)} \) approaches 0. Therefore:
+		
+		\[
+		\lim_{x \to \infty} \frac{\ln(1+ax)}{\ln(1+x)} = 1
+		\]
+		
+		Thus:
+		
+		\[
+		\lim_{x \to \infty} \left( a \frac{\ln(1+ax)}{\ln(1+x)} \right)^\alpha = a^\alpha
+		\]
+		
+		Since \( a^\alpha \neq 1 \) for \( \alpha \neq 0 \), \( f(x) = (x \ln(1+x))^\alpha \) is \textbf{not} a slowly varying function unless \( \alpha = 0 \). \cite{r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

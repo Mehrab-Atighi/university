@@ -1,0 +1,93 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Expected Value of Risk Process}}\\
+		Section 3 - Home Work 1
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Proof of the Expected Value of the Risk Process with Small \( o \) Term. \cite{Embrechts.etal1997}:
+
+		\begin{enumerate}[(a)]
+			\item Prove the following
+			\begin{enumerate}[label = (\roman*)]
+				\item $E[U(t)] = u + (c - \lambda \mu)t (1 + o(1))$
+			\end{enumerate}
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+		To prove the expected value of the risk process \( U(t) \) in a renewal model, we start with the definition:
+		$$U(t) = u + ct - \sum_{i=1}^{N(t)} X_i$$
+		where:
+		\begin{enumerate}
+		\item \( u \) is the initial reserve.
+		\item \( c \) is the premium rate.
+		\item \( N(t) \) is the number of claims up to time \( t \), which follows a renewal process.
+		\item  \( X_i \) are the individual claim amounts, assumed to be i.i.d. random variables with mean \( \mu \). 
+	\end{enumerate}
+	Steps to Prove the Expected Value
+	\begin{enumerate}
+		
+		\item \textbf{Define the Renewal Process:}
+		\subitem Let \( \{X_i\} \) be the interarrival times between claims, which are i.i.d. with distribution function \( F_T \) and mean \( \lambda^{-1} \).
+		\subitem The counting process \( N(t) \) represents the number of claims by time \( t \).
+		
+		\item \textbf{Risk Process:}
+		\subitem The risk process \( U(t) \) is given by:
+		$$U(t) = u + ct - \sum_{i=1}^{N(t)} X_i$$
+		
+		\item \textbf{Expected Value of the Risk Process:}
+		\subitem To find the expected value \( E[U(t)] \), we use the linearity of expectation:
+		$$E[U(t)] = E[u + ct - \sum_{i=1}^{N(t)} X_i]$$
+		$$E[U(t)] = u + ct - E[\sum_{i=1}^{N(t)} X_i]$$
+		
+		\item \textbf{Expected Value of the Sum of Claims:}
+		\subitem The expected value of the sum of claims up to time \( t \) is:
+		$$E[\sum_{i=1}^{N(t)} X_i] = E[N(t)] \cdot E[X]$$
+		\subitem Using the renewal reward theorem, we know that for large \( t \):
+		$$E[N(t)] \approx \frac{t}{\lambda}$$
+		\subitem Therefore:
+		$$E[\sum_{i=1}^{N(t)} X_i] \approx \frac{t}{\lambda} \cdot \mu$$
+		
+		\item \textbf{Incorporating the Small \( o \) Term}
+		\subitem The renewal reward theorem also implies that there is a small error term \( o(1) \) that goes to zero as \( t \) grows large. Thus, we can write:
+		$$E[N(t)] = \frac{t}{\lambda} (1 + o(1))$$
+		\subitem Therefore:
+		$$E[\sum_{i=1}^{N(t)} X_i] = \frac{t}{\lambda} \cdot \mu (1 + o(1))$$
+		
+		\item \textbf{Combining Results:}
+		\subitem Substituting back into the expression for \( E[U(t)] \):
+		$$E[U(t)] = u + ct - \frac{t}{\lambda} \cdot \mu (1 + o(1))$$
+		\subitem Simplifying, we get:
+		$$E[U(t)] = u + ct - \frac{\mu}{\lambda} t (1 + o(1))$$
+		\subitem Since $(\lambda = \frac{1}{\mu})$, we have:
+		$$E[U(t)] = u + (c - \lambda \mu)t (1 + o(1))$$
+	\end{enumerate}
+		\textbf{Conclusion:}\\
+		The expected value of the risk process \( U(t) \) in a renewal model, as \( t \) approaches infinity, is given by:
+		$$E[U(t)] = u + (c - \lambda \mu)t (1 + o(1))$$
+		This incorporates the small \( o \) term, which represents a small error that diminishes as \( t \) becomes large. \cite{r1,r2,r3,r4,r5}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

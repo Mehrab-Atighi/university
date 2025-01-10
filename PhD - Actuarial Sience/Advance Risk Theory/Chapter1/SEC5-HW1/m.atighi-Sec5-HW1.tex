@@ -1,0 +1,60 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Proof of corollary 1.3.2}}\\
+		Section 5 - Home Work 1
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Proof of bellow relation \cite{Embrechts.etal1997}:
+
+		\begin{enumerate}[(a)]
+			\item Prove the following
+			\begin{enumerate}[label = (\roman*)]
+				\item If $F(x) = -x^{\alpha} L(x)$ for $\alpha > 0$  and $L \in R_{\rho}$ , then for all $n \geq 1$ ,
+				
+				$$\bar{F}^{n*}(x) \sim n \bar{F}(x), \quad x \rightarrow \infty$$
+				
+			\end{enumerate}
+		\end{enumerate}
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+		To solve this problem, I will take the help of inductive proof, which will be discussed further:
+		Suppose now that $X_1 , \cdots , X_n$ are iid with df F as in the above corollary Denote the partial sum of $X_1 , \cdots , X_n$ by $S_n = X_1 + \cdot + X_n$ and their maximum by $M_n = max(X_1 , \cdots , X_n).$ Then for all $n \geq 2$,
+		$$P(S_n>x) = \bar{F^{n*}}(x) ,$$
+		$$P(M_n >x) = \bar{F}^n(x) = \bar{F}(x) \sum_{k=0}^{n-1} F^{k}(x) \sim n \bar{F}(x)$$
+		so we start with set n = 2 and we have:
+		$$P(M_2 > x) = 1 - P(M_2 \leq x) = 1 - P(X_1 <x) P(X_2 <x)$$
+		$$1 - (F(x))^2 = (1-F(x))(1+F(x)) $$
+		$$\bar{F}(x)(1+F(x)) = \bar{F}(x)\sum_{k=0}^{n-1}F^k(x)$$
+		and now we should assume that n = k is usable for proofing n = k+1 so we have:
+		$$P(M_{n+1} > x) = 1-P(M_{n+1} <x) = 1-P(M_1<x) P(M_n<x)$$
+		$$= 1-F(x)(1-P(M_n>x)) = 1-F(x)(1-\bar{F}(x)\sum_{k=0}^{n-1}F^k(x)) $$
+		$$= 1 - (F(x) + F(x)\bar{F}(x)\sum_{k=0}^{n-1}F^k(x)) = 1 - F(x) + F(x)\bar{F}(x)\sum_{k=0}^{n-1}F^k(x)$$
+		$$= \bar{F}(x) + F(x)\bar{F}(x)\sum_{k=0}^{n-1}F^k(x) = \bar{F}(x)[1+F(x)\sum_{k=0}^{n-1}F^k(x)] = \bar{F}(x)[\sum_{k=0}^{n}F^k(x)]$$
+		$$\rightarrowtail \lim_{x \to \infty}\bar{F}(x)\sum_{k=0}^{n}F^k(x) = \bar{F}(x) * n$$
+		Done. so we can say the assumed where n = k is ok was write.
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

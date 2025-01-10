@@ -1,0 +1,14 @@
+\begin{thebibliography}{}
+
+\bibitem[Chen, 2019]{LectureA}
+Chen, G. (2019).
+\newblock Poisson processes.
+
+\bibitem[Embrechts et~al., 1997]{Embrechts.etal1997}
+Embrechts, P., Klüppelberg, C., and Mikosch, T. (1997).
+\newblock {\em Modelling extremal events}, volume~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer-Verlag, Berlin.
+\newblock For insurance and finance.
+
+\end{thebibliography}

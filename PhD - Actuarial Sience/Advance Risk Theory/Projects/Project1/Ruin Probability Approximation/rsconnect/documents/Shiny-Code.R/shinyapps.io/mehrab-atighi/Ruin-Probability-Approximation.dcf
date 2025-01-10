@@ -1,0 +1,13 @@
+name: Ruin-Probability-Approximation
+title: Ruin-Probability-Approximation
+username: mehrab-atighi
+account: mehrab-atighi
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 13349021
+bundleId: 9367858
+url: https://mehrab-atighi.shinyapps.io/Ruin-Probability-Approximation/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: app.R|Codes.R|Main-Approximation-Codes.R|Shiny-Functions-Source.R|What is the best approximation of ruin probability in infinite time.pdf

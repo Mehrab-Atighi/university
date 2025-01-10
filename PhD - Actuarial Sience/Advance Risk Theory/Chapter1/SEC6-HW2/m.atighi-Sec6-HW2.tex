@@ -1,0 +1,106 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Relationship between the negative binomial distribution and the gamma}}\\
+		Section 6 - Home Work 2
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Consider equation (1.35) with $F \in S$. Fix $t > 0$, and suppose that the sequence $(p_t(n))$ satisfies:
+		\[
+		\sum_{n=0}^{\infty} (1 + \epsilon)^n p_t(n) < \infty
+		\]
+		for some $\epsilon > 0$. We need to show that $G_t \in S$ and that
+		\[
+		\overline{G_t}(x) \sim EN(t) \overline{F}(x), \quad x \to \infty.
+		\]\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+The negative binomial distribution describes the probability of having \(k\) failures before achieving \(r\) successes in a sequence of independent and identically distributed Bernoulli trials. This distribution can be elegantly expressed using the gamma function.
+
+\section*{Negative Binomial Distribution}
+
+The probability mass function (PMF) of the negative binomial distribution for a random variable \(X\) is given by:
+
+\[
+P(X = k) = \binom{r+k-1}{k} (1-p)^r p^k
+\]
+
+where:
+\begin{itemize}
+	\item \(r\) is the number of successes,
+	\item \(p\) is the probability of success,
+	\item \(k\) is the number of failures.
+\end{itemize}
+
+\section*{Using the Gamma Function}
+
+Using the gamma function, which is defined as \(\Gamma(n) = (n-1)!\), the PMF can be rewritten. The binomial coefficient can be expressed using the gamma function:
+
+\[
+\binom{r+k-1}{k} = \frac{\Gamma(r+k)}{\Gamma(r) \Gamma(k+1)}
+\]
+
+Therefore, the PMF becomes:
+
+\[
+P(X = k) = \frac{\Gamma(r+k)}{\Gamma(r) \Gamma(k+1)} (1-p)^r p^k
+\]
+
+\section*{Simplification}
+
+To simplify further, let us transform the variables and assume a new parameter \(n = k\):
+
+\[
+P(X = n) = \frac{\Gamma(r+n)}{\Gamma(r) \Gamma(n+1)} (1-p)^r p^n
+\]
+
+Using the property of the gamma function \(\Gamma(n+1) = n!\), we have:
+
+\[
+P(X = n) = \frac{\Gamma(r+n)}{\Gamma(r) n!} (1-p)^r p^n
+\]
+
+Now, we can see that:
+
+\[
+\Gamma(r+n) = (r+n-1) \cdot (r+n-2) \cdots (r) \cdot \Gamma(r)
+\]
+
+When $n \rightarrow \infty$, this can be approximated by \(n^{r-1} \cdot \Gamma(r)\), thus:
+
+\[
+P(X = n) \approx \frac{(1-p)^r p^n n^{r-1} \Gamma(r)}{\Gamma(r) n!}
+\]
+
+Now, We can see that:
+
+\[
+P(X = n) \approx \frac{(1-p)^r \cdot n^{r-1} \cdot p^n}{\Gamma(r)}
+\]
+
+This is the relationship between the negative binomial distribution and the gamma. Now we can use it in the book example.
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

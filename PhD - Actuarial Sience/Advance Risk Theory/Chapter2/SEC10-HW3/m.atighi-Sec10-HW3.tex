@@ -1,0 +1,94 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Domain of attraction of a normal distribution}}\\
+		Section 10 - Home Work 3
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		\textbf{Proof of Corollary 2.2.9 (Domain of attraction of a normal distribution)}
+		
+		We are given a random variable \( X \) and aim to show that \( X \) is in the domain of attraction of a normal distribution if and only if one of the following conditions holds:
+		\begin{enumerate}
+			\item[(a)] \( \mathbb{E}[X^2] < \infty \),
+			\item[(b)] \( \mathbb{E}[X^2] = \infty \) and 
+			\[
+			G(x) = P(|X| > x) = o \left( x^{-2} \int_{|y| \leq x} y^2 \, dF(y) \right), \quad x \to \infty.
+			\]
+		\end{enumerate}
+		\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+\textbf{Proof:}
+We aim to show that \( X \) is in the domain of attraction of the normal distribution if and only if Condition (a) or Condition (b) holds.
+
+\subsection*{Background: Domain of Attraction of a Normal Distribution}
+
+A random variable \( X \) is said to be in the \textit{domain of attraction of a normal distribution} if, for a sequence of i.i.d.\ random variables \( X_1, X_2, \ldots \) with the same distribution as \( X \), there exist normalizing constants \( a_n \in \mathbb{R} \) and \( b_n > 0 \) such that
+\[
+\frac{X_1 + X_2 + \cdots + X_n - a_n}{b_n} \xrightarrow{d} \mathcal{N}(0, 1) \quad \text{as } n \to \infty.
+\]
+The central limit theorem implies that if \( \mathbb{E}[X^2] < \infty \), then \( X \) is in the domain of attraction of the normal distribution. However, if \( \mathbb{E}[X^2] = \infty \), additional conditions are needed to ensure this convergence.
+
+\subsection*{Condition (a): Finite Second Moment}
+
+Suppose that Condition (a) holds, i.e., \( \mathbb{E}[X^2] < \infty \).
+
+If \( \mathbb{E}[X^2] < \infty \), then the variance \( \mathrm{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 \) is finite. This implies that we can apply the central limit theorem directly to the sum \( S_n = X_1 + X_2 + \cdots + X_n \) of \( n \) i.i.d.\ copies of \( X \). By the central limit theorem, there exist constants \( a_n = n \mathbb{E}[X] \) and \( b_n = \sqrt{n \, \mathrm{Var}(X)} \) such that
+\[
+\frac{S_n - a_n}{b_n} \xrightarrow{d} \mathcal{N}(0, 1) \quad \text{as } n \to \infty.
+\]
+Thus, under Condition (a), \( X \) lies in the domain of attraction of the normal distribution.
+
+This proves one direction of the corollary: if \( \mathbb{E}[X^2] < \infty \), then \( X \) is in the domain of attraction of a normal distribution.
+
+\subsection*{Condition (b): Infinite Second Moment and Tail Condition}
+
+Now, suppose Condition (b) holds, i.e., \( \mathbb{E}[X^2] = \infty \) and
+\[
+G(x) = P(|X| > x) = o \left( x^{-2} \int_{|y| \leq x} y^2 \, dF(y) \right) \quad \text{as } x \to \infty.
+\]
+Our goal is to show that this tail condition (Equation (2.13)) implies that \( X \) still lies in the domain of attraction of the normal distribution, despite having infinite variance.
+
+When \( \mathbb{E}[X^2] = \infty \), the variance of \( X \) does not exist, so we cannot apply the standard central limit theorem directly. Instead, we need to ensure that the contribution of large values of \( |X| \) to the distribution is controlled in such a way that the normalized sums \( S_n = X_1 + X_2 + \cdots + X_n \) still converge in distribution to a normal distribution.
+
+\paragraph{Interpretation of Condition (2.13):}
+Condition (2.13) implies that the tail probabilities \( P(|X| > x) \) decay faster than the rate \( x^{-2} \int_{|y| \leq x} y^2 \, dF(y) \) as \( x \to \infty \). Intuitively, this means that the probability of \( X \) taking large values is sufficiently small, so that no single term in the sum \( S_n = X_1 + X_2 + \cdots + X_n \) dominates the distribution of the sum.
+
+\paragraph{Verification of the Tail Condition:}
+To formally verify that Condition (2.13) implies convergence to a normal distribution, we can examine the truncated second moment of \( X \). Define the truncated second moment by
+\[
+\mathbb{E}[X^2; |X| \leq x] = \int_{|y| \leq x} y^2 \, dF(y).
+\]
+Condition (2.13) implies that for large \( x \), the tail probability \( P(|X| > x) \) is small enough that the sum \( S_n \) (even without finite variance) behaves in a manner that approximates normal convergence when normalized appropriately.
+
+More specifically, since the probability mass in the tails is controlled, the central limit behavior for the truncated sums still leads to a normal limit. This result aligns with the broader theory of domains of attraction, where tail behavior often determines the limiting distribution when the variance is infinite.
+
+Thus, Condition (b) ensures that \( X \) lies in the domain of attraction of a normal distribution, even though \( \mathbb{E}[X^2] = \infty \).
+
+
+ \cite{r1,r2,r3,r4,r5,r6,r7,r8}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

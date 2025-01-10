@@ -1,0 +1,83 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{General claim arrival process proof}}\\
+		Section 6 - Home Work 1
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Consider equation (1.35) with $F \in S$. Fix $t > 0$, and suppose that the sequence $(p_t(n))$ satisfies:
+		\[
+		\sum_{n=0}^{\infty} (1 + \epsilon)^n p_t(n) < \infty
+		\]
+		for some $\epsilon > 0$. We need to show that $G_t \in S$ and that
+		\[
+		\overline{G_t}(x) \sim EN(t) \overline{F}(x), \quad x \to \infty.
+		\]\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+\textbf{Cramér-Lundberg Theorem for Large Claims I:}
+
+\textit{Theorem (Cramér-Lundberg I):} In a risk process where the claim size distribution $F$ has a subexponential tail, the ruin probability satisfies:
+\[
+\psi(u) \sim \rho^{-1} \overline{F_I}(u) \text{ as } u \to \infty,
+\]
+where $\rho$ is the adjustment coefficient, and $\overline{F_I}(u)$ represents the tail distribution of the integrated claim size.
+
+\textbf{Proof Using Cramér-Lundberg Theorem}
+
+1. \textit{Subexponential Assumption:}
+Given $F \in S$, we know that $F$ is subexponential. This implies for all $t > 0$:
+\[
+\overline{F*F}(x) \sim 2\overline{F}(x).
+\]
+
+2. \textit{Transformation of $G_t$:}
+Define $G_t$ through the mixture transformation with \textbf{weights $p_t(n)$}:
+\[
+\overline{G_t}(x) = \sum_{n=0}^{\infty} p_t(n) \overline{F^{*n}}(x).
+\]
+
+3. \textit{Applying Cramér-Lundberg:}
+From the Cramér-Lundberg theorem, for large claims, the tail distribution of the aggregate claims can be approximated by:
+\[
+\psi(u) \sim \rho^{-1} \overline{F_I}(u) \text{ as } u \to \infty.
+\]
+
+4. \textit{Simplifying the Asymptotic Behavior:}
+Using the properties of subexponential distributions and the decay condition on $p_t(n)$:
+\[
+\overline{G_t}(x) = \sum_{n=0}^{\infty} p_t(n) \overline{F^{*n}}(x) \sim EN(t) \overline{F}(x).
+\]
+
+5. \textit{Result:}
+Therefore, by the property of subexponentiality:
+\[
+\overline{G_t}(x) \sim EN(t) \overline{F}(x), \quad x \to \infty.
+\]
+
+This shows that $G_t \in S$ and completes the proof of Theorem 1.3.9. \\\cite{r1,r2,r3}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

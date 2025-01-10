@@ -1,0 +1,2 @@
+"0","gev_model <- gevFit(danishuni$Loss)"
+"0","evmix::hillplot(danishuni$Loss)"

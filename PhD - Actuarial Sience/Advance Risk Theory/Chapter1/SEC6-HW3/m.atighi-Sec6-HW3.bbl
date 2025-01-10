@@ -1,0 +1,37 @@
+\begin{thebibliography}{}
+
+\bibitem[Bernoulli, 1738]{r1}
+Bernoulli, D. (1738).
+\newblock {\em Specimen theoriae novae de mensura sortis}.
+\newblock St. Petersburg Academy.
+\newblock This work discusses the St. Petersburg paradox and introduces the
+  concept of expected utility.
+
+\bibitem[contributors, 2023]{r4}
+contributors, W. (2023).
+\newblock St. petersburg paradox.
+\newblock A comprehensive overview of the St. Petersburg paradox, its history,
+  and various proposed resolutions.
+
+\bibitem[Cox et~al., 2019]{r2}
+Cox, J.~C., Kroll, E.~B., Lichters, M., Sadiraj, V., and Vogt, B. (2019).
+\newblock The st. petersburg paradox despite risk-seeking preferences: an
+  experimental study.
+\newblock {\em Business Research}, 12:27--44.
+\newblock This article provides experimental results related to the St.
+  Petersburg paradox.
+
+\bibitem[Embrechts et~al., 1997]{Embrechts.etal1997}
+Embrechts, P., Klüppelberg, C., and Mikosch, T. (1997).
+\newblock {\em Modelling extremal events}, volume~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer-Verlag, Berlin.
+\newblock For insurance and finance.
+
+\bibitem[Press, 2011]{r3}
+Press, O.~U. (2011).
+\newblock St. petersburg paradox.
+\newblock An overview of the St. Petersburg paradox and its implications in
+  decision theory.
+
+\end{thebibliography}

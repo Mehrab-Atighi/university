@@ -1,0 +1,80 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Peter and Paul Distribution}}\\
+		Section 6 - Home Work 3
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		Peter tosses a fair coin until it lands on heads for the first time. If this happens at trial \( k \), Peter receives \( 2^k \) Roubles from Paul. The distribution function (df) of Peter's gain is given by:
+		
+		\[
+		F(x) = \sum_{k: 2^k \leq x} 2^{-k}, \quad x \geq 0
+		\]
+		\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+
+We aim to show why the fraction \( \frac{F(2^k - 1)}{F(2^k)} \) equals 2.
+
+1. \textit{CDF Definition:}
+\[
+F(2^k) = \sum_{j=1}^{k} 2^{-j}
+\]
+
+2. \textit{CDF at \(2^k - 1\):}
+\[
+F(2^k - 1) = \sum_{j=1}^{k-1} 2^{-j}
+\]
+
+3. \textit{Fraction Calculation:}
+\[
+\frac{F(2^k - 1)}{F(2^k)} = \frac{\sum_{j=1}^{k-1} 2^{-j}}{\sum_{j=1}^{k} 2^{-j}}
+\]
+
+4. \textit{Sum of a Geometric Series:}
+The sum of a geometric series \( \sum_{j=0}^{k-1} ar^j \) is given by:
+\[
+\sum_{j=0}^{k-1} ar^j = a \frac{1-r^k}{1-r}
+\]
+For our series, \( a = 2^{-1} \) and \( r = 2^{-1} \), so we have:
+\[
+\sum_{j=1}^{k} 2^{-j} = \frac{1 - 2^{-k}}{1 - 2^{-1}} = 1 - 2^{-k}
+\]
+
+5. \textit{Simplifying the Fraction:}
+\[
+\frac{F(2^k - 1)}{F(2^k)} = \frac{1 - 2^{-(k-1)}}{1 - 2^{-k}}
+\]
+
+6. \textit{Simplifying the expression:}
+\[
+\frac{1 - 2^{-(k-1)}}{1 - 2^{-k}} = \frac{1 - \frac{1}{2^{k-1}}}{1 - \frac{1}{2^k}} = 2
+\]
+
+Therefore, the fraction \( \frac{F(2^k - 1)}{F(2^k)} \) equals 2.\\
+\cite{r1,r2,r3,r4}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

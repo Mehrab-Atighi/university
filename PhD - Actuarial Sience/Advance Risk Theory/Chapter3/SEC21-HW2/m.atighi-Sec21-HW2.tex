@@ -1,0 +1,109 @@
+
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+	\begin{Large}
+		\textsf{\textbf{Find norming constant of lognormal distribution}}\\
+		Section 21 - Home Work 2
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+		\textbf{According to the Example 3.3.31 find norming constant of lognormal distribution.}
+		\cite{Embrechts.etal1997}
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+	\subsection*{Definition of the Lognormal Distribution}
+Let $X$ be a standard normal random variable, and define the lognormal random variable as:
+\[
+\tilde{X} = g(X) = e^{\mu + \sigma X}, \quad \mu \in \mathbb{R}, \ \sigma > 0.
+\]
+The goal is to study the asymptotic behavior of the maximum of the lognormal distribution, $\tilde{X}$, and show that $\tilde{X} \in \text{MDA}(\Lambda)$, the maximum domain of attraction of the Gumbel distribution.
+
+\subsection*{The Standard Normal Maximum}
+Since $X \in \text{MDA}(\Lambda)$, the maximum $M_n$ of $n$ standard normal random variables satisfies:
+\[
+\lim_{n \to \infty} P\left( \frac{M_n - d_n}{c_n} \leq x \right) = \Lambda(x), \quad x \in \mathbb{R},
+\]
+where $c_n$ and $d_n$ are norming constants for the standard normal distribution, given as:
+\[
+c_n \sim \frac{1}{(2 \ln n)^{1/2}}, \quad d_n \sim (2 \ln n)^{1/2} - \frac{\ln \ln n + \ln(4\pi)}{2(2 \ln n)^{1/2}}.
+\]
+Now, expanding the form of $d_n$ for large $n$, we have:
+\[
+d_n \sim (2 \ln n)^{1/2} - \frac{\ln \ln n + \ln(4\pi)}{2(2 \ln n)^{1/2}}.
+\]
+We can write the expansion of $d_n$ as:
+\[
+d_n = (2 \ln n)^{1/2} \left( 1 - \frac{\ln \ln n + \ln(4\pi)}{2 (2 \ln n)^{1/2}} \right).
+\]
+As $n \to \infty$, we see that $d_n \sim (2 \ln n)^{1/2}$, and the correction term is of smaller order.
+
+\subsection*{The Lognormal Maximum}
+Applying the transformation $g(x) = e^{\mu + \sigma x}$ to the maximum, the transformed maximum is:
+\[
+\tilde{M}_n = g(M_n) = e^{\mu + \sigma M_n}.
+\]
+To standardize $\tilde{M}_n$, we analyze the probability:
+\[
+P\left( \tilde{M}_n \leq e^{\mu + \sigma (c_n x + d_n)} \right).
+\]
+Taking the logarithm of both sides gives:
+\[
+P\left( M_n \leq c_n x + d_n \right),
+\]
+which converges to the Gumbel distribution:
+\[
+P\left( \frac{M_n - d_n}{c_n} \leq x \right) \to \Lambda(x), \quad \text{as } n \to \infty.
+\]
+
+\subsection*{Derivation of Norming Constants}
+Returning to $\tilde{M}_n$, we approximate it as:
+\[
+\tilde{M}_n = e^{\mu + \sigma M_n} = e^{\mu + \sigma d_n} e^{\sigma c_n x + o(\sigma c_n)}.
+\]
+Using the first-order approximation for the exponential term:
+\[
+e^{\sigma c_n x + o(\sigma c_n)} \approx 1 + \sigma c_n x + o(\sigma c_n),
+\]
+we find:
+\[
+\tilde{M}_n \approx e^{\mu + \sigma d_n} \left( 1 + \sigma c_n x + o(\sigma c_n) \right).
+\]
+Thus, we approximate the norming constants:
+\[
+\tilde{c}_n = \sigma c_n e^{\mu + \sigma d_n}, \quad \tilde{d}_n = e^{\mu + \sigma d_n}.
+\]
+
+\subsection*{Final Results}
+The lognormal maximum $\tilde{M}_n$ satisfies:
+\[
+\lim_{n \to \infty} P\left( \frac{\tilde{M}_n - \tilde{d}_n}{\tilde{c}_n} \leq x \right) = \Lambda(x), \quad x \in \mathbb{R}.
+\]
+Thus, $\tilde{X} \in \text{MDA}(\Lambda)$, with norming constants:
+\[
+\tilde{c}_n = \sigma c_n e^{\mu + \sigma d_n}, \quad \tilde{d}_n = e^{\mu + \sigma d_n}.
+\]
+		
+		\cite{Embrechts.etal1997}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

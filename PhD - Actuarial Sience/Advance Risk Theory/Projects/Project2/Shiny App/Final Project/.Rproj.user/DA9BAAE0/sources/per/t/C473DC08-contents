@@ -1,0 +1,388 @@
+---
+title: "Project Title"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: '2'
+  html_document:
+    toc: true
+    number_sections: true
+    toc_depth: 2
+fontsize: 12pt
+geometry: a4paper
+header-includes:
+- \usepackage{float}
+- \usepackage{graphicx}
+---
+
+# Introduction
+
+This project uses the Danish reinsurance claim dataset, which is a well-known dataset in actuarial science and extreme value theory. The dataset includes fire losses recorded at Copenhagen Reinsurance between 1980 and 1990. Loss amounts have been adjusted for inflation to reflect 1985 values and are expressed in millions of Danish Krone (mDKK).
+
+## Dataset Overview
+
+The dataset is available in two formats:
+
+-   **Univariate (danishuni)**: Contains two columns:
+    -   `Date`: The date of claim occurrence.
+    -   `Loss`: The total loss amount in mDKK.
+
+All columns are numeric except the `Date` columns, which are of class Date.
+
+###  Loading Libraries
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(fitdistrplus)
+```
+
+### Importing Data
+
+```{r load-data}
+# Load data
+data(danishuni, package = "fitdistrplus")
+head(danishuni)
+```
+
+# Exploratory Data Analysis for Extremes
+
+## Summary Statistics of Dataset
+
+```{r summary-uni}
+summary(danishuni)
+```
+
+## TimeSeries Plot of Data
+
+```{r , echo=TRUE , warning=FALSE}
+ggplot(danishuni, aes(x = Date , y = Loss)) +
+  geom_line(binwidth = 3 , color = 85) +
+  labs(title = "Trend of Total Losses from 1980 to 1991", x = "Loss (mDKK)", y = "Frequency")
+```
+
+## Histogram Plot of Data
+
+```{r , echo=TRUE , warning=FALSE}
+ggplot(danishuni, aes(x = Loss)) +
+  geom_histogram(binwidth = 3, fill = 85, alpha = 0.7 , color = "black") +
+  labs(title = "Distribution of Total Losses", x = "Loss (mDKK)", y = "Frequency")
+```
+
+## Histogram of Transformation data (ln)
+
+```{r , echo=TRUE , warning=FALSE}
+ggplot(danishuni, aes(x = log(Loss))) +
+  geom_histogram(binwidth = 0.1, fill = 85, alpha = 0.7 , color = "black") +
+  labs(title = "Distribution of log of Total Losses", x = "ln(Loss) (mDKK)", y = "Frequency")
+```
+
+## Mean Excess Plot of Data
+
+```{r , echo=TRUE ,warning=FALSE}
+# Load the dataset
+# Assuming your dataset is a data frame with columns 'date' and 'loss'
+# Example of loading a dataset:
+library(fitdistrplus)
+data("danishuni")
+
+# Extract the 'loss' column
+loss_data <- danishuni$Loss
+
+# Sort the loss data
+n <- length(loss_data)
+sorted_data <- sort(loss_data)
+
+# Function to calculate the mean excess for a given k
+mean_excess <- function(data, k) {
+  threshold <- data[k]
+  excesses <- data[(k+1):n] - threshold
+  return(mean(excesses, na.rm = TRUE))
+}
+
+# Compute the mean excess values for each k
+mean_excess_values <- sapply(1:(n-1), function(k) mean_excess(sorted_data, k))
+
+# Prepare points for the plot
+x_points <- sorted_data[1:(n-1)] # X_{k,n}
+y_points <- mean_excess_values   # e_n(X_{k,n})
+
+# Create the Mean Excess Plot
+plot(x_points, y_points, type = "p", pch = 16, col = "blue",
+     xlab = "Threshold (X_{k,n})",
+     ylab = "Mean Excess e_n(X_{k,n})",
+     main = "Mean Excess Plot" 
+    #, xlim = c(0 , 70)
+     )
+abline(h = 0, col = "red", lty = 2)
+library(fExtremes)
+mePlot(danishuni$Loss)
+```
+
+## Quantile-Quantile Plot of Data with Exponential Distribution
+
+```{r, echo=TRUE , warning=FALSE}
+# Extract the 'loss' column
+library(fitdistrplus)
+data("danishuni")
+loss_data <- danishuni$Loss
+
+# Sort the loss data
+sorted_loss <- sort(loss_data)
+
+# Generate theoretical quantiles for an exponential distribution
+lambda1 <- 1/mean(loss_data)#quantile(loss_data , probs = 0.975) # Estimate rate parameter (lambda) from the data
+lambda2 <- 1/quantile(loss_data , probs = 0.975) # Estimate rate parameter (lambda) from the data
+
+n <- length(sorted_loss)
+exp_quantiles1 <- qexp(ppoints(n), rate = lambda1)  # Theoretical quantiles
+exp_quantiles2 <- qexp(ppoints(n), rate = lambda2)  # Theoretical quantiles
+
+# Create the QQ-plot
+par(mfrow = c(1,2))
+qqplot(y = exp_quantiles1, x = sorted_loss, 
+       main = "QQ-Plot of Loss Data vs Exponential Distribution with lambda = 1/mean",
+       xlab = "Theoretical Quantiles (Exponential)",
+       ylab = "Empirical Quantiles (Loss)",
+       pch = 16, col = "blue")
+# Add a 45-degree reference line
+abline(0, 1, col = "red", lty = 2)
+#add second plot 
+qqplot(y = exp_quantiles2, x = sorted_loss, 
+       main = "QQ-Plot of Loss Data vs Exponential Distribution with lambda = 1/percentile(0.975)",
+       xlab = "Theoretical Quantiles (Exponential)",
+       ylab = "Empirical Quantiles (Loss)",
+       pch = 16, col = "blue")
+# Add a 45-degree reference line
+abline(0, 1, col = "red", lty = 2)
+```
+
+## Quantile-Quantile Plot of Data with Pareto Distribution
+
+```{r, echo=TRUE , warning=FALSE}
+# Load the dataset
+library(fitdistrplus)
+data("danishuni")
+loss_data <- danishuni$Loss
+
+# Sort the loss data
+sorted_loss <- sort(loss_data)
+n <- length(sorted_loss)
+
+# Estimate Pareto parameters
+# We'll estimate the scale (sigma) and shape (alpha) using the method of moments
+sigma <- min(loss_data)  # Scale parameter (minimum value of the data)
+alpha <- 1 / (log(mean(loss_data / sigma)))  # Shape parameter
+
+# Generate theoretical quantiles for the Pareto distribution
+pp <- ppoints(n)  # Proportions for quantiles
+pareto_quantiles <- sigma * (1 - pp)^(-1 / alpha)  # Theoretical quantiles
+
+# Create the QQ-plot
+par(mfrow = c(1,1))
+qqplot(y = pareto_quantiles, x = sorted_loss, 
+       main = "QQ-Plot of Loss Data vs Pareto Distribution",
+       xlab = "Theoretical Quantiles (Pareto)",
+       ylab = "Empirical Quantiles (Loss)",
+       pch = 16, col = "blue")
+
+# Add a 45-degree reference line
+abline(0, 1, col = "red", lty = 2)
+```
+
+## Gumbels Method of Exceedances
+```{r , echo=TRUE , warning=FALSE}
+library(dplyr)
+n = nrow(danishuni)
+r = 25
+j = 0:9
+df = data.frame(probability = 0:9)
+k_max = length(which(danishuni$Loss >= quantile(danishuni$Loss , 0.95)))
+
+for(k in 1:k_max){
+  df1 = data.frame(K = round( choose((r + n - k - j) , (n-k) ) * choose((j + k - 1) , (k-1) ) / choose((r + n ) , (n) )  , 4))
+  df <- bind_cols(df , df1)
+  
+}
+df = df[,-1]
+rownames(df) = c(paste0("j = " , 0:9))
+colnames(df) = c(paste0("k = " , 1:k_max))
+head(df)
+```
+
+## The Return Period
+```{r ,echo=TRUE ,warning=FALSE}
+k = 100
+u = 10.58 # or you can use this: sort(danishuni$Loss , decreasing = T)[k]
+p = as.numeric(substr(names(which.min(abs(u - quantile(danishuni$Loss , probs = seq(from = 0 , to = 1 , 0.001))))) , 1 , 4))/100
+r_k = sum((1 - p)^(1:(k-1))) * p
+r_k
+```
+
+## Records as an Exploratory Tool
+```{r, echo=TRUE ,warning=FALSE}
+# Load necessary libraries
+library(ggplot2)
+# Ensure your date column is in Date format (replace 'Date' with the actual column name if different)
+
+# Find new all-time high loss values
+data <- danishuni %>%
+  arrange(Date) %>%
+  mutate(is_new_record = cumsum(Loss == cummax(Loss)))
+
+# Count the number of new records per year
+new_records_per_year <- data %>%
+  filter(is_new_record == 1) %>%
+  mutate(year = format(Date, "%Y")) %>%
+  group_by(year) %>%
+  summarise(count = n())
+
+# Plot the number of new records per year
+ggplot(data, aes(x = Date, y = is_new_record)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Number of New All-Time High Loss Records Per Year",
+       x = "Year",
+       y = "Number of New Records") +
+  theme_minimal()
+```
+
+## The Ratio of Maximum and Sum
+```{r ,echo=TRUE ,warning=FALSE}
+loss_data <- danishuni$Loss          # Extract the loss column
+n <- length(loss_data)               # Number of observations
+
+# Values of p to consider
+p_values <- seq(1,4 , 1)
+
+# Preallocate storage for R_n(p)
+R_n_matrix <- matrix(NA, nrow = n, ncol = length(p_values))
+colnames(R_n_matrix) <- paste0("p=", p_values)
+
+# Calculate R_n(p) for each value of p
+for (j in seq_along(p_values)) {
+  p <- p_values[j]
+  abs_loss_p <- abs(loss_data)^p
+  
+  for (i in 1:n) {
+    S_n <- sum(abs_loss_p[1:i])       # Sum up to the i-th element
+    M_n <- max(abs_loss_p[1:i])       # Max up to the i-th element
+    R_n_matrix[i, j] <- M_n / S_n     # Ratio
+  }
+}
+
+# Plot R_n(p) against n for each p
+par(mfrow = c((round(length(p_values)/2 , 0)), 2))  # One plot for each p
+for (j in seq_along(p_values)) {
+  plot(1:n, R_n_matrix[, j], type = "l", 
+       main = paste("R_n(p) for p =", p_values[j]),
+       xlab = "n", ylab = "R_n(p)", col = "blue", lwd = 2)
+  abline(h = 0, col = "red", lty = 2) # Add reference line at 0
+}
+```
+
+# Parameter Estimation for the Generalised Extreme Value Distribution (GEV)
+## introduction
+```{r ,echo=TRUE ,warning=FALSE}
+library(fitdistrplus)
+library(ismev)       # For GEV functions
+library(extRemes)    # Additional extreme value analysis tools
+library(EnvStats)
+```   
+
+## Maximum Likelihood Estimation
+### for all data
+```{r , echo=TRUE ,warning=FALSE} 
+library(extRemes)    # Additional extreme value analysis tools
+#GEV ON ALL DATA WITH MLE method
+loss_data <- danishuni$Loss
+gev_fit_all_data_mle <- fevd(loss_data, method = "MLE", type = "GEV")
+summary(gev_fit_all_data_mle)
+plot(gev_fit_all_data_mle)
+return_level <- return.level(gev_fit_all_data_mle, return.period = 100)
+print(return_level)
+# simulated_data1 <- rgev(1000,                                                 loc = gev_fit_all_data_mle$results$par["location"], 
+#                        scale = gev_fit_all_data_mle$results$par["scale"], 
+#                        shape = gev_fit_all_data_mle$results$par["shape"])
+# head(simulated_data1)
+```
+
+### for Monthly maxima data(BlockMaximum)
+```{r ,echo=TRUE , warning=FALSE}
+#GEV ON BLOCK MAX DATA with MLE method
+library(dplyr)
+danish_block_max <- danishuni %>%
+  group_by(year = lubridate::year(Date)) %>%  # فرض کنید ستون Date دارد
+  summarise(MaxLoss = max(Loss))
+gev_fit_blockMax_data_mle <- fevd(danish_block_max$MaxLoss, method = "MLE"  , type = "GEV")
+summary(gev_fit_blockMax_data_mle)
+plot(gev_fit_blockMax_data_mle)
+return_level <- return.level(gev_fit_blockMax_data_mle, return.period = 100)
+print(return_level)
+# simulated_data2 <- rgev(1000, loc = gev_fit_blockMax_data_mle$results$par["location"], 
+#                        scale = gev_fit_blockMax_data_mle$results$par["scale"], 
+#                        shape = gev_fit_blockMax_data_mle$results$par["shape"])
+# head(simulated_data2)
+```
+
+
+
+
+## Method of Probability	Weighted Moments
+### introduction
+some information
+
+### for all data
+```{r ,echo=TRUE ,warning=FALSE}
+loss_data <- danishuni$Loss
+gev_fit_all_data_pwm <-egevd(loss_data, method = "pwme")
+# برازش توزیع Generalized Pareto به exceedances
+gev_fit_all_data_pwm
+# simulated_data3 <- rgev(1000, loc = gev_fit_all_data_pwm$parameters["location"], 
+#                         scale = gev_fit_all_data_pwm$parameters["scale"], 
+#                         shape = gev_fit_all_data_pwm$parameters["shape"])
+# head(simulated_data3)
+```
+
+### for Monthly maxima data(BlockMaximum)
+```{r ,echo=TRUE ,warning=FALSE}
+#GEV ON BLOCK MAX DATA WITH PWM method
+gev_fit_BlockMax_pwm <-egevd(danish_block_max$MaxLoss, method = "pwme")
+# برازش توزیع Generalized Pareto به exceedances
+gev_fit_BlockMax_pwm
+# simulated_data4 <- rgev(1000, loc = gev_fit_BlockMax_pwm$parameters["location"], 
+#                         scale = gev_fit_BlockMax_pwm$parameters["scale"], 
+#                         shape = gev_fit_BlockMax_pwm$parameters["shape"])
+# head(simulated_data4)
+```
+# Estimating Under Maximum Domain of Attraction
+
+## Pickands's Estimator
+
+## Hill's Estimator
+
+# Fitting Excesses Over a Threshold
+
+## Fitting the GPD
+### Introduction
+
+### Maximum Likelihood Estimation
+
+### Method of Probability	Weighted Moments
+
+
+
+# Conclusion
+
+The Danish reinsurance dataset provides valuable insights into fire losses and their components, making it an excellent resource for studying loss severity distributions and extreme value theory.
+
+------------------------------------------------------------------------
+
+This template includes:
+
+-   **Table of Contents**: Automatically generated.
+-   **R Code Display**: Presented using R code chunks.
+-   **PDF Output Formatting**: Includes appropriate fonts, page settings, and LaTeX packages for better control over the appearance.

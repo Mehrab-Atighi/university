@@ -1,0 +1,65 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Characterisation of domain of attraction}}\\
+		Section 10 - Home Work 1
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+			\textbf{Theorem 2.2.8 (Characterisation of domain of attraction)}
+		
+		\begin{itemize}
+			\item[(a)] The distribution function (df) \( F \) belongs to the domain of attraction of a normal law if and only if
+			
+			
+			\[
+			\int_{|y| \leq x} y^2 \, dF(y)
+			\]
+			
+			
+			is slowly varying.
+
+		\end{itemize}
+		\cite{Embrechts.etal1997}:
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+\textbf{Proof:}
+
+Let \( X_1, X_2, \ldots, X_n \) be i.i.d. random variables with mean \( \mu \) and variance \( \sigma^2 \). Define the sample mean \( \overline{X}_n \) as \[ \overline{X}_n = \frac{1}{n} \sum_{i=1}^{n} X_i. \] We aim to show that \( F \) belongs to the domain of attraction of a normal law if and only if \[ \int_{|y| \leq x} y^2 \, dF(y) \] is slowly varying.
+ \subsection*{Step 1: Central Limit Theorem:}
+ According to the Central Limit Theorem (CLT), if \( X_i \) are i.i.d. with mean \( \mu \) and variance \( \sigma^2 \), then \[ \frac{\overline{X}_n - \mu}{\sigma / \sqrt{n}} \xrightarrow{d} \mathcal{N}(0, 1). \] This implies that for large \( n \), \[ P\left( \left| \overline{X}_n - \mu \right| \geq \epsilon \right) \to 0, \] for any \( \epsilon > 0 \).
+ \subsection*{Step 2: Variance of the Sample Mean:} 
+ Consider the variance of the sample mean: \[ \text{Var}(\overline{X}_n) = \text{Var}\left( \frac{1}{n} \sum_{i=1}^{n} X_i \right) = \frac{1}{n^2} \sum_{i=1}^{n} \text{Var}(X_i) = \frac{\sigma^2}{n}. \] 
+ \subsection*{Step 3: Application of Chebyshev's Inequality:}\
+ Using Chebyshev's inequality, we have: \[ P\left( \left| \overline{X}_n - \mu \right| \geq \epsilon \right) \leq \frac{\text{Var}(\overline{X}_n)}{\epsilon^2} = \frac{\sigma^2}{n \epsilon^2}. \] As \( n \to \infty \), the right-hand side approaches 0: \[ \lim_{n \to \infty} \frac{\sigma^2}{n \epsilon^2} = 0. \] This implies: \[ \lim_{n \to \infty} P\left( \left| \overline{X}_n - \mu \right| \geq \epsilon \right) = 0, \] which shows that \( \overline{X}_n \) converges in probability to \( \mu \). 
+\subsection*{Step 4: Slowly Varying Second Moment:}
+For \( F \) to be in the domain of attraction of the normal law, the second moment must be slowly varying. Specifically, \[ \int_{|y| \leq x} y^2 \, dF(y) \] is slowly varying, meaning that as \( x \to \infty \), the ratio of this integral to any constant multiple of \( x^2 \) converges to 0. This condition ensures that the variance does not diverge too rapidly, allowing the normalized sum to converge to the normal distribution. 
+ \\ Ratio of the Integral Consider: \[ M(x) = \int_{|y| \leq x} y^2 \, dF(y). \] We need to show: \[ \lim_{x \to \infty} \frac{M(tx)}{M(x)} = 1 \quad \text{for all} \quad t > 0. \] \\
+ Bounded Variance Case: If \( E[X^2] = \sigma^2 < \infty \), then for sufficiently large \( x \), the integral of the second moment within the range \( |y| \leq x \) will be dominated by the variance, which is finite and does not depend on \( x \). In this case, \( M(x) \) is trivially slowly varying because it approaches a constant value: \[ M(x) \approx \sigma^2. \] \\
+ Unbounded Variance Case:** If \( E[X^2] = \infty \), we need the integral \( M(x) \) to be slowly varying: \[ M(x) = \int_{|y| \leq x} y^2 \, dF(y). \] To ensure that \( M(x) \) is slowly varying, the growth of \( M(x) \) should be moderated such that: \[ \lim_{x \to \infty} \frac{\int_{|y| \leq tx} y^2 \, dF(y)}{\int_{|y| \leq x} y^2 \, dF(y)} = 1. \] \\
+  \textbf{Implications:} - If the second moment \( M(x) \) grows too quickly (i.e., not slowly varying), the CLT would not hold, and the normalized sums would not converge to a normal distribution. - If \( M(x) \) is slowly varying, the variance does not grow too rapidly, allowing the sums to stabilize, thereby satisfying the conditions of the CLT and implying that the distribution is in the domain of attraction of the normal law (DNA). Thus, we have shown that the second moment being slowly varying is a necessary condition for a distribution to be in the domain of attraction of the normal law.\\
+ \cite{r1,r2,r3,r4,r5,r6,r7}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

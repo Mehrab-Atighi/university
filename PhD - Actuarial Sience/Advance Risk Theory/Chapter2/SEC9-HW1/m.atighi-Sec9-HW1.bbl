@@ -1,0 +1,48 @@
+\begin{thebibliography}{}
+
+\bibitem[Billingsley, 2008]{r5}
+Billingsley, P. (2008).
+\newblock {\em Probability and Measure}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Chebyshev, 1867]{r3}
+Chebyshev, P.~L. (1867).
+\newblock Des valeurs moyennes.
+\newblock {\em Journal de Math{\'e}matiques pures et appliqu{\'e}es},
+  12:177--184.
+
+\bibitem[Durrett, 2019]{r6}
+Durrett, R. (2019).
+\newblock {\em Probability: Theory and Examples}.
+\newblock Cambridge University Press.
+
+\bibitem[Embrechts et~al., 1997]{Embrechts.etal1997}
+Embrechts, P., Klüppelberg, C., and Mikosch, T. (1997).
+\newblock {\em Modelling extremal events}, volume~33 of {\em Applications of
+  Mathematics (New York)}.
+\newblock Springer-Verlag, Berlin.
+\newblock For insurance and finance.
+
+\bibitem[Feller, 2008]{r4}
+Feller, W. (2008).
+\newblock {\em An Introduction to Probability Theory and Its Applications,
+  Volume 1}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Grimmett and Stirzaker, 2020]{r2}
+Grimmett, G. and Stirzaker, D. (2020).
+\newblock {\em Probability and Random Processes}.
+\newblock Oxford University Press.
+
+\bibitem[Klenke, 2013]{r7}
+Klenke, A. (2013).
+\newblock {\em Probability Theory: A Comprehensive Course}.
+\newblock Springer.
+
+\bibitem[Ross, 2014]{r1}
+Ross, S.~M. (2014).
+\newblock {\em Introduction to Probability and Statistics for Engineers and
+  Scientists}.
+\newblock Academic Press.
+
+\end{thebibliography}

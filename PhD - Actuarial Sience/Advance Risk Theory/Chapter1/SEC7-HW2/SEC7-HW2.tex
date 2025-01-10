@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amsfonts,amssymb,graphicx,geometry,booktabs}
+\geometry{a4paper, margin=1in}
+\title{The Cram\'er-Lundberg Model in Risk Theory with Non-Homogeneous Claims}
+\author{Prepared for Academic Submission}
+\date{December 13, 2024}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		This document provides an overview of the Cram\'er-Lundberg model, a cornerstone in risk theory, with extensions to non-homogeneous claim arrival processes. It includes mathematical foundations, implementation details, and connections to simulations using the Shiny application. The focus is on analyzing risk processes under Lognormal and Exponential claim size distributions, emphasizing how parameter variations influence the variance and behavior of the risk process.
+	\end{abstract}
+	
+	\section{Introduction}
+	The Cram\'er-Lundberg model is a fundamental stochastic model in risk theory, used to describe the surplus of an insurance company over time. The surplus process is defined as:
+	\[
+	R(t) = u + ct - S(t), \quad t \geq 0,
+	\]
+	where:
+	\begin{itemize}
+		\item $u$ is the initial reserve,
+		\item $c$ is the premium rate,
+		\item $S(t)$ is the aggregate claim amount by time $t$.
+	\end{itemize}
+	The goal is often to study the probability of ruin, which occurs when $R(t) < 0$ for some $t \geq 0$.
+	
+	In this extension, we consider a time-dependent claim arrival process $N(t)$, where the rate of claims may vary over time. Consequently, the distribution of the number of claims and their aggregate amount becomes time-dependent.
+	
+	\section{Mathematical Formulation}
+	\subsection{Aggregate Claims}
+	The aggregate claims $S(t)$ are modeled as:
+	\[
+	S(t) = \sum_{i=1}^{N(t)} X_i,
+	\]
+	where:
+	\begin{itemize}
+		\item $N(t)$ is a non-homogeneous process representing the number of claims up to time $t$, potentially modeled using a Negative Binomial distribution,
+		\item $X_i$ are independent and identically distributed random variables representing claim sizes.
+	\end{itemize}
+	The expected value and variance of $S(t)$ depend on the time-dependent rate of $N(t)$, denoted as $\lambda(t)$, and the distribution of $X_i$.
+	
+	\subsection{Risk Process}
+	The risk process is given by:
+	\[
+	R(t) = u + ct - \sum_{i=1}^{N(t)} X_i.
+	\]
+	If $\mathbb{E}[X_i] = \mu$, the expected value of the risk process is:
+	\[
+	\mathbb{E}[R(t)] = u + ct - \mathbb{E}[N(t)] \mu.
+	\]
+	The variance of $R(t)$ includes contributions from the variability in $N(t)$ and $X_i$, expressed as:
+	\[
+	\text{Var}(R(t)) = \text{Var}(S(t)) = \text{Var}(N(t)) \mu^2 + \mathbb{E}[N(t)] \sigma_X^2.
+	\]
+	
+	\subsection{Claim Arrival Process}
+	In non-homogeneous cases, $N(t)$ may follow a distribution like the Negative Binomial. For a Negative Binomial process:
+	\[
+	\mathbb{P}(N(t) = k) = \binom{k + r - 1}{k} (1 - p)^r p^k, \quad k \geq 0,
+	\]
+	where:
+	\begin{itemize}
+		\item $r$ is the dispersion parameter,
+		\item $p$ is the success probability.
+	\end{itemize}
+	The mean and variance of $N(t)$ are given by:
+	\[
+	\mathbb{E}[N(t)] = \frac{r(1-p)}{p}, \quad \text{Var}(N(t)) = \frac{r(1-p)}{p^2}.
+	\]
+	
+	\subsection{Probability of Ruin}
+	The probability of ruin $\psi(u)$ remains a key metric, but its calculation requires numerical methods for non-homogeneous $N(t)$. The approximation:
+	\[
+	\psi(u) \approx Ce^{-\gamma u},
+	\]
+	may still apply under certain assumptions, with $\gamma$ determined from $\mathbb{E}[e^{-\gamma X}]$.
+	
+	\section{Claim Size Distributions}
+	\subsection{Lognormal Distribution}
+	The Lognormal distribution is defined as:
+	\[
+	X \sim \text{Lognormal}(\mu, \sigma),
+	\]
+	with probability density function:
+	\[
+	f_X(x) = \frac{1}{x \sigma \sqrt{2\pi}} \exp\left(-\frac{(\ln x - \mu)^2}{2\sigma^2}\right), \quad x > 0.
+	\]
+	The mean and variance are given by:
+	\[
+	\mathbb{E}[X] = e^{\mu + \frac{\sigma^2}{2}}, \quad \text{Var}(X) = \left(e^{\sigma^2} - 1\right)e^{2\mu + \sigma^2}.
+	\]
+	As $\sigma$ increases, the variance of $X$ grows exponentially, leading to greater variability in the risk process.
+	
+	\subsection{Exponential Distribution}
+	The Exponential distribution is defined as:
+	\[
+	X \sim \text{Exponential}(\lambda),
+	\]
+	with probability density function:
+	\[
+	f_X(x) = \lambda e^{-\lambda x}, \quad x \geq 0.
+	\]
+	The mean and variance are given by:
+	\[
+	\mathbb{E}[X] = \frac{1}{\lambda}, \quad \text{Var}(X) = \frac{1}{\lambda^2}.
+	\]
+	As $\lambda$ decreases, the variance increases, leading to heavier-tailed behavior and greater variability in claim sizes.
+	
+	\section{Implementation in Shiny}
+	The Shiny application simulates the risk process under Lognormal and Exponential distributions, incorporating the non-homogeneous claim arrival process. Parameters such as $r$, $p$, $\lambda(t)$, $\mu$, $\sigma$, and $\lambda$ are adjustable via the interface, directly affecting the variance and behavior of the risk process \cite{Embrechts.etal1997}.
+	
+	\subsection{Simulation Algorithm}
+	The simulation involves:
+	\begin{enumerate}
+		\item Generating claim arrival times using a non-homogeneous process like Negative Binomial.
+		\item Sampling claim sizes from the specified distribution.
+		\item Calculating $S(t)$ and $R(t)$ for each time step.
+	\end{enumerate}
+	For instance, increasing $r$ or decreasing $p$ in the Negative Binomial distribution increases the variance of $N(t)$, impacting the risk process.
+	
+	\subsection{Key Code Snippets}
+	The function to simulate the risk process is implemented as follows:
+	\begin{verbatim}
+		simulate_risk_process <- function(u, c, t_max, claim_size_dist, size, prob) {
+			t <- seq(0, t_max)
+			num_claims <- rnbinom(1, size = size, prob = prob)
+			claim_times <- sort(runif(num_claims, 0, t_max))
+			claim_sizes <- claim_size_dist(num_claims)
+			S_t <- rep(0, length(t))
+			for (i in 1:num_claims) {
+				S_t[t >= claim_times[i]] <- S_t[t >= claim_times[i]] + claim_sizes[i]
+			}
+			RU <- u + c * t - S_t
+			return(data.frame(time = t, RU = RU))
+		}
+	\end{verbatim}
+	
+	\section{Results and Visualization}
+	The Shiny application provides:
+	\begin{itemize}
+		\item Time series plots of $R(t)$ for multiple simulations.
+		\item Comparison of risk processes under Lognormal and Exponential distributions.
+		\item Analysis of how parameter changes in $N(t)$ and claim size distributions affect variance.
+	\end{itemize}
+	Sample plots include:
+	\begin{itemize}
+		\item Risk processes simulated for Lognormal distribution.
+		\item Risk processes simulated for Exponential distribution.
+		\item Combined comparison plot.
+	\end{itemize}
+	
+	\section{Conclusion}
+	The Cram\'er-Lundberg model with non-homogeneous claim arrival processes extends the classical framework, allowing for greater flexibility and realism in modeling risk. Parameters such as $r$, $p$, $\lambda(t)$, $\mu$, $\sigma$, and $\lambda$ significantly influence the variance and tail behavior of the claim size distributions. Using Shiny, it is possible to visualize these effects, facilitating deeper insights into insurance risk management.
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}

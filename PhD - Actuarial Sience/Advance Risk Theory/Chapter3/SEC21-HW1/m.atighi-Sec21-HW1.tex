@@ -1,0 +1,242 @@
+	
+\input{preamble}
+\input{format}
+\input{commands}
+
+
+\begin{document}
+		\begin{Large}
+		\textsf{\textbf{Find norming constant of normal distribution}}\\
+		Section 21 - Home Work 1
+	\end{Large}
+	
+	\vspace{1ex}
+	
+	\textsf{\textbf{Student:}} \text{Mehrab Atighi}, \href{mailto:mehrab.atighi@gmail.com}{\texttt{mehrab.atighi@gmail.com}}\\
+	\textsf{\textbf{Lecturer:}} \text{Mohammad Zokaei}, \href{mailto:Zokaei@sbu.ac.ir}{\texttt{Zokaei@sbu.ac.ir}}
+	
+	
+	\vspace{2ex}
+	
+	\begin{problem}{}{problem-label}
+				\textbf{According to the Example 3.3.29 find norming constant of normal distribution.}
+				\cite{Embrechts.etal1997}
+	\end{problem}
+	
+	\begin{solve}{}{solve-label}
+\subsection*{1. Von Mises Function and Condition (3.25)}
+
+We denote by $\Phi$ the distribution function (df) and by $\varphi$ the density of the standard normal distribution. First, we need to show that $\Phi$ is a von Mises function and satisfies condition (3.25).
+
+An application of l'Hospital's rule to 
+
+\[ 
+\frac{\overline{\Phi}(x)}{x^{-1}\varphi(x)} 
+\]
+
+yields Mill's ratio: 
+
+\[ 
+\overline{\Phi}(x) \sim \frac{\varphi(x)}{x} 
+\]
+
+This implies:
+
+\[ 
+\varphi'(x) = -x \varphi(x) < 0 
+\]
+
+and
+
+\[ 
+\lim_{x \to \infty} \frac{\overline{\Phi}(x) \varphi'(x)}{\varphi^2(x)} = -1. 
+\]
+
+Thus, $\Phi \in \text{MDA}(\Lambda)$ by Example 3.3.23 and Proposition 3.3.25.
+
+\subsection*{2. Calculation of Mill's Ratio}
+
+The tail probability (survival function) is given by:
+
+\[ 
+\overline{\Phi}(x) = 1 - \Phi(x). 
+\]
+
+Mill's ratio is expressed as:
+
+\[ 
+R(x) = \frac{\overline{\Phi}(x)}{\varphi(x)}. 
+\]
+
+For large values of $x$, the Mill's ratio can be approximated as:
+
+\[ 
+\overline{\Phi}(x) \sim \frac{\varphi(x)}{x}. 
+\]
+
+\subsubsection*{Derivation of Mill's Ratio}
+
+\begin{enumerate}
+	\item \textbf{Expression for the Standard Normal Density Function:}
+	The probability density function for the standard normal distribution is:
+	
+	\[ 
+	\varphi(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}. 
+	\]
+	
+	\item \textbf{Applying l'Hospital's Rule:}
+	To find the asymptotic behavior of $\overline{\Phi}(x)$ for large $x$, we evaluate the ratio \(\frac{\overline{\Phi}(x)}{\varphi(x)}\) using l'Hospital's rule.
+	
+	Since $\overline{\Phi}(x) = 1 - \Phi(x)$ and the derivative of $\Phi(x)$ is $\varphi(x)$:
+	
+	\[ 
+	\Phi'(x) = \varphi(x),
+	\]
+	
+	and the derivative of $\varphi(x)$ is:
+	
+	\[ 
+	\varphi'(x) = -x \varphi(x). 
+	\]
+	
+	Using these derivatives:
+	
+	\[ 
+	\lim_{x \to \infty} \frac{\overline{\Phi}(x)}{\varphi(x)} = \lim_{x \to \infty} \frac{-\Phi'(x)}{-\varphi'(x)} = \lim_{x \to \infty} \frac{\varphi(x)}{x \varphi(x)} = \lim_{x \to \infty} \frac{1}{x}. 
+	\]
+	
+	Thus, for large $x$:
+	
+	\[ 
+	\overline{\Phi}(x) \sim \frac{\varphi(x)}{x}. 
+	\]
+	
+\end{enumerate}
+
+\subsection*{3. Solving for $d_n$ and $c_n$}
+
+\subsubsection*{Deriving $d_n$}
+
+Using Proposition 3.3.28, the norming constant $d_n$ satisfies:
+
+\[ 
+-\ln G(d_n) = \ln n. 
+\]
+
+For the standard normal distribution, $G(d_n)$ represents the upper tail probability:
+
+\[ 
+\overline{\Phi}(d_n) = \frac{1}{\sqrt{2\pi}} \int_{d_n}^{\infty} e^{-t^2/2} \, dt. 
+\]
+
+Using the asymptotic behavior of $\overline{\Phi}(x)$:
+
+\[ 
+\overline{\Phi}(x) \sim \frac{1}{\sqrt{2\pi}} \frac{e^{-x^2/2}}{x}, 
+\]
+
+we have:
+
+\[ 
+-\ln \overline{\Phi}(d_n) = \ln n 
+\]
+
+i.e.,
+
+\[ 
+\ln \left( \frac{1}{\sqrt{2\pi}} \frac{e^{-d_n^2/2}}{d_n} \right) = \ln n. 
+\]
+
+Expanding the logarithm:
+
+\[ 
+-\frac{d_n^2}{2} - \ln d_n - \frac{1}{2}\ln(2\pi) = \ln n. 
+\]
+
+Rearranging terms gives:
+
+\[ 
+\frac{1}{2} d_n^2 + \ln d_n + \frac{1}{2} \ln(2\pi) = \ln n. 
+\]
+
+Now, solving this equation for $d_n$, we use an asymptotic expansion. Assume $d_n$ is large, so the leading term is dominant:
+
+1. The leading-order approximation is:
+
+\[ 
+\frac{1}{2} d_n^2 \approx \ln n \implies d_n \approx (2 \ln n)^{1/2}. 
+\]
+
+2. To refine this, substitute $d_n = (2 \ln n)^{1/2} + \delta$ and solve for $\delta$. Substituting into the equation:
+
+\[ 
+\frac{1}{2} \left((2 \ln n)^{1/2} + \delta\right)^2 + \ln \left((2 \ln n)^{1/2} + \delta\right) + \frac{1}{2} \ln(2\pi) = \ln n. 
+\]
+
+Expanding and keeping terms up to $\delta$:
+
+\[ 
+\frac{1}{2} (2 \ln n) + \delta (2 \ln n)^{1/2} + \ln (2 \ln n)^{1/2} + \frac{1}{2}\ln(2\pi) \approx \ln n. 
+\]
+
+Solving for $\delta$:
+
+\[ 
+\delta \approx -\frac{\ln \ln n + \ln(4\pi)}{2(2 \ln n)^{1/2}}. 
+\]
+
+Thus, the refined approximation for $d_n$ is:
+
+\[ 
+d_n = (2 \ln n)^{1/2} - \frac{\ln \ln n + \ln(4\pi)}{2(2 \ln n)^{1/2}} + o((\ln n)^{-1/2}). 
+\]
+
+\subsubsection*{Deriving $c_n$}
+
+To derive $c_n$, recall:
+
+\[ 
+R(x) = \frac{\overline{\Phi}(x)}{\varphi(x)} \sim \frac{1}{x}. 
+\]
+
+Thus:
+
+\[ 
+c_n = a(d_n) \sim \frac{1}{d_n}. 
+\]
+
+Substituting the expansion for $d_n$:
+
+\[ 
+c_n \sim \frac{1}{(2 \ln n)^{1/2}}. 
+\]
+
+This is the leading-order term for $c_n$. Higher-order corrections can be included if necessary, but typically the leading-order term suffices for most asymptotic analyses.
+
+\subsection*{4. Summary of Results}
+
+\begin{itemize}
+	\item The norming constant $d_n$ is approximated as:
+	\[ 
+	d_n = (2 \ln n)^{1/2} - \frac{\ln \ln n + \ln(4\pi)}{2(2 \ln n)^{1/2}} + o((\ln n)^{-1/2}). 
+	\]
+	
+	\item The norming constant $c_n$ is approximated as:
+	\[ 
+	c_n \sim \frac{1}{(2 \ln n)^{1/2}}. 
+	\]
+	
+	\item These constants are crucial for understanding the asymptotic behavior of the standard normal distribution in extreme value theory.
+\end{itemize}
+
+ \cite{Embrechts.etal1997}
+	\end{solve}
+	% =================================================
+	
+	% \newpage
+	
+	% \vfill
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+\end{document}
