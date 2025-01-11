@@ -1,3 +1,0 @@
-"0","ggplot(danishuni, aes(x = log(Loss))) +"
-"0","  geom_histogram(binwidth = 0.1, fill = 85, alpha = 0.7 , color = ""black"") +"
-"0","  labs(title = ""Distribution of log of Total Losses"", x = ""ln(Loss) (mDKK)"", y = ""Frequency"")"

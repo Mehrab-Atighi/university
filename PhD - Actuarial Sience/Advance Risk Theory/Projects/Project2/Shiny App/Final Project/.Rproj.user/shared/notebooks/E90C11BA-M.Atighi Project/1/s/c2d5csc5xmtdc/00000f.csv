@@ -1,3 +1,0 @@
-"0","# Load data"
-"0","data(danishuni, package = ""fitdistrplus"")"
-"0","head(danishuni)"
