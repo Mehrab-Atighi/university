@@ -1,3 +1,0 @@
-"0"," # or use"
-"0","#hillPlot(danishuni$Loss , plottype = ""xi"" , ci = 0.95) "
-"0","grid()"

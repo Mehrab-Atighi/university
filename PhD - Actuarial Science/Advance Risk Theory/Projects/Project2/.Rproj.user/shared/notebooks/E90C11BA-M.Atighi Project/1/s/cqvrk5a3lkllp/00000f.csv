@@ -1,0 +1,51 @@
+"0","library(fitdistrplus)"
+"0","library(ismev)       # For GEV functions"
+"2","Loading required package: mgcv
+"
+"2","Loading required package: nlme
+"
+"2","
+Attaching package: ‘nlme’
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    collapse
+
+"
+"2","This is mgcv 1.9-1. For overview type 'help(""mgcv-package"")'.
+"
+"0","library(extRemes)    # Additional extreme value analysis tools"
+"2","Loading required package: Lmoments
+"
+"2","Loading required package: distillery
+"
+"2","
+Attaching package: ‘extRemes’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    qqnorm, qqplot
+
+"
+"0","library(EnvStats)"
+"2","
+Attaching package: ‘EnvStats’
+
+"
+"2","The following objects are masked from ‘package:extRemes’:
+
+    devd, pevd, qevd, revd
+
+"
+"2","The following object is masked from ‘package:MASS’:
+
+    boxcox
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    predict, predict.lm
+
+"

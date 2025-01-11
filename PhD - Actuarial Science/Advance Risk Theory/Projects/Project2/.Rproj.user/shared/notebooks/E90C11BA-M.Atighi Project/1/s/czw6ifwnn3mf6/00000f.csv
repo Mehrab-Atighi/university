@@ -1,0 +1,4 @@
+"0","# Load the dataset"
+"0","# Assuming your dataset is a data frame with columns 'date' and 'loss'"
+"0","# Example of loading a dataset:"
+"0","library(fitdistrplus)"

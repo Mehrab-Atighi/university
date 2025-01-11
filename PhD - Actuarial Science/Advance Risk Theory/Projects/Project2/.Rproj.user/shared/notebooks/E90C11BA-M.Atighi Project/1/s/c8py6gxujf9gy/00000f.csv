@@ -1,0 +1,3 @@
+"0","rownames(df) = c(paste0(""j = "" , 0:9))"
+"0","colnames(df) = c(paste0(""k = "" , 1:k_max))"
+"0","df[1:9,1:5]"

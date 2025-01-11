@@ -1,0 +1,6 @@
+"0","#add second plot "
+"0","qqplot(y = exp_quantiles2, x = sorted_loss, "
+"0","       main = ""QQ-Plot of Loss Data vs Exponential Distribution with lambda = 1/percentile(0.975)"","
+"0","       xlab = ""Theoretical Quantiles (Exponential)"","
+"0","       ylab = ""Empirical Quantiles (Loss)"","
+"0","       pch = 16, col = ""blue"")"
