@@ -1,0 +1,304 @@
+---
+title: "Untitled"
+author: "Pegah Abedini"
+date: "2025-01-30"
+output: word_document
+---
+```{r ,warning=FALSE, echo=TRUE}
+
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(DBI)
+library(tidyverse)
+library(data.table)
+library(caret)       # For machine learning
+library(tensorflow)  # For TensorFlow backend
+library(keras)       # For neural networks
+library(doParallel)
+########################################################## Policy Data Cleaning
+##read all policies excel files with .xlsx pattern.
+
+file.list = list.files( pattern='*.xlsx' , recursive = TRUE )
+policies <- lapply(file.list[4:33], read_excel)
+#
+# # bind each files with row
+all_policies_df = bind_rows(policies)
+
+
+#remove some columns manualy
+
+df_sodor  = as.data.table(
+  all_policies_df[,-c(1,2,3,4,10,19,20,23,26,28,29,33,34,35,36,37)]
+  )
+
+df_sodor =
+  df_sodor %>%
+  separate(col = `سابقه مالی / جانی`, into = c("c1", "FinanceHistory","LifeHistory"), sep = ":", remove = T)
+df_sodor = df_sodor[,-c(which(names(df_sodor) == "c1"))]
+df_sodor$FinanceHistory = substr(df_sodor$FinanceHistory ,
+                                        start = 1, stop = nchar(df_sodor$FinanceHistory)-6)
+df_sodor= as.data.table(df_sodor)
+# save(df_sodor , file = "policies_list.RData")
+# load("policies_list.RData")
+#find columns with low or very high variance to delete them
+
+
+
+# ایجاد یک داده‌فریم نمونه با 40 ستون categorical
+set.seed(123)
+coded_dfs <- list()
+categorical_columns <- names(which(
+  sapply(df_sodor, is.factor) | sapply(df_sodor, is.character) == T))
+# حلقه برای کددهی به هر ستون و ایجاد داده‌فریم جداگانه
+for (col in categorical_columns) {
+  # ایجاد ستون کد
+  df_sodor[, paste0(col, "_Code") := as.numeric(factor(get(col)))]
+
+  # ایجاد داده‌فریم جداگانه برای این ستون
+  coded_dfs[[col]] <- df_sodor[, .(get(col), get(paste0(col, "_Code")))]
+  coded_dfs[[col]] <- unique(df_sodor[, .(get(col), get(paste0(col, "_Code")))])
+  names(coded_dfs[[col]]) <- c(col, paste0(col, "_Code"))
+}
+
+# save(coded_dfs , file = "coded_dfs.RData")
+# load("coded_dfs.RData")
+df_sodor = as.data.frame(df_sodor)
+df_with_coding = df_sodor[,which(names(df_sodor) %notin% categorical_columns)]
+
+# remove some linearity columns mannulay for example A+B-C = D
+df_with_coding = df_with_coding[,-c(21,22)]
+names(df_with_coding)
+names(df_with_coding) = c("PolicyHolderCode" ,
+                          "Duration",
+                          "CarProductYear",
+                          "SideCover_MR",
+                          "FinanceCover_MR",
+                          "AccidentCover_MR",
+                          "ThirdParty_Pr",
+                          "MultipleBloodMoney_Pr",
+                          "ExcessLife_Pr",
+                          "ExcessFinance_Pr",
+                          "DriverAccident_Pr",
+                          "Pension_Pr",
+                          "Basis_Pr",
+                          "Health_Complications",
+                          "Goverment_Complications",
+                          "CentralInsurance_Pension_Pr",
+                          "ValueAdded_Tax",
+                          "ValueAdded_Complications",
+                          "Insurer_Pension_Pr",
+                          "Net_Pr",
+                          "ID_PolicyLuncher_Departmant",
+                          "ID_PolicyLuncher_Province",
+                          "ID_LunchDate",
+                          "ID_PolicyHolderName",
+                          "ID_MarkettingBy",
+                          "ID_AutomobileType",
+                          "ID_AutomobileGroup",
+                          "ID_AutomobileClass",
+                          "ID_AutomobuileUssage",
+                          "ID_StartDate",
+                          "ID_EndDate",
+                          "ID_RegisterUser",
+                          "ID_Policy",
+                          "ID_PolicyHolderType",
+                          "ID_LastInsurer",
+                          "ID_AutomobileZipCode",
+                          "ID_AutomobileSystem",
+                          "ID_AutomobileZipCodeType",
+                          "ID_Passengers_Claim",
+                          "ID_Finance_Claim",
+                          "ID_Life_Claim"
+                          )
+# save(df_with_coding , file = "df_with_coding.RData")
+# load("df_with_coding.RData")
+
+###########################################################Claim Data Cleaning
+file.list = list.files( pattern='*.xlsx' , recursive = TRUE )
+ Claims <- lapply(file.list[1:3], read_excel)
+  names(Claims[[1]])[54] = "LifeLoss_Value"
+  names(Claims[[2]])[54] = "PassengerLoss_Value"
+  names(Claims[[3]])[54] = "FinanceLoss_Value"
+  
+# bind each files with row
+ all_claims_df = bind_rows(Claims)
+
+#remove some columns manualy
+
+ df_claims  = as.data.table(
+   all_claims_df[,c(17,54,56,57)]
+   )
+ df_claims = as.data.frame(df_claims)
+names(df_claims)[1] = c("ID_Policy")
+for(i in 2:4){
+  df_claims[,i] = ifelse(is.na(df_claims[,i]) , 0  , df_claims[,i])
+}
+
+######################################################## Merging Data
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(DBI)
+library(tidyverse)
+library(data.table)
+
+
+# load("df_with_coding.RData")
+# load("Claims_list.RData")
+# load("coded_dfs.RData")
+names(coded_dfs[["شماره کامل"]])[1] = "ID_Policy"
+# coded_dfs[["شماره کامل"]]$ID_Policy = as.character(coded_dfs[["شماره کامل"]]$ID_Policy)
+claims_with_code = left_join(df_claims , coded_dfs[["شماره کامل"]] , by = "ID_Policy",keep = F )
+claims_with_code = claims_with_code[,-c(1)] #remove ID_Ploicy column
+names(claims_with_code)[4] = "ID_Policy"
+FinalDf = left_join(df_with_coding , claims_with_code , by = "ID_Policy")
+# save(FinalDf , file = "FinalDf.RData")
+
+
+########################################################### CV Modeling
+# cl <- makePSOCKcluster(4)  # تعداد هسته‌های پردازنده (مثلاً 4)
+# registerDoParallel(cl)
+load("FinalDf.RData")
+FinalDf = as.data.frame(FinalDf[1:5000,])
+for(i in 42:44){
+  FinalDf[,i] = ifelse(is.na(FinalDf[,i]) , 0  , FinalDf[,i])
+}
+
+FinalDf$TotalLoss = FinalDf$LifeLoss_Value +
+  FinalDf$PassengerLoss_Value +
+  FinalDf$FinanceLoss_Value
+
+#remove some columns for na values and other loss types.
+
+# Check for missing values in each column
+missing_values <- colSums(is.na(FinalDf))
+
+FinalDf = FinalDf[,-c(42:44)]
+FinalDf = FinalDf[,-c(which(colnames(FinalDf) %in% names(which(missing_values>0 ))))]
+
+
+split_data <- function(data, train_percentage) {
+  # Ensure the train_percentage is between 0 and 1
+  if (train_percentage < 0 || train_percentage > 1) {
+    stop("train_percentage must be between 0 and 1")
+  }
+  
+  # Calculate the number of rows for the training set
+  n <- nrow(data)
+  n_train <- floor(train_percentage * n)
+  
+  # Randomly sample the indices for the training set
+  train_indices <- sample(1:n, n_train)
+  
+  # Create the training and test sets
+  train_set <- data[train_indices, ]
+  test_set <- data[-train_indices, ]
+  
+  # Return the training and test sets as a list
+  return(list(train = train_set, test = test_set))
+}
+set.seed(123)
+# Assuming finalDf is your dataset and you want 80% for training
+result <- split_data(FinalDf, train_percentage = 0.8)
+train_set <- result$train
+test_set <- result$test
+
+######
+dim(train_set)
+head(train_set)
+
+# Separate features (X) and target (y) for training and testing sets
+X_train <- train_set[, -c(18:dim(train_set)[2])]  # All columns except the last one
+y_train <- train_set[, c(dim(train_set)[2])]   # Last column (TotalLoss)
+
+X_test <- test_set[, -c(18:dim(test_set)[2])]    # All columns except the last one
+y_test <- test_set[, c(dim(test_set)[2])]     # Last column (TotalLoss)
+# Scale/normalize the features
+preprocess_params <- preProcess(X_train, method = c("center", "scale"))
+X_train_scaled <- predict(preprocess_params, X_train)
+X_test_scaled <- predict(preprocess_params, X_test)
+
+
+X_train_scaled = cbind(X_train_scaled, train_set[,18:32])
+X_test_scaled = cbind(X_test_scaled, test_set[,18:32])
+
+train_control <- trainControl(
+  method = "cv",  # Cross-validation
+  number = 5,     # 5-fold CV
+  savePredictions = "final",
+  allowParallel = TRUE,
+  #verboseIter = TRUE  # Show progress updates
+  
+)
+
+# Define a list of models to train
+models <- c(
+   "lm",          # Linear Regression
+   #"glm",         # Logistic Regression
+   "glmnet",      # Ridge/Lasso Regression
+   "rpart",       # Decision Trees
+   "rf",          # Random Forests
+   "gbm",         # Gradient Boosting Machines
+   "xgbTree",     # XGBoost (Gradient Boosting)
+  "svmRadial",   # Support Vector Machines (Radial Kernel)
+  "knn",         # k-Nearest Neighbors
+  "pls",         # Principal Component Regression
+  #"lda",         # Linear Discriminant Analysis
+  #"qda",         # Quadratic Discriminant Analysis
+  #"naive_bayes", # Naive Bayes
+  "nnet"         # Neural Networks
+)
+
+# Train and evaluate all models
+results <- list()
+test_errors <- data.frame(Model = character(), RMSE = numeric(), R2 = numeric(), MAE = numeric(), stringsAsFactors = FALSE)
+
+for (model in models) {
+  set.seed(123)  # For reproducibility
+  print(paste("Training model:", model))
+  
+  # Train the model
+  fit <- caret::train(
+    x = X_train_scaled,  # Features
+    y = y_train,         # Target variable
+    method = model,      # Model type
+    trControl = train_control
+  )
+  
+  # Store the results
+  results[[model]] <- fit
+  
+  # Predict on the test set
+  predictions <- predict(fit, newdata = X_test_scaled)
+  
+  # Calculate test error metrics
+  if (is.factor(y_test)) {  # Classification
+    cm <- confusionMatrix(predictions, y_test)
+    accuracy <- cm$overall["Accuracy"]
+    kappa <- cm$overall["Kappa"]
+    test_errors <- rbind(test_errors, data.frame(Model = model, Accuracy = accuracy, Kappa = kappa))
+  } else {  # Regression
+    rmse <- sqrt(mean((as.numeric(predictions) - as.numeric(y_test))^2))
+    r2 <- cor(as.numeric(predictions), as.numeric(y_test))^2
+    mae <- mean(abs(as.numeric(predictions) - as.numeric(y_test)))
+    test_errors <- rbind(test_errors, data.frame(Model = model, RMSE = rmse, R2 = r2, MAE = mae))
+  }
+}
+
+# Stop parallel processing
+# stopCluster(cl)
+
+# Print test errors
+print(test_errors)
+
+# Compare model performance (cross-validation results)
+comparison <- resamples(results)
+summary(comparison)
+
+# Visualize model performance
+dotplot(comparison)
+
+
+
+```
