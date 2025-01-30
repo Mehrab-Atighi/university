@@ -1,0 +1,638 @@
+#install.packages(c("jalcal"))
+#install.packages("readxl")
+#install.packages(c("carData", "distr","car","ISLR","ggplot2","splines","MLmetrics", "tidyverse", "caret", "rugarch", "tseries", "fBasics", "quantmod"))
+#install.packages("forecast")
+#install.packages("fitdistrplus")
+#install.packages(c("postHoc","arules","psych","Rmisc","oddsratio"))
+#install.packages(c("scales"))
+#install.packages(c("RJalaliDate"))
+#install.packages(c("writexl"))
+#install.packages(c("data.table"))
+#install.packages(c("bit64"))
+#install.packages("dunn.test")
+#install.packages("ggpubr")
+#install.packages("rpart")
+#install.packages('datasets')
+#install.packages('caTools')
+#install.packages('party')
+#install.packages('dplyr')
+#install.packages('magrittr')
+#install.packages("readr")
+############################################################################################
+#####################################Calling All Libraries##################################
+############################################################################################
+library(readr)
+library(gplots)
+library(readxl)
+library(writexl)
+library(fitdistrplus)
+library(actuar)
+library(carData)
+library(distr)
+library(car)
+library(ISLR)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(splines)
+library(MLmetrics)
+library(tidyverse)
+library(caret)
+library(forecast)
+library(rugarch)
+library(tseries)
+library(fBasics)
+library(quantmod)
+library(postHoc)
+library(arules)
+library(psych)
+library(Rmisc)
+library(oddsratio)
+library(data.table)
+library(RJalaliDate)
+library(bit64)
+library(dunn.test)
+library(rpart)
+library(datasets) 
+library(caTools)
+library(party)
+library(dplyr)
+library(magrittr)
+############################################################################################
+############################################################################################
+################################Now You Can Get Started#####################################
+############################################################################################
+############################################################################################
+rm(list = ls())
+##Data = read_xlsx(choose.files())
+##data <- read_excel("Issued-Data.xlsx", col_names = TRUE)
+##df=read.csv("Issued-Data.csv", sep = ",", header = TRUE)
+data00<- fread("Issued-Data.csv", sep = ",", header = TRUE)
+names(data00)
+### [1] "FullBNo"                    "BdGhrdGNo"                  "BdGhrdNo"                   "BeginDate"                 
+###[5] "EndDate"                    "FVParentProvinceText"       "FVSodur"                    "FVSodurDate"               
+###[9] "BimeGozar"                  "PayerBimeGozar"             "CodeMelli"                  "BimeGozarKindCode"         
+###[13] "KhodroGoruhCode"            "MoredEstefadeCodes"         "KhodroSystm_New"            "BdTarefeGoruhCodes"        
+###[17] "SabegheAsliCodes"           "SabegheEzafiCodes"          "LastBimeCompanyCode"        "Khoro.Value.All.Equp"      
+###[21] "KhodroGoruhText01"          "Car.Age"                    "Cydiner.No"                 "SarneshinCount"            
+###[25] "Discount.Yes"               "Discount.Records"           "Discount.Cash"              "Discount.Group"            
+###[29] "Discount.Ostad"             "Discount.New.Car"           "Discount.Employee"          "Discount.Agreed"           
+###[33] "Discount.Colleague"         "Discount.Others"            "ColorCode"                  "Cov.Marhunat"              
+###[37] "Cov.Teranzit"               "Cov.DeleteFranshiz"         "Cov.DeleteEstehlak"         "Cov.KhatarAsli"            
+###[41] "Cov.KhatarAsliVasayelEzafi" "Cov.AyabZahab"              "Cov.ShekastShishe"          "Cov.Flood"                 
+###[45] "Cov.Acid"                   "Cov.Made10"                 "Cov.SerghatDarja"           "Full.Premium"              
+length(data00$FullBNo)  ##606,941
+
+##############################write_xlsx(data, "data.xlsx")
+##############################data <- read_excel("data.xlsx", col_names = TRUE)
+
+data00$Year.Month=substring(data00$BeginDate, 1, 7)
+dataUSDollar<- read_excel("USA_Dollar-history.xlsx", col_names = TRUE)
+names(dataUSDollar)<-c("Year.Month", "US.Dollar.IssuedTime")
+dataUSDollar$US.Dollar<-dataUSDollar$US.Dollar.IssuedTime/10
+
+
+data0<- merge(data00, dataUSDollar, by = "Year.Month")
+length(data0$FullBNo) ##603,804
+
+data0$Today=c("1403/06/31")
+data0$ToNow=JalaliDate(data0$Today)   - JalaliDate(data0$BeginDate)
+data0$ToEnd=JalaliDate(data0$EndDate) - JalaliDate(data0$BeginDate)
+data0$Exposure=ifelse(data0$ToNow>=data0$ToEnd, 1, data0$ToNow/data0$ToEnd)
+
+data.Issued<- subset(data0, select = -c(Today, ToNow, ToEnd))
+
+length(data.Issued$FullBNo) ## 603804
+
+names(data.Issued)
+##############################################خسارت
+dataClaim<- fread("Claim.csv", sep = ",", header = TRUE)
+length(dataClaim$FullBNo) ##  56,183
+
+names(dataClaim)
+#[1] "FullBNo"               "Claim.Size"            "HvDate"                "FullPrvNo"             "PrvDate"               "HadeseDate"           
+#[7] "ElamDate"              "PrvSodur"              "PrvParent"             "HvSodur"               "HvParent"              "HadesePlaceCityText"  
+#[13] "BazdidDate"            "PrvProvince"           "HvProvince"            "BdHadeseKindId"        "US.Dollar.PaymentTime"
+####################################################################################################
+#################################ترکیب همه داده ها###########################################################
+####################################################################################################
+####################################################################################################
+AllData=left_join(data.Issued, dataClaim, by = "FullBNo")
+length(AllData$FullBNo) ### 603804
+View(head(AllData))
+names(AllData)
+
+#[1] "FullBNo"                    "Year.Month"                 "BdGhrdGNo"                  "BdGhrdNo"                  
+#[5] "BeginDate"                  "EndDate"                    "FVParentProvinceText"       "FVSodur"                   
+#[9] "FVSodurDate"                "BimeGozar"                  "PayerBimeGozar"             "CodeMelli"                 
+#[13] "BimeGozarKindCode"          "KhodroGoruhCode"            "MoredEstefadeCodes"         "KhodroSystm_New"           
+#[17] "BdTarefeGoruhCodes"         "SabegheAsliCodes"           "SabegheEzafiCodes"          "LastBimeCompanyCode"       
+#[21] "Khoro.Value.All.Equp"       "KhodroGoruhText01"          "Car.Age"                    "Cydiner.No"                
+#[25] "SarneshinCount"             "Discount.Yes"               "Discount.Records"           "Discount.Cash"             
+#[29] "Discount.Group"             "Discount.Ostad"             "Discount.New.Car"           "Discount.Employee"         
+#[33] "Discount.Agreed"            "Discount.Colleague"         "Discount.Others"            "ColorCode"                 
+#[37] "Cov.Marhunat"               "Cov.Teranzit"               "Cov.DeleteFranshiz"         "Cov.DeleteEstehlak"        
+#[41] "Cov.KhatarAsli"             "Cov.KhatarAsliVasayelEzafi" "Cov.AyabZahab"              "Cov.ShekastShishe"         
+#[45] "Cov.Flood"                  "Cov.Acid"                   "Cov.Made10"                 "Cov.SerghatDarja"          
+#[49] "Full.Premium"               "US.Dollar.IssuedTime"       "US.Dollar"                  "Exposure"                  
+#[53] "Claim.Size"                 "HvDate"                     "FullPrvNo"                  "PrvDate"                   
+#[57] "HadeseDate"                 "ElamDate"                   "PrvSodur"                   "PrvParent"                 
+#[61] "HvSodur"                    "HvParent"                   "HadesePlaceCityText"        "BazdidDate"                
+#[65] "PrvProvince"                "HvProvince"                 "BdHadeseKindId"             "US.Dollar.PaymentTime"     
+
+#######################################################جایگذاری گمشده با صفر برای ستون خسارتها
+AllData$Claim.Size[is.na(AllData$Claim.Size)] <- 0
+
+hist(as.integer(AllData$Claim.Size))
+
+any(AllData$HadesePlaceCityText== "Honey")
+AllData$HadesePlaceCityText=replace(AllData$HadesePlaceCityText , AllData$HadesePlaceCityText== "Honey", "EsalLoyeh")
+any(AllData$HadesePlaceCityText== "Honey")
+any(AllData$HadesePlaceCityText== "foothills")
+AllData$HadesePlaceCityText=replace(AllData$HadesePlaceCityText , AllData$HadesePlaceCityText== "foothills", "KouPayeh")
+
+#############################################################دستورات پالایش داده ها ############################
+unique(AllData$KhodroGoruhCode)    ##[1] 1 2 3 5 6 4
+unique(AllData$BimeGozarKindCode)  ##[1] "Real.person"  "Legal.person"
+unique(AllData$KhodroSystm_New)
+length(unique(AllData$KhodroSystm_New))
+
+unique(AllData$SabegheAsliCodes); unique(AllData$SabegheEzafiCodes)
+##########################################################################اضافه کردن اطلاعات بیمه گذاران
+###dataInfo<- fread("PolicyholderInfo.csv", sep = ",", header = TRUE) ###فونت فارسی منتقل نمی شود
+
+dataInfo<-read_excel("PolicyholderInfo.xlsx", col_names = TRUE)
+
+names(dataInfo)
+#[1] "year"          "FullBNo"       "CustomerId"    "bimegozar"    
+#[5] "nobimegozar"   "malekiat"      "BId"           "Name"         
+#[9] "gensiat"       "BirthDate"     "taahol"        "gorohkari"    
+#[13] "madraktahsili" "city"          "province"      "EndDate"  
+length(dataInfo$year)   ###598399
+##########################################پالایش و جایگذاری فونتهای فارسی
+unique(dataInfo$year)  ###1390 1391 1392 1393 1394 1395 1396 1397 1398 1399 1400 1401 1402 1403
+
+#unique(dataInfo$bimegozar)
+unique(dataInfo$nobimegozar)
+any(dataInfo$nobimegozar == "حقوقي")
+dataInfo$nobimegozar=replace(dataInfo$nobimegozar , dataInfo$nobimegozar== "حقوقي", "Legal.person")
+any(dataInfo$nobimegozar == "حقوقي")
+any(dataInfo$nobimegozar == "حقيقي")
+dataInfo$nobimegozar=replace(dataInfo$nobimegozar , dataInfo$nobimegozar== "حقيقي", "Real.person")
+any(dataInfo$nobimegozar == "حقيقي")
+
+
+###
+unique(dataInfo$malekiat)
+dataInfo$malekiat=replace(dataInfo$malekiat , dataInfo$malekiat== "دولتی", "Governmental.owner")
+dataInfo$malekiat=replace(dataInfo$malekiat , dataInfo$malekiat== "خصوصی", "Private.owner")
+unique(dataInfo$malekiat)
+colnames(dataInfo)[colnames(dataInfo) == "malekiat"] <- "OwnershipType"
+
+                
+
+##
+unique(dataInfo$gensiat)
+dataInfo$gensiat=replace(dataInfo$gensiat , dataInfo$gensiat== NULL, "NA")
+dataInfo$gensiat=replace(dataInfo$gensiat , dataInfo$gensiat== "زن", "Female")
+dataInfo$gensiat=replace(dataInfo$gensiat , dataInfo$gensiat== "مرد", "Male")
+colnames(dataInfo)[colnames(dataInfo) == "gensiat"] <- "Gender"
+#######dataInfo$gensiat=replace(dataInfo$gensiat , dataInfo$gensiat== "NA", NA)
+unique(dataInfo$Gender)
+##
+unique(dataInfo$BirthDate)
+dataInfo$BirthDate=replace(dataInfo$BirthDate , dataInfo$BirthDate== "NULL", NA)
+dataInfo$PolycyholderAge=pmax(as.integer(dataInfo$year)-as.integer(substring(dataInfo$BirthDate, 1, 4))+1,0)
+###
+colnames(dataInfo)[colnames(dataInfo) == "taahol"] <- "Marital.Status"
+unique(dataInfo$Marital.Status)
+dataInfo$Marital.Status=replace(dataInfo$Marital.Status, dataInfo$Marital.Status== "NULL", NA)
+dataInfo$Marital.Status=replace(dataInfo$Marital.Status, dataInfo$Marital.Status== "متاهل", "Married")
+dataInfo$Marital.Status=replace(dataInfo$Marital.Status, dataInfo$Marital.Status== "مجرد", "Singel")
+unique(dataInfo$Marital.Status)
+##
+colnames(dataInfo)[colnames(dataInfo) == "madraktahsili"] <- "EducationLevel"
+unique(dataInfo$EducationLevel)
+dataInfo$EducationLevel=replace(dataInfo$EducationLevel, dataInfo$EducationLevel== "NULL", NA)
+dataInfo$EducationLevel=replace(dataInfo$EducationLevel, dataInfo$EducationLevel %in% c("ديپلم", "زير ديپلم"    ), "Diploma&below")
+dataInfo$EducationLevel=replace(dataInfo$EducationLevel, dataInfo$EducationLevel %in% c("فوق دیپلم", "کارشناس" , "فوق ديپلم"), "Bachelor&below")
+dataInfo$EducationLevel=replace(dataInfo$EducationLevel, dataInfo$EducationLevel %in% c("فوق لیسانس",  "دکتری",     "فوق دکترا", "فوق ليسانس",    "دکتري" ), "AboveBachelor")
+unique(dataInfo$EducationLevel)  
+##  
+
+    
+
+############################################برای تبدیل اسامی شهرها به انگلیسی فایل تبدیل کننده را باز کنید
+dataInfo$city=replace(dataInfo$city, dataInfo$city== "NULL", NA)
+
+unique(dataInfo$city) 
+############################################برای تبدیل اسامی استانها به انگلیسی فایل تبدیل کننده را باز کنید
+dataInfo$province=replace(dataInfo$province, dataInfo$province== "NULL", NA)
+unique(dataInfo$province)
+##################################################حذف ستون های غیر ضروری
+dataInfoFinal=dataInfo%>%
+  select(-"year" , -"CustomerId", -"bimegozar", -"nobimegozar", -"BId", -"Name",
+"BirthDate", -"BirthDate")
+
+########################################################ترکیب تمامی اطلاعات در یک فایل
+FinalData=left_join(AllData, dataInfoFinal, by = "FullBNo")
+length(FinalData$FullBNo) ### 603804
+View(head(FinalData))
+
+#######################################################حذف اطلاعات اضافی . تنها اطلاعات نرخ ارز و داده های نهایی باقی خواهد ماند
+ls()
+##[1] "AllData"              "dataInfo"             "dataInfoFinal"        "dataUSDollar"         "FinalData"            "translations"        
+[7] "translationsprovince"
+
+rm(list=c("AllData","dataInfo","translationsprovince","dataInfoFinal","translations"))
+ls()
+rm(list=c("data.Issued", "data0", "data00","dataClaim"))
+##[1] "dataUSDollar" "FinalData" 
+
+###############################نامگذاری مجدد نوع حادثه
+KindDamage<-c('2'='Accident','8'='Flood-Earthquake-Hail-Storm','7'='BrokenGlass','3'='Theft-on-Spot',
+'10'='Partial&total-Theft','6'='Explosion','4'='Fire','9'='Spraying-Acid','5'='Lightning','11'='Nail-pulling&Line-drawing')
+
+FinalData$BdHadeseKindId<-KindDamage[match(FinalData$BdHadeseKindId, names(KindDamage))]
+
+##########################################################به روزرسانی مقدار حق بیمه ها و مقدار خسارت ها بر اساس نرخ ارز آزاد
+FinalData$PaymentYearMonth=substring(FinalData$HvDate, 1, 7)
+FinalData$UpdatedPremium=FinalData$Full.Premium *pmax(1,600000/FinalData$US.Dollar.IssuedTime)
+FinalData$UpdatedCarValue=FinalData$"Khoro.Value.All.Equp"*pmax(1,600000/FinalData$US.Dollar.IssuedTime)
+###################################جایگزینی قیمت دلار برای حالتهای گمشده برای جلوگیری از تولید داده گمشده
+FinalData$US.Dollar.PaymentTime[is.na(FinalData$US.Dollar.PaymentTime)] <- 100000000000000
+###################################
+FinalData$UpdatedClaim.Size=FinalData$Claim.Size*pmax(1,600000/FinalData$US.Dollar.PaymentTime)*FinalData$Exposure
+#####################################ضریب خسارت فردی
+FinalData$LossRatio=FinalData$UpdatedClaim.Size/FinalData$UpdatedPremium
+
+
+#############################################دسته بندی سن بیمه شده##############
+FinalData$PolycyholderAge=replace(FinalData$PolycyholderAge , FinalData$PolycyholderAge<20, 20)
+FinalData$PolycyholderAge=replace(FinalData$PolycyholderAge , FinalData$PolycyholderAge>80, 80)
+ unique(FinalData$PolycyholderAge)
+
+#########################################ذخیره در فایل اکسل
+##############################
+FinalData[] <- lapply(FinalData, function(x) replace(x, x == "NULL", NA))
+
+names(FinalData)
+## [1] "Year.Month"                 "FullBNo"                    "BdGhrdGNo"                  "BdGhrdNo"                  
+#[5] "BeginDate"                  "EndDate.x"                  "FVParentProvinceText"       "FVSodur"                   
+#[9] "FVSodurDate"                "BimeGozar"                  "PayerBimeGozar"             "CodeMelli"                 
+#[13] "BimeGozarKindCode"          "KhodroGoruhCode"            "MoredEstefadeCodes"         "KhodroSystm_New"           
+#[17] "BdTarefeGoruhCodes"         "SabegheAsliCodes"           "SabegheEzafiCodes"          "LastBimeCompanyCode"       
+#[21] "Khoro.Value.All.Equp"       "KhodroGoruhText01"          "Car.Age"                    "Cydiner.No"                
+#[25] "SarneshinCount"             "Discount.Yes"               "Discount.Records"           "Discount.Cash"             
+#[29] "Discount.Group"             "Discount.Ostad"             "Discount.New.Car"           "Discount.Employee"         
+#[33] "Discount.Agreed"            "Discount.Colleague"         "Discount.Others"            "ColorCode"                 
+#[37] "Cov.Marhunat"               "Cov.Teranzit"               "Cov.DeleteFranshiz"         "Cov.DeleteEstehlak"        
+#[41] "Cov.KhatarAsli"             "Cov.KhatarAsliVasayelEzafi" "Cov.AyabZahab"              "Cov.ShekastShishe"         
+#[45] "Cov.Flood"                  "Cov.Acid"                   "Cov.Made10"                 "Cov.SerghatDarja"          
+#[49] "Full.Premium"               "US.Dollar.IssuedTime"       "US.Dollar"                  "Exposure"                  
+#[53] "Claim.Size"                 "HvDate"                     "FullPrvNo"                  "PrvDate"                   
+#[57] "HadeseDate"                 "ElamDate"                   "PrvSodur"                   "PrvParent"                 
+#[61] "HvSodur"                    "HvParent"                   "HadesePlaceCityText"        "BazdidDate"                
+#[65] "PrvProvince"                "HvProvince"                 "BdHadeseKindId"             "US.Dollar.PaymentTime"     
+#[69] "OwnershipType"              "Gender"                     "Marital.Status"             "EducationLevel"            
+#[73] "city"                       "province"                   "EndDate.y"                  "PolycyholderAge"           
+#[77] "PaymentYearMonth"           "UpdatedPremium"             "UpdatedClaim.Size"          "LossRatio"                 
+#[81] "CarAgecategory"             "ColourName"                 "UpdatedCarValue"           
+>
+FinalData <- FinalData %>% select(-c("BdGhrdGNo","BdGhrdNo","FVParentProvinceText","FVSodur","FVSodurDate","BimeGozar","PayerBimeGozar","CodeMelli","KhodroGoruhCode","KhodroGoruhText01","ColorCode","FullPrvNo","PrvSodur","PrvParent","HvSodur","HvParent"))
+colnames(FinalData) <- c("YearMothIssued", "FullNumber", "BeginDate", "EndDate", "PolicyholderType", "CarUsage", "CarSystem", "TarefeGoruhCodes", "DiscountEXP.MainCovergae", "DiscountEXP.ExteraCovergae", "Last-Insurer", "Care-Value", "Car.Age"  , "Cydiner.No"  , "No.Passngers", "Discount.Yes", "Discount.Records", "Discount.Cash", "Discount.Group", "Discount.Ostad", "Discount.New.Car", "Discount.Employee", "Discount.Agreed" , "Discount.Colleague", "Discount.Others", "Cov.Marhunat", "Cov.Teranzit", "Cov.DeleteFranshiz", "Cov.DeleteEstehlak", "Cov.KhatarAsli", "Cov.KhatarAsliVasayelEzafi", "Cov.AyabZahab", "Cov.ShekastShishe", "Cov.Flood", "Cov.Acid", "Cov.Made10", "Cov.SerghatDarja", "Full.Premium", "US.Dollar.IssuedTime", "US.Dollar-Toman", "Exposure-Factor", "Claim.Size", "Payement-Date", "PrvDate", "AccidentDate", "ReportingData", "Accident-City", "Visiting-Date", "Payment-Agent-Province", "HvProvince", "Accident-Type", "US.Dollar.PaymentTime", "OwnershipType", "Gender", "Marital.Status", "EducationLevel", 
+"Policyholder-City", "Policyholder-Province", "EndDate.y", "PolycyholderAge", "PaymentYearMonth", "UpdatedPremium", "UpdatedClaim.Size", "CarAgecategory", "ColourName", "UpdatedCarValue", "LossRatio")
+FinalData <- FinalData %>% select(-c("PrvDate",  "HvProvince", "EndDate.y"))
+
+#############
+write_xlsx(FinalData, "FinalData.xlsx")
+write_csv(FinalData, "FinalData.csv")
+ls()
+## [1] "AllData"              "data.Issued"          "data0"                "data00"               "dataClaim"            "dataInfo"            
+## [7] "dataInfoFinal"        "dataUSDollar"         "FinalData"            "KindDamage"           "translations"         "translationsprovince"
+rm(list=c("AllData","data.Issued","data0", "data00","dataInfoFinal","KindDamage"))
+rm(list=c("dataClaim","dataInfo","translations","translationsprovince"))
+################################################################################################################################
+##########################################################################شروع تحلیل#################################################
+################################################################################################################################
+################################################################################################################################
+################################عریض کردن محور افقی############
+par(las=2,                        # use perpendicular axis labels
+      mar=c(10.1,4.1,4.1,2.1),      # create enough space for long x labels
+      mgp=c(8,1,0)                  # move x axis legend down to avoid overlap
+      )
+######################
+
+plotmeans(FinalData$US.Dollar.IssuedTime/10000 ~ FinalData$Year.Month, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+plotmeans(FinalData$US.Dollar.IssuedTime/10000 ~substring(FinalData$Year.Month,1,4) , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+plotmeans(FinalData$Full.Premium/10000 ~ FinalData$Year.Month, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(FinalData$Full.Premium/10000 ~substring(FinalData$Year.Month,1,4), n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+plotmeans(as.integer(FinalData$Claim.Size*FinalData$Exposure)/10000 ~ FinalData$PaymentYearMonth,p=0.95, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(as.integer(FinalData$Claim.Size*FinalData$Exposure)/10000 ~ substring(FinalData$PaymentYearMonth,1,4),  n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+plotmeans(as.integer(FinalData$UpdatedClaim.Size)/10000 ~ FinalData$PaymentYearMonth, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(as.integer(FinalData$UpdatedClaim.Size)/10000 ~ substring(FinalData$PaymentYearMonth,1,4), n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+
+plotmeans(FinalData$UpdatedPremium/10000 ~ FinalData$Year.Month, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(FinalData$UpdatedPremium/10000 ~ substring(FinalData$Year.Month,1,4), n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+plotmeans(FinalData$LossRatio ~ FinalData$Year.Month, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(FinalData$LossRatio ~ substring(FinalData$Year.Month,1,4), n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+###################################بررسی نظر خبرگان در دسته بندی استان ها
+plotmeans(LossRatio ~ province, data =FinalData, n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+
+
+plotmeans(LossRatio ~ province, data =subset(FinalData, ProvinceGroup=="Province-1" & substring(FinalData$Year.Month,1,4)>="1399") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ province, data =subset(FinalData, ProvinceGroup=="Province-2"& substring(FinalData$Year.Month,1,4)>="1399") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ province, data =subset(FinalData, ProvinceGroup=="Province-3"& substring(FinalData$Year.Month,1,4)>="1399") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ province, data =subset(FinalData, ProvinceGroup=="Province-4"& substring(FinalData$Year.Month,1,4)>="1399") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ province, data =subset(FinalData, ProvinceGroup=="Province-5"& substring(FinalData$Year.Month,1,4)>="1399") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+
+
+###############################################نوع بیمه گذار
+A<-subset(FinalData, !is.na(BimeGozarKindCode), select = c("LossRatio", "BimeGozarKindCode"))
+describeBy(A$"LossRatio", factor(A$"BimeGozarKindCode"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BimeGozarKindCode=="Legal.person") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BimeGozarKindCode=="Real.person") , n.label=F, mean.labels=F, ci.label=F, xlab="", ylab="")
+########################################################گروه خودرو
+unique(FinalData$KhodroGoruhCode)
+FinalData$KhodroGoruhCode=replace(FinalData$KhodroGoruhCode , FinalData$KhodroGoruhCode==1, "Savari")
+FinalData$KhodroGoruhCode=replace(FinalData$KhodroGoruhCode , FinalData$KhodroGoruhCode==2, "Barkesh")
+FinalData$KhodroGoruhCode=replace(FinalData$KhodroGoruhCode , FinalData$KhodroGoruhCode==3, "Auto")
+FinalData$KhodroGoruhCode=replace(FinalData$KhodroGoruhCode , FinalData$KhodroGoruhCode==4, "Motor")
+FinalData$KhodroGoruhCode=replace(FinalData$KhodroGoruhCode , FinalData$KhodroGoruhCode==5, "MashinAlat")
+FinalData$KhodroGoruhCode=replace(FinalData$KhodroGoruhCode , FinalData$KhodroGoruhCode==6, "Yadek")
+unique(FinalData$KhodroGoruhCode)
+
+A<-subset(FinalData, !is.na(KhodroGoruhCode), select = c("LossRatio", "KhodroGoruhCode"))
+describeBy(A$"LossRatio", factor(A$"KhodroGoruhCode"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroGoruhCode=="Savari") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroGoruhCode=="Auto") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroGoruhCode=="Barkesh") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroGoruhCode=="MashinAlat") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroGoruhCode=="Yadek") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroGoruhCode=="Motor") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+###########################سیستم خودرو
+A<-subset(FinalData, !is.na(KhodroSystm_New), select = c("LossRatio", "KhodroSystm_New"))
+describeBy(A$"LossRatio", factor(A$"KhodroSystm_New"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroSystm_New=="Group1") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroSystm_New=="Group2") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroSystm_New=="Group3") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroSystm_New=="Group4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, KhodroSystm_New=="Group5") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+######################گروه تعرفه
+A<-subset(FinalData, !is.na(BdTarefeGoruhCodes), select = c("LossRatio", "BdTarefeGoruhCodes"))
+describeBy(A$"LossRatio", factor(A$"BdTarefeGoruhCodes"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Vanet-one") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Vanet-Double") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Cylinder<4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Cylinder=4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Cylinder>4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Capacity<=5") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Capacity>5") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="BUS<=21") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="BUS>21") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Motor") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Yadek") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, BdTarefeGoruhCodes=="Road.construction.Agricultural.vehicle") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+##################################################کاربری خودرو
+A<-subset(FinalData, !is.na(MoredEstefadeCodes), select = c("LossRatio", "MoredEstefadeCodes"))
+describeBy(A$"LossRatio", factor(A$"MoredEstefadeCodes"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.1") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.2") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.3") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.5") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.6") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.7") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Savari.8") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Motor.1") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Motor.2") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Motor.3") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Auto.1") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Auto.2") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Auto.3") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Auto.4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Barkesh.1") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Barkesh.2") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Barkesh.3") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Barkesh.4") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Barkesh.5") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Yadek.1") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="Yadek.2") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, MoredEstefadeCodes=="MashinAlat") , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+###################تخفیف سابقه##############
+A<-subset(FinalData, !is.na(Discount.Records), select = c("LossRatio", "Discount.Records"))
+describeBy(A$"LossRatio", factor(A$"Discount.Records"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Records==0 &!is.na(Discount.Records)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Records==1 &!is.na(Discount.Records)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+#########################تخفیف نقدی###############
+A<-subset(FinalData, !is.na(Discount.Cash), select = c("LossRatio", "Discount.Cash"))
+describeBy(A$"LossRatio", factor(A$"Discount.Cash"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Cash==0 &!is.na(Discount.Cash)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Cash==1 &!is.na(Discount.Cash)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+
+##########################تخفیف خریدگروهی
+A<-subset(FinalData, !is.na(Discount.Group), select = c("LossRatio", "Discount.Group"))
+describeBy(A$"LossRatio", factor(A$"Discount.Group"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Group==0 &!is.na(Discount.Group)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Group==1 &!is.na(Discount.Group)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+
+################################تخفیف هیات علمی
+A<-subset(FinalData, !is.na(Discount.Ostad), select = c("LossRatio", "Discount.Ostad"))
+describeBy(A$"LossRatio", factor(A$"Discount.Ostad"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Ostad==0 &!is.na(Discount.Ostad)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Ostad==1 &!is.na(Discount.Ostad)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################تخفیف¬ماشین¬صفرکیلومتر
+A<-subset(FinalData, !is.na(Discount.New.Car), select = c("LossRatio", "Discount.New.Car"))
+describeBy(A$"LossRatio", factor(A$"Discount.New.Car"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.New.Car==0 &!is.na(Discount.New.Car)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.New.Car==1 &!is.na(Discount.New.Car)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################تخفیف کارمندان
+A<-subset(FinalData, !is.na(Discount.Employee), select = c("LossRatio", "Discount.Employee"))
+describeBy(A$"LossRatio", factor(A$"Discount.Employee"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Employee==0 &!is.na(Discount.Employee)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Employee==1 &!is.na(Discount.Employee)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################تخفیف توافقی
+A<-subset(FinalData, !is.na(Discount.Agreed), select = c("LossRatio", "Discount.Agreed"))
+describeBy(A$"LossRatio", factor(A$"Discount.Agreed"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Agreed==0 &!is.na(Discount.Agreed)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Agreed==1 &!is.na(Discount.Agreed)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################تخفیف¬همکاران¬بیمه¬ای
+A<-subset(FinalData, !is.na(Discount.Colleague), select = c("LossRatio", "Discount.Colleague"))
+describeBy(A$"LossRatio", factor(A$"Discount.Colleague"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Colleague==0 &!is.na(Discount.Colleague)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, Discount.Colleague==1 &!is.na(Discount.Colleague)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################سابقه اصلی
+A<-subset(FinalData, !is.na(SabegheAsliCodes), select = c("LossRatio", "SabegheAsliCodes"))
+describeBy(A$"LossRatio", factor(A$"SabegheAsliCodes"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="Claim" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="New" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="No.Discount" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="Zero.Claim.1year" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="Zero.Claim.2years" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="Zero.Claim.3years" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="Zero.Claim.4yeaars" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheAsliCodes=="Zero.Claim.5+years" &!is.na(SabegheAsliCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################سابقه فرعی
+A<-subset(FinalData, !is.na(SabegheEzafiCodes), select = c("LossRatio", "SabegheEzafiCodes"))
+describeBy(A$"LossRatio", factor(A$"SabegheEzafiCodes"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="Claim" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="New" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="No.Discount" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="Zero.Claim.1year" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="Zero.Claim.2years" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="Zero.Claim.3years" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="Zero.Claim.4yeaars" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, SabegheEzafiCodes=="Zero.Claim.5+years" &!is.na(SabegheEzafiCodes)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################رنگ خودرو
+A<-subset(FinalData, !is.na(ColourName), select = c("LossRatio", "ColourName"))
+describeBy(A$"LossRatio", factor(A$"ColourName"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Black" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Blue" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Brown" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Golden" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Gray" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Green" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Orange" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Pink" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Purple" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Red" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Silver" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="White" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, ColourName=="Yellow" &!is.na(ColourName)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+
+#######################################سن خودرو
+#####################سن خودرو
+hist(FinalData$"Car.Age", freq=F, main="", xlab="")
+plot(FinalData$"Car.Age", FinalData$LossRatio, xlab="Car Age", ylab="Loss Ratio")
+#####################################دسته بندی سن خودرو
+FinalData$CarAgecategory <- cut(FinalData$"Car.Age", breaks = c(-1, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 10.5, 15.5, 20.5, 200), labels = c("Age1", "Age2", "Age3", "Age4", "Age5", "Age6", "Age7", "Age8", "Age9", "Age10"))
+A<-subset(FinalData, !is.na(CarAgecategory), select = c("CarAgecategory"))$"CarAgecategory"
+round(table(A),4)
+mytable2 <- round(table(A)/length(A),4)
+names(mytable2)<-c("Age1", "Age2", "Age3", "Age4", "Age5", "Age6", "Age7", "Age8", "Age9", "Age10")
+pie(mytable2,   main="")
+
+boxplot(LossRatio ~ CarAgecategory, data = FinalData, range = 0, col = "bisque", xlab="")
+###
+A<-subset(FinalData, !is.na(CarAgecategory), select = c("LossRatio", "CarAgecategory"))
+describeBy(A$"LossRatio", factor(A$"CarAgecategory"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age1" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age2" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age3" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age4" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age5" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age6" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age7" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age8" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age9" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, CarAgecategory=="Age10" &!is.na(CarAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+########################################سن بیمه گذاران
+hist(FinalData$"PolycyholderAge", freq=F, main="", xlab="")
+plot(FinalData$"PolycyholderAge", FinalData$LossRatio, xlab="Polycyholder Age", ylab="Loss Ratio")
+smoothScatter(FinalData$"PolycyholderAge", FinalData$LossRatio)
+#####################################دسته بندی بیمه گذاران
+FinalData$PolycyholderAgecategory <- cut(FinalData$"PolycyholderAge", breaks = c(0, 25.1, 30.1, 35.1, 40.1, 50.1, 60.1, 200), labels = c("PolycyholderAge1", "PolycyholderAge2", "PolycyholderAge3", "PolycyholderAge4", "PolycyholderAge5","PolycyholderAge6", "PolycyholderAge7"))
+A<-subset(FinalData, !is.na(PolycyholderAgecategory), select = c("PolycyholderAgecategory"))$"PolycyholderAgecategory"
+round(table(A),4)
+mytable2 <- round(table(A)/length(A),4)
+names(mytable2)<-"PolycyholderAge1", "PolycyholderAge2", "PolycyholderAge3", "PolycyholderAge4","PolycyholderAge5","PolycyholderAge6", "PolycyholderAge7")
+pie(mytable2,   main="")
+
+boxplot(LossRatio ~ PolycyholderAgecategory, data = FinalData, range = 0, col = "bisque", xlab="")
+
+A<-subset(FinalData, !is.na(PolycyholderAgecategory), select = c("LossRatio", "PolycyholderAgecategory"))
+describeBy(A$"LossRatio", factor(A$"PolycyholderAgecategory"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge1" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge2" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge3" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge4" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge5" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge6" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, PolycyholderAgecategory=="PolycyholderAge7" &!is.na(PolycyholderAgecategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#######################################
+########################################ارزش خودرو
+##hist(FinalData$"UpdatedCarValue", freq=F, main="", xlab="")
+##plot(FinalData$"UpdatedCarValue", FinalData$LossRatio, xlab="Updated CarValue", ylab="Loss Ratio")
+#####################################دسته بندی ارزش خودرو
+FinalData$UpdatedCarValueCategory <- cut(FinalData$"UpdatedCarValue"/10000000, breaks = c(0, 600.1, 1500.1, 2400.1, 3300.1, 10000000000), labels = c("CarValueCat1", "CarValueCat2", "CarValueCat3", "CarValueCat4", "CarValueCat5"))
+A<-subset(FinalData, !is.na(UpdatedCarValueCategory), select = c("UpdatedCarValueCategory"))$"UpdatedCarValueCategory"
+round(table(A),4)
+mytable2 <- round(table(A)/length(A),4)
+names(mytable2)<-c("CarValueCat1", "CarValueCat2", "CarValueCat3", "CarValueCat4", "CarValueCat5")
+pie(mytable2,   main="")
+
+boxplot(LossRatio ~ UpdatedCarValueCategory, data = FinalData, range = 0, col = "bisque", xlab="")
+
+A<-subset(FinalData, !is.na(UpdatedCarValueCategory), select = c("LossRatio", "UpdatedCarValueCategory"))
+describeBy(A$"LossRatio", factor(A$"UpdatedCarValueCategory"), mat=T,type=3 )
+
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, UpdatedCarValueCategory=="CarValueCat1" &!is.na(UpdatedCarValueCategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, UpdatedCarValueCategory=="CarValueCat2" &!is.na(UpdatedCarValueCategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, UpdatedCarValueCategory=="CarValueCat3" &!is.na(UpdatedCarValueCategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, UpdatedCarValueCategory=="CarValueCat4" &!is.na(UpdatedCarValueCategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+plotmeans(LossRatio ~ substring(Year.Month,1,4), data =subset(FinalData, UpdatedCarValueCategory=="CarValueCat5" &!is.na(UpdatedCarValueCategory)) , n.label=T, mean.labels=F, ci.label=F, xlab="", ylab="")
+#############
+A<-subset(FinalData, !is.na(KhodroGoruhCode), select = c("KhodroGoruhCode"))$KhodroGoruhCode
+round(table(A),4)
+
+mytable <- round(table(A)/length(A),4)
+
+names(mytable)<-c("AutoCar", "Barkesh", "RoadConstruction", "Motor", "Savari", "Yedak")
+lbls <- paste(names(mytable), "\n", mytable, sep="")
+barchart(mytable~lbls,   ,ylab="", main="")
+#####
+
+
+
+
+
+
+
+
+
+
+
+#################################################بازدسته بندی داده ها بر اساس خسارت یا ضریب خسارت فردی
+kruskal.test(FinalData$LossRatio ~ factor(FinalData$ColourName), data = FinalData)
+
+"LossRatio" 
+
+dunn.test(FinalData$LossRatio, FinalData$ColourName, kw=FALSE, method="bonferroni",list=TRUE)
+dunn.test(as.integer(FinalData$UpdatedClaim.Size), FinalData$ColourName, kw=FALSE, method="bonferroni",list=TRUE)
+
+
+AA6<-posthocKW(FinalData$LossRatio, factor(FinalData$ColourName),Nboots = 1000, SignificanceLevel = 0.95,PlotAdj =T)
+print(AA6)

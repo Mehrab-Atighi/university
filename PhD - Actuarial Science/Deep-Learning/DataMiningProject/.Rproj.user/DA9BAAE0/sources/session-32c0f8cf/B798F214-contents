@@ -1,0 +1,76 @@
+library(dplyr)
+library(RODBC)
+library(readxl)
+library(DBI)
+library(readr)
+library(readxl)
+library(tidyverse)
+library(RODBC)
+library(readxl)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(RODBC)
+library(readxl)
+library(DBI)
+library(readr)
+library(readxl)
+library(tidyverse)
+
+
+
+setwd("N:/Archive/Planning & Budgeting/DAO/ریز دیتای ترمینال کارتخوان- حسابداری الکترونیک/")
+file.list = list.files( pattern='*.csv' , recursive = TRUE )
+data_csv <- lapply(file.list, read_csv)
+karmozd_names_koli = c("کارمزد خريد" , "کارمزد مانده گيري"    , "کارمزد ساير تراکنش" , "کارمزد قبض" , "کارمزد شارژ" )
+karmozd_names_2month = c("کارمزد خريد",  "کارمزد شارژ و قبض" , "کارمزد مانده گيري" )
+for(i in c(1:12 , 15 , 16)){
+  data_csv[[i]]$TotalKarmozd = 0
+  for(j in karmozd_names_koli){
+    if(map(data_csv[[i]][,j], class) == "numeric"){
+      data_csv[[i]]$TotalKarmozd = data_csv[[i]]$TotalKarmozd + data_csv[[i]][,j] 
+    }}
+  data_csv[[i]]$TotalKarmozd = as.vector(data_csv[[i]]$TotalKarmozd$`کارمزد خريد`)
+  data_csv[[i]]$YEARMONTH = paste0(substr(file.list[i] , start = 1 ,stop = 4) ,substr(file.list[i] , start = 6 ,stop = 7)   , "01")
+}
+for(i in c(13,14)){
+  data_csv[[i]]$TotalKarmozd = 0
+  for(j in karmozd_names_2month){
+    if(map(data_csv[[i]][,j], class) == "numeric"){
+      data_csv[[i]]$TotalKarmozd = data_csv[[i]]$TotalKarmozd + data_csv[[i]][,j]
+    }
+  }
+  data_csv[[i]]$TotalKarmozd = as.vector(data_csv[[i]]$TotalKarmozd$`کارمزد خريد`)
+  data_csv[[i]]$YEARMONTH = paste0(substr(file.list[i] , start = 1 ,stop = 4) ,substr(file.list[i] , start = 6 ,stop = 7)   , "01")
+
+}
+df = bind_rows(data_csv)
+
+
+
+
+
+con <- DBI::dbConnect(odbc::odbc() ,
+                      dsn = "PROJECT1_OLTP_CONNECTION",
+                      uid = "PROJECT1_OLTP" ,
+                      pwd = "S3p#Project1_OLTP")
+names(df) = c("Year_Month" , "Switch" , "SHOMAREH_TERMINAL" , 
+                    "DarGah" , "LEV1_TEDAD_OLD" , "LEV1_MABLAGH_OLD", 
+                    "LEV2_TEDAD_OLD" , "LEV2_MABLAGH_OLD",
+                    "LEV3_TEDAD_OLD" , "LEV3_MABLAGH_OLD",
+                    "LEV1_TEDAD_NEW" , "LEV1_MABLAGH_NEW",
+                    "LEV2_TEDAD_NEW" , "LEV2_MABLAGH_NEW",
+                    "LEV3_TEDAD_NEW" , "LEV3_MABLAGH_NEW",
+                    "LEV4_TEDAD_NEW" , "LEV4_MABLAGH_NEW",
+                    "TEDAD_KHARID" , "MABLAGH_KHARID" , 
+                    "TEDAD_MANDEHGIRI" , "TEDAD_CHARGE" ,"MABLAGH_CHARGE" ,
+                    "TEDAD_GHABZ" , "MABLAGH_GHABZ" , "TEDAD_SAYERE_TARAKONESH" , "MABLAGH_SAYERE_TARAKONESH" , 
+                    "KARMOZD_KHARID" , "KARMOZD_MANDEHGIRI" , "KARMOZD_CHARGE" ,
+                    "KARMOZD_GHABZ" , "KARMOZD_SAYERE_TARAKONESH" , "KARMOZD_TAVAFOGHI",
+                    "KARMOZD_PARDAKHTY_PAZIRANDEH" , "KARMOZD_PARDAKHTY_BANK" ,
+                    "MAJMOE_TEDAD_TARAKONESH" , "MAJMOE_MABLAGHE_TARAKONESH" , "TotalKarmozd" , "YEARMONTH" , "KARMOZD_CHARGE_GHABZ")
+
+DBI::dbWriteTable(conn = con , name = "MAIN_HESABDARI_ELECTRONIC" , value = df , append = T)
+
+#Close Connection to Commit changes.
+dbDisconnect(conn = con)

@@ -1,0 +1,660 @@
+##############بردروی صدور
+#install.packages(c("readxl", "dplyr", "ExcelFunctionsR","writexl",
+#"tidyr","ChainLadder"))
+#install.packages(c("Rcmdr", "psych", "tidyverse"))
+library(readxl)
+library(dplyr)
+library(ExcelFunctionsR)
+library("writexl")
+library(tidyr)
+library(ChainLadder)
+library(Rcmdr)
+library(psych)
+library(tidyverse) 
+library(cluster)   
+library(fitdistrplus)
+library(actuar)
+library(distr)
+library(distrEx)
+library(quantreg)
+library("knitr")
+library(skimr)
+library(distributional)
+library(readr)
+library(gplots)
+library(readxl)
+library(writexl)
+library(fitdistrplus)
+library(actuar)
+library(carData)
+library(distr)
+library(car)
+library(ISLR)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(splines)
+library(MLmetrics)
+library(tidyverse)
+library(caret)
+library(forecast)
+library(rugarch)
+library(tseries)
+library(fBasics)
+library(quantmod)
+library(postHoc)
+library(arules)
+library(psych)
+library(Rmisc)
+library(oddsratio)
+library(data.table)
+library(RJalaliDate)
+library(bit64)
+library(dunn.test)
+library(rpart)
+library(datasets) 
+library(caTools)
+library(party)
+library(dplyr)
+library(magrittr)
+ls()
+
+Data1=read_xlsx("1390.xlsx");    Data2=read_xlsx("1391.xlsx");    Data3=read_xlsx("1392.xlsx")
+Data4=read_xlsx("1393.xlsx");    Data5=read_xlsx("1394.xlsx");    Data6=read_xlsx("1395.xlsx")
+Data7=read_xlsx("1396.xlsx");    Data8=read_xlsx("1397.xlsx");    Data9=read_xlsx("1398.xlsx")
+Data10=read_xlsx("1399.xlsx");  Data11=read_xlsx("1400.xlsx");  Data12=read_xlsx("1401.xlsx")
+Data13=read_xlsx("1402.xlsx");  Data14=read_xlsx("1403.xlsx");  
+Total_Premium<- rbind(Data1, Data2, Data3, Data4, Data5, Data6, Data7, Data8, Data9,
+Data10, Data11, Data12, Data13,Data14)
+
+
+
+names(Total_Data)
+
+dim(Total_Data)
+##[1] 3490221      81
+rm(Data1, Data2, Data3, Data4, Data5, Data6, Data7, Data8, Data9, Data10, Data11, Data12, Data13,Data14)
+##################################################حذف ستون های اضافی
+Total_Data <- Total_Data[, -c(1)]
+Total_Data <- Total_Data[, -c(2,3,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,31,33,34,35,36,
+41,51, 52,53,54,55, 56,57, 58,59,61,63,65,66,67,69,70,71,72,73,74,75,76,77,78,79,80)]
+
+dim(Total_Data)
+##[1] 3490221      25
+##########################تغییر نام بیمه گذار
+unique(Total_Data$"BimeGozarKindText")
+##[1] "حقوقي" "حقيقي"
+BimeGozarKindconvertor<-c("حقوقي" ="Legal.person","حقيقي"="Real.person")
+Total_Data$BimeGozarKindText<- BimeGozarKindconvertor[match(Total_Data$BimeGozarKindText, names(BimeGozarKindconvertor))]
+unique(Total_Data$"BimeGozarKindText")
+[1] "Legal.person" "Real.person" 
+rm(BimeGozarKindconvertor)
+#######################################تغییر نام گروه خودرو
+unique(Total_Data$"KhodroGoruhText")
+#[1] "موتور سيکلت"                           "بارکش"                                 "سواري"                                 "ماشين آلات کشاورزي-راه سازي وساختماني"
+#[5] "اتوکار"                               
+convertor<-c("موتور سيکلت"="Motor","بارکش"="Barkesh","سواري"="Savari","ماشين آلات کشاورزي-راه سازي وساختماني"="MashinAlat","اتوکار"="Auto")
+Total_Data$"KhodroGoruhText"<- convertor[match(Total_Data$"KhodroGoruhText", names(convertor))]
+unique(Total_Data$"KhodroGoruhText")
+#[1] "Motor"      "Barkesh"    "Savari"     "MashinAlat" "Auto"
+rm(convertor)
+############################################محاسبه سن خودرو
+Total_Data$Issued.Year=as.integer(substr(Total_Data$"BeginDate",1,4))
+View(head(Total_Data))
+Total_Data$Car.Age=Total_Data$Issued.Year-Total_Data$"SalSakhtShamsi"+1
+unique(Total_Data$Car.Age)
+##############بردروی خسارتها
+D<-read_xlsx("All.Claims.xlsx") ##Line 1 
+names(D)
+##[1] "FullBNo"             "PayAmount.Jani"      "Report.Jani"        
+##[4] "PayDate.Jani"        "PayAmount.Mali"      "Report.Mali"        
+##[7] "PayDate.Mali"        "PayAmount.Sarneshin" "Report.Sarneshin"   
+##[10] "PayDate.Sarneshin"
+#########################################ترکیب دو فایل صدور و خسارت
+AllData=left_join(Total_Data,D, by = "FullBNo")
+names(AllData)
+#[1] "FullBNo"               "BeginDate"             "EndDate"               "BimeGozarKindText"     "KhodroGoruhText"       "KhodroKindText"       
+#[7] "MoredEstefadeText"     "SalSakhtShamsi"        "SabegheMaliText"       "SabegheJaniText"       "SabegheSarneshinText"  "LastBimeCompanyText"  
+#[13] "PusheshMali"           "PusheshJani"           "PusheshSarneshin"      "Moddat"                "SalesHbAsRial"         "TaaddodDiatHbAsRial"  
+#[19] "MazadJaniHbAsRial"     "MazadMaliHbAsRial"     "SarneshinHbAsRial"     "SumHBWithAvarezAsRial" "KhodroSystemCaption"   "HBBase"               
+#[25] "salesTarefeGoruhText"  "Issued.Year"           "Car.Age"               "PayAmount.Jani"        "Report.Jani"           "PayDate.Jani"         
+#[31] "PayAmount.Mali"        "Report.Mali"           "PayDate.Mali"          "PayAmount.Sarneshin"   "Report.Sarneshin"      "PayDate.Sarneshin"    
+###########################################################خواندن و اضافه کردن نرخ ارز آزاد
+USA.Dollar<-read_xlsx("USA_Dollar-history.xlsx") ##Line 1 
+names(USA.Dollar)
+###[1] "Year.Month"    "Average.price"
+View(head(USA.Dollar$"Year.Month"))
+###########################اضافه کردن نرخ ارز آزد در زمان صدور
+View(head(substr(AllData$"BeginDate",1,7)))
+AllData$"Year.Month"=substr(AllData$"BeginDate",1,7)
+AllData=left_join(AllData,USA.Dollar, by = "Year.Month")
+colnames(AllData)[colnames(AllData) == "Average.price"] <- "US.Issued.Date"
+#####################################اضافه کردن نرخ ارز آزاد در زمان پرداخت خسارت جانی
+View(head(substr(AllData$"PayDate.Jani",1,7)))
+AllData$"Year.Month"=substr(AllData$"PayDate.Jani",1,7)
+AllData=left_join(AllData,USA.Dollar, by = "Year.Month")
+colnames(AllData)[colnames(AllData) == "Average.price"] <- "US.PayDate.Jani"
+#####################################اضافه کردن نرخ ارز آزاد در زمان پرداخت خسارت مالی
+View(head(substr(AllData$"PayDate.Mali",1,7)))
+AllData$"Year.Month"=substr(AllData$"PayDate.Mali",1,7)
+AllData=left_join(AllData,USA.Dollar, by = "Year.Month")
+colnames(AllData)[colnames(AllData) == "Average.price"] <- "US.PayDate.Mali"
+#####################################اضافه کردن نرخ ارز آزاد در زمان پرداخت خسارت سرنشین
+View(head(substr(AllData$"PayDate.Sarneshin",1,7)))
+AllData$"Year.Month"=substr(AllData$"PayDate.Sarneshin",1,7)
+AllData=left_join(AllData,USA.Dollar, by = "Year.Month")
+colnames(AllData)[colnames(AllData) == "Average.price"] <- "US.PayDate.Sarneshin"
+###########################ساختن ضریب EXPOSURE
+AllData$Today=c("1403/06/31")
+AllData$ToNow=JalaliDate(AllData$Today)   - JalaliDate(AllData$BeginDate)
+AllData$ToEnd=JalaliDate(AllData$EndDate) - JalaliDate(AllData$BeginDate)
+AllData$Exposure=ifelse(AllData$ToNow>=AllData$ToEnd, 1, AllData$ToNow/AllData$ToEnd)
+AllData<- subset(AllData, select = -c(Today, ToNow, ToEnd))
+##################################################################################
+####################################################اضافه کردن اطلاعات شخصی
+#################################################################################
+
+Data1=read_xlsx("Info-1.xlsx");    Data2=read_xlsx("Info-2.xlsx");    Data3=read_xlsx("Info-3.xlsx")
+Data4=read_xlsx("Info-4.xlsx");    Data5=read_xlsx("Info-5.xlsx");    Data6=read_xlsx("Info-6.xlsx")
+Total_Info<- rbind(Data1, Data2, Data3, Data4, Data5, Data6)
+
+##########
+Data1=read_xlsx("Code-1.xlsx");    Data2=read_xlsx("Code-2.xlsx");    Data3=read_xlsx("Code-3.xlsx")
+Data4=read_xlsx("Code-4.xlsx");    Data5=read_xlsx("Code-5.xlsx");    Data6=read_xlsx("Code-6.xlsx")
+Data7=read_xlsx("Code-7.xlsx");    Data8=read_xlsx("Code-8.xlsx");    Data9=read_xlsx("Code-9.xlsx")
+Data10=read_xlsx("Code-10.xlsx");  Data11=read_xlsx("Code-11.xlsx");  Data12=read_xlsx("Code-12.xlsx")
+Data13=read_xlsx("Code-13.xlsx");  Data14=read_xlsx("Code-14.xlsx");  
+Total_Codes<- rbind(Data1, Data2, Data3, Data4, Data5, Data6, Data7, Data8, Data9,
+Data10, Data11, Data12, Data13,Data14)
+##########
+names(Total_Info)
+names(Total_Codes)
+Total_Info=left_join(Total_Info,Total_Codes, by = "CustomerId")
+##########
+names(AllData)
+names(Total_Info)
+dim(AllData)
+AllData=left_join(AllData,Total_Info, by = "FullBNo")
+################################################حذف ستون های اضافی#############
+########################################################################
+names(AllData)
+AllData<- subset(AllData, select = -c(EndDate.y, CustomerId, year))
+names(AllData)
+
+#########################################ذخیره در فایل اکسل
+##############################
+AllData[] <- lapply(AllData, function(x) replace(x, x == "NULL", NA))
+write_xlsx(AllData, "AllData.xlsx")
+
+
+###AllData<- subset(AllData, select = -c(SalesHbAsRial, TaaddodDiatHbAsRial,HBBase ))
+###colnames(AllData)[colnames(AllData) == "HB"] <- "Premium"
+dim(AllData)
+
+
+########################################################
+#######################################کدهای قدیمی###########
+########################################################
+
+
+
+
+
+
+
+DD=data.frame(Number=D$"No.",
+Issue.Date=D$"Issue",Accident.Date=D$"Accident",
+Reporting.date=D$"Report",
+Pay.Date=D$"Pay.date", Pay.Amount=D$"Pay.amount")
+
+names(DD)
+##[1] "Number"        "Issue.Date"    "Accident.Date" 
+###"Reporting.date" "Pay.Date"      "Pay.Amount"
+
+dim(DD)
+##[1] 80159     5
+
+DDD1<-DD%>% 
+  group_by(Number)%>% 
+ summarise(
+      Issue.Date=Issue.Date ,
+     Reporting.date=Reporting.date,
+      Payment.Date = list(Pay.Date),
+      Accident.Date=Accident.Date,
+      Payment.Amount = list(Pay.Amount))
+
+DDD1=DDD1 %>% drop_na()
+dim(DDD1)
+##[1] 80157     6
+
+
+DDD2=data.frame(Number=DDD1$Number[!duplicated(DDD1$Number)],
+Issue.Date=DDD1$Issue.Date[!duplicated(DDD1$Number)],
+Accident.Date=DDD1$Accident.Date[!duplicated(DDD1$Number)],
+Reporting.date=DDD1$Reporting.date[!duplicated(DDD1$Number)])
+DDD2$Payment.Date=DDD1$Payment.Date[!duplicated(DDD1$Number)]
+DDD2$Payment.Amount=DDD1$Payment.Amount[!duplicated(DDD1$Number)]
+
+
+names(DDD2)
+#[1] "Number"         "Issue.Date"     "Payment.Date"   
+##"Reporting.date"    "Accident.Date"  "Payment.Amount"
+
+dim(DDD2)
+###[1] 39570     6
+
+
+DV=DDD2
+
+n=length(DV$"Number")
+First.pay=c()
+First.date=c()
+Final.date=c()
+Total=c()
+for (i in 1:n){
+First.date[i]=min(DV$"Payment.Date"[[i]])
+Final.date[i]=max(DV$"Payment.Date"[[i]])
+Total[i]=sum(DV$"Payment.Amount"[[i]])
+First.pay[i]=DV$"Payment.Amount"[[i]][DV$"Payment.Date"[[i]]==First.date[i]]
+}
+
+
+
+DV$Total.Pay<-Total
+DV$First.date<-First.date
+DV$First.pay<-First.pay
+DV$Final.date<-Final.date
+
+DV$First.pay[DV$First.pay<0]=DV$Total.Pay[DV$First.pay<0]
+DV$First.date[DV$First.pay<0]=DV$Final.date[DV$First.pay<0]
+DV$Last.Pay[DV$First.date==DV$Final.date]<-DV$Total.Pay[DV$First.date==DV$Final.date]
+DV$Last.Pay[DV$First.date!=DV$Final.date]<-DV$Total.Pay[DV$First.date!=DV$Final.date]-DV$First.pay[DV$First.date!=DV$Final.date]
+            
+
+names(DV)
+## [1] "Number"         "Issue.Date"     "Accident.Date"  "Payment.Date"  
+# [5] "Payment.Amount" "Total.Pay"      "First.date"     "First.pay"     
+# [9] "Final.date"     "Last.Pay"        "Reporting.date"  
+
+
+dim(DV)
+##[1] 39570      11
+
+#########################بردرو تجمیعی  
+
+
+AA=merge(x = Total_Data, y = DV, by = "Number", all = TRUE)
+
+names(AA)
+# [1] "Number"         "PRO"            "SEX"            "AGE"           
+# [5] "CAR.Type"       "CAR.Group"      "COLOUR"         "Insured.Type"  
+# [9] "LAST.INSURER"   "CAR.AGE"        "Plate.Code"     "Premium"       
+#[13] "Issue.Date"     "Accident.Date"  "Payment.Date"   "Payment.Amount"
+#[17] "Total.Pay"      "First.date"     "First.pay"      "Final.date"    
+#[21] "Last.Pay"        "Reporting.date"
+
+dim(AA) 
+
+#[1] 2193922      22
+
+AA$"Payment.Amount"[is.na(AA$"Payment.Amount")]<-0
+AA$"Total.Pay"[is.na(AA$"Total.Pay")]<-0
+AA$"Last.Pay"[is.na(AA$"Last.Pay")]<-0
+##########################################################################
+############################################دسته بندی بیمه گذاران بر اساس به نسبت خسارت
+##########################################################################
+
+AA$"Loss.Ratio"=abs(AA$"Total.Pay")/AA$"Premium"
+
+
+names(AA)
+
+# [1] "Number"         "PRO"            "SEX"            "AGE"           
+# [5] "CAR.Type"       "CAR.Group"      "COLOUR"         "Insured.Type"  
+# [9] "LAST.INSURER"   "CAR.AGE"        "Plate.Code"     "Premium"       
+#[13] "Issue.Date"     "Accident.Date"  "Reporting.date" "Payment.Date"  
+#[17] "Payment.Amount" "Total.Pay"      "First.date"     "First.pay"     
+#[21] "Final.date"     "Last.Pay"       "Loss.Ratio"    
+
+##########################################################################
+############################################آمار توصیفی متغیرهای کمکی
+##########################################################################
+#################################"CAR.Group"################
+A<-subset(AA, !is.na("CAR.Group"), select = c("CAR.Group"))$"CAR.Group"
+
+mytable <- round(table(A)/length(A),4)
+names(mytable)<-paste(rep("CAR.Group.",length(mytable)),1:length(mytable), sep = "")
+lbls <- paste(names(mytable), "\n", mytable, sep="")
+pie(mytable, labels = lbls,   main="") 
+
+L=describeBy(AA$"Loss.Ratio", factor(AA$"CAR.Group"), mat=T,type=3 )
+
+L[2]=names(mytable);L[c(2,4,5,6,7)]
+
+plotMeans(AA$"Loss.Ratio", factor(AA$"CAR.Group"),  mean.labels=T, ci.label=T, xlab="CAR.Group", ylab="")
+
+#################################"CAR.Type"################
+
+A<-subset(AA, !is.na("CAR.Type"), select = c("CAR.Type"))$"CAR.Type"
+
+hist(A, , freq=F, main="", xlab="CAR.Type", ylab="")
+
+mytable <- round(table(A)/length(A),4)
+names(mytable)=paste(rep("CAR.Type.",length(mytable)),1:length(mytable), sep = "")
+
+L=describeBy(AA$"Loss.Ratio", factor(AA$"CAR.Type"), mat=T,type=3 )
+
+DD=data.frame(CAR.Type=L$"group1", Mean=L$"mean", Sd=L$"sd")
+DD$Sd[is.na(DD$Sd)]=0
+
+
+L[2]=names(mytable); L[c(2,4,5,6,7)]
+
+plotMeans(AA$"Loss.Ratio", factor(AA$"CAR.Type"),n.label=F,  mean.labels=F, ci.label=F, xlab="CAR.Type", ylab="")
+
+plotMeans(AA$"Loss.Ratio", factor(AA$"CAR.Type"),
+n.label=F,  mean.labels=F, ci.label=F, xlab="CAR.Type", ylab="", ylim=c(0,4))
+  abline(h=c(.5, 0.7), lty=2)
+###################################دسته بندی در سه طبقه به انتخاب کاربر این یک مثال است
+Level=c()
+for (i in 1:length(DD$"Mean"))
+{ if (DD$"Mean"[i]<=0.5) {Level[i]=1} else 
+{if (DD$"Mean"[i]>0.75) {Level[i]=3} else {Level[i]=2}}
+}
+DD$Level=as.factor(Level)
+
+AA$"Car.Type.Level"=merge(x = data.frame(CAR.Type=AA$"CAR.Type"), y = DD, by = "CAR.Type", all = TRUE)$"Level"
+
+length(AA$Car.Type.Level[AA$Car.Type.Level==1])
+length(AA$Car.Type.Level[AA$Car.Type.Level==2])
+length(AA$Car.Type.Level[AA$Car.Type.Level==3])
+#################################"CAR.Age"################
+###################################دسته بندی در سه طبقه به انتخاب کاربر این یک مثال است
+
+
+AA$CAR.AGE.New.Code=AA$CAR.AGE
+AA$CAR.AGE.New.Code[0<=AA$CAR.AGE.New.Code & AA$CAR.AGE.New.Code<3] <- 1
+AA$CAR.AGE.New.Code[3<=AA$CAR.AGE.New.Code & AA$CAR.AGE.New.Code<6] <- 2
+AA$CAR.AGE.New.Code[6<=AA$CAR.AGE.New.Code & AA$CAR.AGE.New.Code<10]<- 3
+AA$CAR.AGE.New.Code[10<=AA$CAR.AGE.New.Code]<- 4
+AA$CAR.AGE.New.Code=factor(AA$CAR.AGE.New.Code)
+
+AA$CAR.AGE.New.Code=as.factor(AA$CAR.AGE.New.Code)
+
+#################################"Age"################
+###################################دسته بندی در سه طبقه به انتخاب کاربر این یک مثال است
+AA$AGE.New.Code=AA$AGE
+AA$AGE.New.Code[AA$AGE.New.Code<30] <- 1
+AA$AGE.New.Code[30<=AA$AGE.New.Code & AA$AGE.New.Code<40]<- 2
+AA$AGE.New.Code[40<=AA$AGE.New.Code & AA$AGE.New.Code<50]<- 3
+AA$AGE.New.Code[50<=AA$AGE.New.Code] <- 4
+AA$AGE.New.Code=factor(AA$AGE.New.Code)
+
+AA$AGE.New.Code=as.factor(AA$AGE.New.Code)
+
+
+############################################################################
+############################################################################
+#### Model based on AGE.New.Code + CAR.AGE.New.Code +Car.Type.Level+CAR.Group
+##################       against Loss.Ratio
+############################################################################
+############################################################################
+
+my_data=AA[,c('Number','Loss.Ratio','AGE.New.Code', 'CAR.AGE.New.Code',
+'Car.Type.Level', 'CAR.Group' )]
+
+dim(my_data)
+
+################################Recode Loss.Ratio for Logestic regression
+
+my_data$Clm=my_data$Loss.Ratio
+my_data$Clm[my_data$Clm>0] <- 1 ########### 0 or 1 category
+my_data$Clm=as.factor(my_data$Clm)
+
+############################################# remove miss data
+
+my_data=na.omit(my_data)
+dim(my_data)
+
+############################# Logistic regression
+log.model= glm(Clm ~ CAR.AGE.New.Code + AGE.New.Code+Car.Type.Level+CAR.Group  
+,data=my_data, family=binomial)
+summary(log.model)
+
+############################# Quantile regression (0.95%)
+
+new_data=subset(my_data, Loss.Ratio!=0 )#### Remove all zeros
+
+qr.model=rq(log(Loss.Ratio) ~ CAR.AGE.New.Code + AGE.New.Code+Car.Type.Level+CAR.Group  
+, data=new_data ,tau=0.95 )
+summary(qr.model)
+
+####################predictions and defining risk metric intervals
+
+
+data=my_data[, c('Number','CAR.AGE.New.Code', 'Loss.Ratio','AGE.New.Code','Car.Type.Level', 'CAR.Group')]
+nr=5
+nc=5
+
+data$prob <- predict(log.model, newdata =data, type = "response")
+m<-quantile(data$prob, probs = seq(0+1/nr,1-1/nr,1/nr))
+m=rep(m, each = 2) 
+m=append(m, 1)
+m=append(m, 0, 0)
+
+
+data$quant=exp(predict(qr.model,newdata=data))
+
+n<-quantile(data$quant, probs = seq(0+(1/nc),1-(1/nc),(1/nc)))
+n=rep(n, each = 2) 
+n=append(n, (max(data$quant)+1))
+n=append(n, 0, 0)
+
+kable(matrix(m, nrow=5, byrow=TRUE),caption="Probability intervals")
+kable(matrix(n, nrow=5, byrow=TRUE),caption="Quantile intervals")
+
+####################Designing a Risk metric 5*5 
+
+w=matrix(0,nr,nc)
+
+for(i in 1:nr){
+  if(i==1){
+    newdata <- subset(data, data$prob<=m[2*i])
+  }else if(i==nr){
+    newdata <- subset(data, data$prob>m[2*i-1])
+  }else{
+    newdata <- subset(data, data$prob<=m[2*i]  & data$prob>m[2*i-1])
+  }
+  for(j in 1:nc){
+    if(j==1){
+      newdata2 <- subset(newdata, newdata$quant<n[2*j] 
+                         )
+    }else if(j==nc){
+      newdata2 <- subset(newdata, newdata$quant>=n[2*j-1] 
+                         )
+    }else{
+      newdata2 <- subset(newdata, newdata$quant<n[2*j] & newdata$quant>=n[2*j-1]
+                        )
+    }
+    w[i,j]=nrow(newdata2)
+    assign(paste0("variable", i,j,sep="_"), newdata2)
+  }
+}
+
+kable(w,caption="Risk metric frequencies")
+kable(sum(w))
+kable(nrow(my_data))
+w
+
+R3=rbind(variable11_,variable12_,variable13_,variable14_,variable15_,variable21_,variable22_,variable23_)
+
+R1=rbind(variable51_,variable52_,variable53_,variable54_,variable55_,variable45_,variable44_,variable43_)
+
+R2=rbind(variable24_,variable25_,variable31_,variable32_,variable33_,variable34_,variable35_,variable41_,variable42_)
+
+sum(nrow(R1)+nrow(R2)+nrow(R3))
+nrow(data)
+######################################Adding Risk Level to original data set
+Data1=R1; Data2=R2; Data3=R3
+Data1$Risk.Level="High";
+Data2$Risk.Level="Medium";
+Data3$Risk.Level="Low"
+SSS=rbind(Data1, Data2, Data3)[,c("Number", "Risk.Level")]
+
+New.Data.Set=merge(x = AA, y = SSS, by.x = "Number", by.y = "Number", all = TRUE,
+no.dups = TRUE, sort = TRUE)
+
+names(New.Data.Set)
+
+################################################# اتمام دسته بندی بیمه گذاران به سه طبقه ریسکی
+
+
+##########################################################################
+############################################برازش توزیع به طبقات ریسکی
+##########################################################################
+
+##########################################طبقه کم ریسک
+data=na.omit(New.Data.Set$Loss.Ratio[New.Data.Set$Risk.Level=="Low"])
+w_Low=length(data[data==0])/length(data)
+data=data[data>0]
+descdist(data, discrete=FALSE,boot=500)
+
+
+########################## Note:
+######### removing distributionaldistributional" fiddist does not work with it
+detach("package:distributional")  
+############################
+
+
+fitWeibull <- fitdist(data, "weibull",keepdata = TRUE, keepdata.nb=100,discrete=F)
+fitGamma <- fitdist(data, "gamma")
+fitLognorm <- fitdist(data, "lnorm")
+fitnormal <- fitdist(data, "norm")
+fit_ll<-fitdist(data, "llogis", start=list(shape=1, scale=500))
+fit_P<-fitdist(data,"pareto",start=list(shape= 1, scale=500))
+fit_B<-fitdist(data,"burr",start=list(shape1=0.3, shape2= 1,rate=1))
+
+par(mfrow=c(2,2))
+plot.legend <- c("Weibull", "lognormal", "gamma", "Normal", "Loglogistic", "Pareto", "Burr")
+denscomp(list(fitWeibull, fitGamma, fitLognorm, fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+cdfcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+qqcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+ppcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+gofstat(list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B),fitnames=c("Weibull","Gamma","Lognorm", "Normal","Loglogistic","Pareto","Burr"))
+
+par(mfrow=c(1,1))
+###############توزیع بر آمیخته در صفر را انتخاب کردیم
+library(distributional)
+
+A_Low=fit_B$"estimate"
+
+myMix_Low<-dist_mixture(dist_normal(0, 0.000000001),
+dist_burr(A_Low[[1]], A_Low[[2]]), weights = c(w_Low,1-w_Low))
+
+#####################################تولید تعدادی عدد تصادفی بر اساس توزیع برازش شده
+
+Random_Low<- function(n){
+abs(generate(myMix_Low, n)[[1]])
+}
+########################
+
+########################## Note:
+######### removing distributionaldistributional" fiddist does not work with it
+detach("package:distributional")  
+############################
+
+##########################################طبقه ریسک متوسط 
+data=na.omit(New.Data.Set$Loss.Ratio[New.Data.Set$Risk.Level=="Medium"])
+w_Medium=length(data[data==0])/length(data)
+data=data[data>0]
+descdist(data, discrete=FALSE,boot=500)
+
+
+fitWeibull <- fitdist(data, "weibull",keepdata = TRUE, keepdata.nb=100,discrete=F)
+fitGamma <- fitdist(data, "gamma")
+fitLognorm <- fitdist(data, "lnorm")
+fitnormal <- fitdist(data, "norm")
+fit_ll<-fitdist(data, "llogis", start=list(shape=1, scale=500))
+fit_P<-fitdist(data,"pareto",start=list(shape= 1, scale=500))
+fit_B<-fitdist(data,"burr",start=list(shape1=0.3, shape2= 1,rate=1))
+
+par(mfrow=c(2,2))
+plot.legend <- c("Weibull", "lognormal", "gamma", "Normal", "Loglogistic", "Pareto", "Burr")
+denscomp(list(fitWeibull, fitGamma, fitLognorm, fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+cdfcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+qqcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+ppcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+gofstat(list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B),fitnames=c("Weibull","Gamma","Lognorm", "Normal","Loglogistic","Pareto","Burr"))
+
+par(mfrow=c(1,1))
+################توزیع پاراتو آمیخته در صفر را انتخاب کردیم
+library(distributional)
+
+A_Medium=fit_P$"estimate"
+
+myMix_Medium<-dist_mixture(dist_normal(0, 0.000000001),
+dist_pareto(A_Medium[[1]], A_Medium[[2]]), weights = c(w_Medium,1-w_Medium))
+
+#####################################تولید تعدادی عدد تصادفی بر اساس توزیع برازش شده
+
+Random_Medium<- function(n){
+abs(generate(myMix_Medium, n)[[1]])
+}
+########################
+
+########################## Note:
+######### removing distributionaldistributional" fiddist does not work with it
+detach("package:distributional")  
+############################
+
+##########################################طبقه ریسک بالا 
+
+data=na.omit(New.Data.Set$Loss.Ratio[New.Data.Set$Risk.Level=="High"])
+w_High=length(data[data==0])/length(data)
+data=data[data>0]
+descdist(data, discrete=FALSE,boot=500)
+
+
+fitWeibull <- fitdist(data, "weibull",keepdata = TRUE, keepdata.nb=100,discrete=F)
+fitGamma <- fitdist(data, "gamma")
+fitLognorm <- fitdist(data, "lnorm")
+fitnormal <- fitdist(data, "norm")
+fit_ll<-fitdist(data, "llogis", start=list(shape=1, scale=500))
+fit_P<-fitdist(data,"pareto",start=list(shape= 1, scale=500))
+fit_B<-fitdist(data,"burr",start=list(shape1=0.3, shape2= 1,rate=1))
+
+par(mfrow=c(2,2))
+plot.legend <- c("Weibull", "lognormal", "gamma", "Normal", "Loglogistic", "Pareto", "Burr")
+denscomp(list(fitWeibull, fitGamma, fitLognorm, fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+cdfcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+qqcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+ppcomp (list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B ), legendtext = plot.legend)
+gofstat(list(fitWeibull, fitGamma, fitLognorm,fitnormal,fit_ll,fit_P,fit_B),fitnames=c("Weibull","Gamma","Lognorm", "Normal","Loglogistic","Pareto","Burr"))
+
+par(mfrow=c(1,1))
+################توزیع پاراتو آمیخته در صفر را انتخاب کردیم
+library(distributional)
+
+A_High=fit_P$"estimate"
+
+myMix_High<-dist_mixture(dist_normal(0, 0.000000001),
+dist_pareto(A_High[[1]], A_High[[2]]), weights = c(w_High,1-w_High))
+
+#####################################تولید تعدادی عدد تصادفی بر اساس توزیع برازش شده
+
+Random_High<- function(n){
+abs(generate(myMix_High, n)[[1]])
+}
+######################## بررسی صحت توزیع های در نظر گرفته 
+
+par(mfrow=c(2,2))
+hist(Random_High(1000));   
+hist(Random_Low(1000));    
+hist(Random_Medium(1000));
+
+summary(Random_Low(1000))
+summary(Random_Medium(1000))
+summary(Random_High(1000))
+
+
+
